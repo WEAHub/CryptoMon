@@ -1,0 +1,42 @@
+.login-container {
+	width: 300px;
+	height: 255x;
+	top: calc(50% - 200px); 
+  left: 50%; 
+  transform: translateY(-50%) translateX(-50%); 
+  margin: 0;
+	position: absolute;
+	text-align: center;
+
+	.login-logo {
+		font-family: 'Segoe Script';
+    text-shadow: 1px 3px 3px black;
+	}
+
+	.login-form {
+		background-color: rgb(20, 21, 22);
+		border-radius: 5px;
+		width: auto;
+		padding: 30px;
+		box-shadow: 1px 1px 20px 5px #262626;
+		position: relative;
+
+		.login-error {
+			margin-bottom: 20px;
+			padding: 10px;
+			background-color: #480101;
+		}
+		
+	}
+
+	.login-buttons {
+		button {
+			margin: 0px 5px;
+			mat-icon {
+				font-size: px;
+				margin-right: 5px;
+			}
+		}
+	}
+
+}

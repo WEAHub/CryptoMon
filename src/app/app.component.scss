@@ -1,0 +1,73 @@
+
+
+::ng-deep{
+	body {
+		overflow: hidden;
+		background-color: #303030;
+	}
+
+	::-webkit-scrollbar {
+		width: 0.8em;
+	}
+	 
+	::-webkit-scrollbar-track {
+		box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	}
+	 
+	::-webkit-scrollbar-thumb {
+    background-color: #1a1a1a;
+    outline: 1px solid #303030;
+    border-radius: 10px;
+	}
+
+}
+
+.toolbar {
+
+	.toolbar-logo {
+
+	}
+
+	.toolbar-togglenav {
+		margin-right: 10px;
+	}
+
+	.spacer {
+		flex: 1 1 auto;
+	}
+
+	.toolbar-user {
+		margin-right: 5px;
+	}
+}
+
+.navComponent {
+	width: 100%;
+	height: calc(100% - 64px);
+
+	.navMenu {
+
+	}
+
+	.navItem {
+		
+		width: 180px;
+		padding-left: 6px;
+
+		.navItem-icon {
+			margin-right: 10px;
+			vertical-align: middle;
+		}
+
+		.navItem-title {
+			display: inline-block;
+			text-transform: capitalize;
+		}
+		
+	}
+
+	.navContent {
+		padding: 22px;
+	}
+}
+
