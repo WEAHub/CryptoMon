@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthGuardService } from './components/auth/services/auth-guard.service';
-import { appAnimations } from './app.animations';
 import { isAuthed, getUserState } from './components/auth/store/login.selectors';
 import { Store } from '@ngrx/store';
 import { User } from './components/auth/models/user.model';
@@ -17,22 +16,9 @@ import { logout } from './components/auth/store/login.actions';
 })
 
 export class AppComponent {
-
-
   title = 'CryptoMon';
-
   isAuthed$ = this.store.select(isAuthed);
   getUserState$ = this.store.select(getUserState)
-
-  userState: User = {
-    username: '',
-    name: '',
-    token: '',
-    isLogged: false,
-    status: '',
-    error: '',
-  }
-
   navOpened: boolean = true;
 
   constructor(

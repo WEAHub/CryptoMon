@@ -6,8 +6,6 @@ import { UserLogin, User } from '../models/user.model';
 @Injectable()
 
 export class AuthService {
-
-
   constructor(private http: HttpClient) { }
 
   login(userData: UserLogin): Observable<any> {
