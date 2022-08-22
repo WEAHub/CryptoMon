@@ -1,5 +1,6 @@
 <loading-spinner *ngIf="newsLoading$ | async"></loading-spinner>
 <mat-grid-list
+	*ngIf="!(newsLoading$ | async)"
 	cols="6" 
 	gutterSize="25px" 
 	role="listitem">

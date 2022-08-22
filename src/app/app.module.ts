@@ -25,12 +25,16 @@ import { AppComponent } from './app.component';
 
 // Services
 import { AuthService } from './components/auth/services/auth.service';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
 import { NewsService } from './components/news/services/news.service';
 
 // Shared
 import { SharedModule } from './shared/shared.module';
+
+// Redux Dev
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+// Env
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
