@@ -27,7 +27,7 @@ export class NewsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(newsStart())
-    this.store.select(getNews).subscribe( data => console.log(data))
+    // this.store.select(getNews).subscribe( data => console.log(data))
   }
 
   openFeed(feed: New): void {

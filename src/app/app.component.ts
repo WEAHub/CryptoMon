@@ -10,16 +10,14 @@ import { logout } from './components/auth/store/login.actions';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [ AuthGuardService ],
-  animations: [
-  ]
+  providers: [ AuthGuardService ]
 })
 
 export class AppComponent {
   title = 'CryptoMon';
+  navOpened: boolean = true;
   isAuthed$ = this.store.select(isAuthed);
   getUserState$ = this.store.select(getUserState)
-  navOpened: boolean = true;
 
   constructor(
     private AuthGuardService: AuthGuardService, 
