@@ -1,28 +1,31 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes, CanActivate } from '@angular/router';
+import { AuthGuard } from './modules/auth/guard/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'auth',
     pathMatch: 'full'
-
   },
   {
     path: 'auth',
-    loadChildren: () => import('./components/auth/auth.module').then(m => m.AuthModule)
+    loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)
   },
   {
     path: 'portfolio',
-    loadChildren: () => import('./components/portfolio/portfolio.module').then(m => m.PortfolioModule)
+    loadChildren: () => import('./modules/portfolio/portfolio.module').then(m => m.PortfolioModule),
+    canActivate: [ AuthGuard ]
   },
   {
     path: 'news',
-    loadChildren: () => import('./components/news/news.module').then(m => m.NewsModule)
+    loadChildren: () => import('./modules/news/news.module').then(m => m.NewsModule),
+    canActivate: [ AuthGuard ]
   },
   {
     path: 'cryptos',
-    loadChildren: () => import('./components/cryptos/cryptos.module').then(m => m.CryptosModule)
+    loadChildren: () => import('./modules/cryptos/cryptos.module').then(m => m.CryptosModule),
+    canActivate: [ AuthGuard ]
   }
 ];
 

@@ -5,30 +5,30 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // Routing
-import { AuthGuardService } from './components/auth/services/auth-guard.service'
-import { AuthGuard } from './components/auth/guard/auth.guard'
-import { JwtInterceptor } from './components/auth/intercepter/jwt.interceptor';
+import { AuthGuardService } from './modules/auth/services/auth-guard.service'
+import { AuthGuard } from './modules/auth/guard/auth.guard'
+import { JwtInterceptor } from './modules/auth/intercepter/jwt.interceptor';
 import { AppRoutingModule } from './app-routing.module';
 
 // NgRx
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { loginReducer } from './components/auth/store/login.reducer';
-import { AuthEffects } from './components/auth/store/login.effects';
+import { loginReducer } from './modules/auth/store/auth.reducer';
+import { AuthEffects } from './modules/auth/store/auth.effects';
 
-import { newsReducer } from './components/news/store/news.reducer';
-import { NewsEffects } from './components/news/store/news.effects';
+import { newsReducer } from './modules/news/store/news.reducer';
+import { NewsEffects } from './modules/news/store/news.effects';
 
 // Components
 import { AppComponent } from './app.component';
 
 // Services
-import { AuthService } from './components/auth/services/auth.service';
-import { NewsService } from './components/news/services/news.service';
+import { AuthService } from './modules/auth/services/auth.service';
+import { NewsService } from './modules/news/services/news.service';
 
 // Shared
-import { SharedModule } from './shared/shared.module';
+import { SharedModule } from './modules/shared/shared.module';
 
 // Redux Dev
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';

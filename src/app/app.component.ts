@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthGuardService } from './components/auth/services/auth-guard.service';
-import { isAuthed, getUserState } from './components/auth/store/login.selectors';
 import { Store } from '@ngrx/store';
-import { User } from './components/auth/models/user.model';
-import { logout } from './components/auth/store/login.actions';
+
+import { AuthGuardService } from './modules/auth/services/auth-guard.service';
+import { isAuthed, getUserState } from './modules/auth/store/auth.selectors';
+
+import { User } from './modules/auth/models/user.model';
+import { logout } from './modules/auth/store/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -16,14 +18,6 @@ import { logout } from './components/auth/store/login.actions';
 export class AppComponent {
   title = 'CryptoMon';
   navOpened: boolean = true;
-  isAuthed$ = this.store.select(isAuthed);
-  getUserState$ = this.store.select(getUserState)
-
-  constructor(
-    private AuthGuardService: AuthGuardService, 
-    private store: Store<{ user: User }>,
-  ) { }
-  
   navMenuItems = [
     {  title: "portfolio", icon: "home", href: "" },
     {  title: "news", icon: "newspaper", href: "/news" },
@@ -31,6 +25,14 @@ export class AppComponent {
     {  title: "trades", icon: "currency_exchange", href: "/trades", },
     {  title: "about", icon: "info", href: "/about" }
   ]
+
+  isAuthed$ = this.store.select(isAuthed);
+  getUserState$ = this.store.select(getUserState)
+
+  constructor(
+    private AuthGuardService: AuthGuardService, 
+    private store: Store<{ user: User }>,
+  ) { }
 
   ngOnInit(): void {
 
