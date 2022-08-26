@@ -3,7 +3,19 @@
 	overflow: hidden;
 	background-color: #202020;
 	transition: border 0.8s ease-in-out;
-	
+	box-sizing: border-box;
+	height: inherit;
+	width: inherit;
+
+	.news-author {
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
+		max-height: 20px;
+		overflow: hidden;
+	}
+
 	.news-title {
 		font-size: 14px;
 		overflow: hidden;

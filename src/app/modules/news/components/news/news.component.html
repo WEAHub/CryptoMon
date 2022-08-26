@@ -1,10 +1,11 @@
 <loading-spinner *ngIf="newsLoading$ | async"></loading-spinner>
 <mat-grid-list
 	*ngIf="!(newsLoading$ | async)"
-	cols="6" 
+	[cols]=actualGrid.cols
+	[rowHeight]=actualGrid.rowHeight
 	gutterSize="25px"
 	role="listitem">
-	<mat-grid-tile *ngFor="let feed of (newsData$ | async)" [@inOutLoading]>
+	<mat-grid-tile class="mat-elevation-z3" *ngFor="let feed of (newsData$ | async)" [@inOutLoading]>
 		<mat-card class="news-card" (click)="openFeed(feed)">
 			<img class="news-image" mat-card-image src="{{ feed.imageUrl }}" />
 			<div class="news-desc" *ngIf=feed.description>
@@ -12,9 +13,9 @@
 				<span class="news-desc-content">{{ feed.description }}</span>
 				<span class="news-desc-date">{{ feed.date }}</span>
 			</div>
-			<mat-card-content>
+			<mat-card-content class="news-content">
 				<mat-card-title class="news-title">{{ feed.title }}</mat-card-title>
-				<mat-card-subtitle>{{ feed.author }}</mat-card-subtitle>
+				<mat-card-subtitle class="news-author">{{ feed.author }}</mat-card-subtitle>
 			</mat-card-content>
 		</mat-card>
 	</mat-grid-tile>
