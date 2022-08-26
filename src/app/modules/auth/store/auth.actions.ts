@@ -13,7 +13,6 @@ const loginStart = createAction(ActionTypes.LOGIN_REQUEST, props<{ userData: Use
 const loginSuccess = createAction(ActionTypes.LOGIN_REQUEST_SUCCESS, props<{ user: User }>());
 const loginError = createAction(ActionTypes.LOGIN_REQUEST_ERROR, props<{ error : { message: string }}>());
 const logout = createAction(ActionTypes.LOGOUT);
-
 const signupStart = createAction(ActionTypes.SIGNUP_REQUEST, props<{userData: UserSignup}>());
 
 export {
