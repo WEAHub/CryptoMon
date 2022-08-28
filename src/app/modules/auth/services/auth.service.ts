@@ -18,14 +18,6 @@ export class AuthService {
       )
   }
 
-  private handleError(err: HttpErrorResponse) {
-    return throwError(() => new Error(
-      err.status === 0
-      ? 'Connection with the server failed'
-      : err.error.message
-    ));
-  }
-
   signup(userData: UserLogin): Observable<any> {
     return this.http.post(`${this.API_HOST}/auth/signup`, userData)
       .pipe(
@@ -34,6 +26,12 @@ export class AuthService {
       )
   }
 
-
+  private handleError(err: HttpErrorResponse) {
+    return throwError(() => new Error(
+      err.status === 0
+      ? 'Connection with the server failed'
+      : err.error.message
+    ));
+  }
   
 }

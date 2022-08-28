@@ -15,7 +15,7 @@ interface User {
   token: string;
   error?: string;
   isLogged: boolean;
-  status?: string;
+  status?: userStatus;
 }
 
 enum userStatus {

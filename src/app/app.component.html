@@ -1,21 +1,8 @@
-<mat-toolbar class="toolbar" *ngIf="this.isAuthed$ | async" >
-
-  <button mat-icon-button (click)="navOpened = !navOpened" class="toolbar-togglenav" aria-label="Toggle Menu" >
-    <mat-icon color="accent">menu</mat-icon>
-  </button>
-
-  <h1 class="toolbar-logo">CryptoMon</h1>
-  <span class="spacer"></span>
-  <span class="toolbar-user">{{ (getUserState$ | async)?.name! }}</span>
-  <button mat-icon-button aria-label="Logout" (click)="logout()">
-    <mat-icon color="warn">logout</mat-icon>
-  </button>
-</mat-toolbar>
-
 <mat-sidenav-container class="navComponent">
 
   <mat-sidenav [opened]="navOpened" disableClose="true" mode="side" class="navMenu" *ngIf="this.isAuthed$ | async">
     <mat-nav-list>
+      <div class="logo"><h2>CryptoMon</h2></div>
       <mat-list-item *ngFor="let navItem of navMenuItems" class="navItem" [routerLink]=navItem.href>
         <mat-icon class="navItem-icon">{{navItem.icon}}</mat-icon>
         <span class="navItem-title">{{navItem.title}}</span>
@@ -24,7 +11,22 @@
   </mat-sidenav>
 
   <mat-sidenav-content class ="navContent">
-    <router-outlet></router-outlet>
+    <mat-toolbar class="toolbar" *ngIf="this.isAuthed$ | async" >
+
+      <button mat-icon-button (click)="navOpened = !navOpened" class="toolbar-togglenav" aria-label="Toggle Menu" >
+        <mat-icon color="accent">menu</mat-icon>
+      </button>
+    
+      <h1 class="toolbar-logo">{{ currentRoute | titlecase }}</h1>
+      <span class="spacer"></span>
+      <span class="toolbar-user">{{ (getUserState$ | async)?.name! }}</span>
+      <button mat-icon-button aria-label="Logout" (click)="logout()">
+        <mat-icon color="warn">logout</mat-icon>
+      </button>
+    </mat-toolbar>
+    <div class="router-outlet">
+      <router-outlet></router-outlet>
+    </div>
   </mat-sidenav-content>
 
 </mat-sidenav-container>

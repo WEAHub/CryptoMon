@@ -20,12 +20,16 @@ import { AuthEffects } from './modules/auth/store/auth.effects';
 import { newsReducer } from './modules/news/store/news.reducer';
 import { NewsEffects } from './modules/news/store/news.effects';
 
+import { marketReducer } from './modules/market/store/market.reducer'
+import { MarketEffects } from './modules/market/store/market.effects';
+
 // Components
 import { AppComponent } from './app.component';
 
 // Services
 import { AuthService } from './modules/auth/services/auth.service';
 import { NewsService } from './modules/news/services/news.service';
+import { MarketService } from './modules/market/services/market.service';
 
 // Shared
 import { SharedModule } from './modules/shared/shared.module';
@@ -38,19 +42,23 @@ import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
     SharedModule,
     AppRoutingModule,
-    StoreModule.forRoot({ user: loginReducer, news: newsReducer }),
-    EffectsModule.forRoot([AuthEffects, NewsEffects]),
+    StoreModule.forRoot({ 
+      user: loginReducer,
+      news: newsReducer,
+      market: marketReducer
+    }),
+    EffectsModule.forRoot([AuthEffects, NewsEffects, MarketEffects]),
     BrowserAnimationsModule,
     HttpClientModule,
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
-  providers: [AuthGuardService, AuthGuard, AuthService, NewsService,
+  providers: [AuthGuardService, AuthGuard, AuthService, NewsService, MarketService,
   {
     provide: HTTP_INTERCEPTORS,
     useClass: JwtInterceptor,

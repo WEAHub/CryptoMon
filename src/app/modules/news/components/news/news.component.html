@@ -7,7 +7,7 @@
 	role="listitem">
 	<mat-grid-tile class="mat-elevation-z3" *ngFor="let feed of (newsData$ | async)" [@inOutLoading]>
 		<mat-card class="news-card" (click)="openFeed(feed)">
-			<img class="news-image" mat-card-image src="{{ feed.imageUrl }}" />
+			<img class="news-image" mat-card-image src="{{ feed.imageUrl }}"/>
 			<div class="news-desc" *ngIf=feed.description>
 				<img class="news-logo-image" src="{{ feed.logo }}" />
 				<span class="news-desc-content">{{ feed.description }}</span>

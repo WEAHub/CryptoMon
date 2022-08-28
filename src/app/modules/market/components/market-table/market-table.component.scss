@@ -1,0 +1,63 @@
+.market-table {
+  width: 100%;
+	background: #141414;
+
+	.market-cell-rank {
+		font-weight: 400;
+	}
+
+	.market-cell-name {
+		font-size: 16px;
+		img {
+			vertical-align: middle;
+			width: 32px;
+			height: 32px;
+			margin-right: 10px;
+		}
+	}
+	
+	.market-cell-percent_change_24h {
+		
+	}
+
+	.supply-progress {
+		max-width: 150px;
+	}
+
+}
+
+.mat-cell {
+	padding: 10px 0px;
+}
+
+.mat-paginator {
+	background: #202020;
+}
+
+.caret:before {
+	margin-right: 5px;
+}
+
+.caret-down {
+	color: red;
+	&:before {
+		content: "\25bc";
+		color: red;
+	}
+}
+
+.caret-up {
+	color: green;
+	&:before {
+		content: "\25b2";
+		color: green;
+	}
+}
+
+.svg-color-red {
+	filter: hue-rotate(300deg) saturate(210%) brightness(0.7) contrast(170%);
+}
+
+.svg-color-green {
+	filter: hue-rotate(85deg) saturate(80%) brightness(0.85);
+}

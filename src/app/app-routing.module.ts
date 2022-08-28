@@ -23,8 +23,8 @@ const routes: Routes = [
     canActivate: [ AuthGuard ]
   },
   {
-    path: 'cryptos',
-    loadChildren: () => import('./modules/cryptos/cryptos.module').then(m => m.CryptosModule),
+    path: 'market',
+    loadChildren: () => import('./modules/market/market.module').then(m => m.MarketModule),
     canActivate: [ AuthGuard ]
   }
 ];

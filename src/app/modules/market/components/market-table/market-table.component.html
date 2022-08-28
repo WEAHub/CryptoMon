@@ -1,0 +1,67 @@
+<div class="mat-elevation-z3">
+	<table mat-table [dataSource]="dataSource" class="market-table">
+			<ng-container matColumnDef="rank">
+				<th mat-header-cell *matHeaderCellDef>Rank</th>
+				<td mat-cell *matCellDef="let asset" class="market-cell-rank">{{ asset.rank }}</td>
+			</ng-container>
+
+			<ng-container matColumnDef="name">
+				<th mat-header-cell *matHeaderCellDef>Name</th>
+				<td mat-cell *matCellDef="let asset" class="market-cell-name">
+					<img src="{{ asset.assetIconImgUrl }}" />
+					<span>{{ asset.name }}</span>
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="price">
+				<th mat-header-cell *matHeaderCellDef>Price</th>
+				<td mat-cell *matCellDef="let asset" class="market-cell-price">{{ asset.price | currency:'USD' }}</td>
+			</ng-container>
+
+			<ng-container matColumnDef="change">
+				<th mat-header-cell *matHeaderCellDef>24 %</th>
+				<td mat-cell *matCellDef="let asset" class="market-cell-percent_change_24h caret" 
+				[ngClass]="{
+					'caret-down': asset.percent_change_24h < 0,
+					'caret-up': asset.percent_change_24h > 0
+				}">{{ asset.percent_change_24h }}%</td>
+			</ng-container>
+
+			<ng-container matColumnDef="cap">
+				<th mat-header-cell *matHeaderCellDef>Market Cap.</th>
+				<td mat-cell *matCellDef="let asset">{{ asset.market_cap | currency:'USD' }}</td>
+			</ng-container>
+
+			<ng-container matColumnDef="volume">
+				<th mat-header-cell *matHeaderCellDef>Volume 24h</th>
+				<td mat-cell *matCellDef="let asset">{{ asset.volume_24h | currency:'USD' }}</td>
+			</ng-container>
+
+			<ng-container matColumnDef="supply">
+				<th mat-header-cell *matHeaderCellDef>Circulating Supply</th>
+				<td mat-cell *matCellDef="let asset">
+					<span>{{ asset.total_supply | cryptocurrency:asset.symbol }}</span>
+					<mat-progress-bar mode="determinate" *ngIf=asset.supplyPercent [value]=asset.supplyPercent class="supply-progress"></mat-progress-bar>
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="sparklines">
+				<th mat-header-cell *matHeaderCellDef>Last 7 Days</th>
+				<td mat-cell *matCellDef="let asset">
+					<img 
+					[ngClass]="{
+						'svg-color-red': asset.percent_change_24h < 0,
+						'svg-color-green': asset.percent_change_24h > 0
+					}"
+					src="{{ asset.sparklinesImgUrl }}" />
+				</td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+	</table>
+	<mat-paginator [pageSizeOptions]="[10, 20]"
+		showFirstLastButtons 
+		aria-label="Select page of assets">
+	</mat-paginator>
+</div>

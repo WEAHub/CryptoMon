@@ -22,6 +22,10 @@
 
 }
 
+.mat-drawer {
+	background-color: #262626;
+}
+
 .toolbar {
 	
 	.toolbar-togglenav {
@@ -39,7 +43,7 @@
 
 .navComponent {
 	width: 100%;
-	height: calc(100% - 64px);
+	height: 100%;
 
 	.navItem {
 		
@@ -58,8 +62,20 @@
 		
 	}
 
-	.navContent {
-		padding: 22px;
+	.router-outlet {
+		padding: 25px;
 	}
+
 }
 
+.logo {
+	
+	width: 100%;
+	text-align: center;
+	margin: 10px 0;
+
+	h2 {
+		font-family: 'Segoe Script';
+		text-shadow: 1px 3px 3px black;
+	}
+}
