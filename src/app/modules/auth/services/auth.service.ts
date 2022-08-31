@@ -3,15 +3,17 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 
 import { UserLogin, User } from '../models/user.model';
+import { ConfigService } from 'src/app/services/config.service';
 @Injectable()
 
 export class AuthService {
-  constructor(private http: HttpClient) { }
-
-  API_HOST = 'http://localhost:3000'
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService
+  ) { }
 
   login(userData: UserLogin): Observable<any> {
-    return this.http.post(`${this.API_HOST}/auth/login`, userData)
+    return this.http.post(this.configService.login, userData)
       .pipe(
         tap(data => data),
         catchError(this.handleError)
@@ -19,7 +21,7 @@ export class AuthService {
   }
 
   signup(userData: UserLogin): Observable<any> {
-    return this.http.post(`${this.API_HOST}/auth/signup`, userData)
+    return this.http.post(this.configService.signup, userData)
       .pipe(
         tap(data => data),
         catchError(this.handleError)

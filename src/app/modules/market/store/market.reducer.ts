@@ -3,7 +3,8 @@ import * as marketActions from './market.actions';
 import { marketAsset, marketData, marketStatus } from '../models/market-table.model';
 
 const initialState: marketData = {
-	data: [],
+	marketAssets: [],
+	marketAdded: [],
 	status: marketStatus.UNINITIALIZED
 }
 
@@ -19,8 +20,15 @@ const marketReducer = createReducer(
 	on(marketActions.marketTableSuccess, (state, payload) => {
 		return {
 			...state,
-			data: payload.assets,
+			marketAssets: payload.assets,
 			status: marketStatus.LOADED,
+			error: '',
+		}
+	}),
+	on(marketActions.marketTableAddedSuccess, (state, payload) => {
+		return {
+			...state,
+			marketAdded: payload.assets,
 			error: '',
 		}
 	}),

@@ -1,0 +1,18 @@
+{
+	"API_BASE_URL": "http://localhost:3000",
+	"API_ROUTES": {
+		"AUTH": {
+			"LOGIN": "/auth/login",
+			"LOGOUT": "/auth/logout",
+			"SIGNUP": "/auth/signup"
+		},
+		"NEWS": {
+			"GET_NEWS": "/news/getNews"
+		},
+		"MARKET": {
+			"GET_MARKET_LATEST": "/market/getMarketLatest",
+			"GET_MARKET_ADDED": "/market/getMarketNew"
+		}
+	}
+	
+}

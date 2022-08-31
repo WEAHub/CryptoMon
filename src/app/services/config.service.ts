@@ -60,6 +60,10 @@ class ConfigService {
 		return this.appConfig.API_BASE_URL + this.appConfig.API_ROUTES.MARKET.GET_MARKET_LATEST;
 	}
 
+	get marketAdded(): string {
+		this.checkConfig();
+		return this.appConfig.API_BASE_URL + this.appConfig.API_ROUTES.MARKET.GET_MARKET_ADDED;
+	}
 }
 
 export {

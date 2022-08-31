@@ -11,12 +11,10 @@
   </mat-sidenav>
 
   <mat-sidenav-content class ="navContent">
-    <mat-toolbar class="toolbar" *ngIf="this.isAuthed$ | async" >
-
+    <mat-toolbar class="toolbar" *ngIf="this.isAuthed$ | async">
       <button mat-icon-button (click)="navOpened = !navOpened" class="toolbar-togglenav" aria-label="Toggle Menu" >
         <mat-icon color="accent">menu</mat-icon>
       </button>
-    
       <h1 class="toolbar-logo">{{ currentRoute | titlecase }}</h1>
       <span class="spacer"></span>
       <span class="toolbar-user">{{ (getUserState$ | async)?.name! }}</span>
@@ -24,9 +22,11 @@
         <mat-icon color="warn">logout</mat-icon>
       </button>
     </mat-toolbar>
-    <div class="router-outlet">
+
+    <div ngClass="router-outlet-mobile" ngClass.gt-xs="router-outlet">
       <router-outlet></router-outlet>
     </div>
+
   </mat-sidenav-content>
 
 </mat-sidenav-container>

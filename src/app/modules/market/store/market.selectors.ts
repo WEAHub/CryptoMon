@@ -11,7 +11,7 @@ const isMarketTableLoading = createSelector(
 
 const getMarketState = createSelector(
 	marketState,
-	(state: marketData) => state.data.map((asset, index) => {
+	(state: marketData) => state.marketAssets.map((asset, index) => {
 		return {
 			...asset,
 			percent_change_24h: +asset.percent_change_24h.toFixed(2),
@@ -21,7 +21,13 @@ const getMarketState = createSelector(
 	})
 )
 
+const getMarketAddedState = createSelector(
+	marketState,
+	(state: marketData) => state.marketAdded
+)
+
 export {
 	isMarketTableLoading,
+	getMarketAddedState,
 	getMarketState
 }

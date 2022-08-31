@@ -16,8 +16,13 @@ interface marketAsset {
 	rank: number;
 }
 
+interface marketAssetAdded {
+
+}
+
 interface marketData {
-	data: marketAsset[];
+	marketAssets: marketAsset[];
+	marketAdded: marketAssetAdded[];
 	status: marketStatus;
 	error?: string;
 }
@@ -32,5 +37,6 @@ enum marketStatus {
 export {
 	marketData,
 	marketAsset,
-	marketStatus
+	marketStatus,
+	marketAssetAdded
 }

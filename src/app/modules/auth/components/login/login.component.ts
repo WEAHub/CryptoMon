@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.authed) {
-      this.router.navigate(['/portfolio'])
+      this.router.navigate(['/news'])
     }
   }
 

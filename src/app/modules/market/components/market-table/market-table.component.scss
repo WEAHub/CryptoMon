@@ -1,7 +1,6 @@
 .market-table {
   width: 100%;
 	background: #141414;
-
 	.market-cell-rank {
 		font-weight: 400;
 	}
@@ -14,10 +13,6 @@
 			height: 32px;
 			margin-right: 10px;
 		}
-	}
-	
-	.market-cell-percent_change_24h {
-		
 	}
 
 	.supply-progress {
@@ -60,4 +55,15 @@
 
 .svg-color-green {
 	filter: hue-rotate(85deg) saturate(80%) brightness(0.85);
+}
+
+.market-container {
+	position: relative;
+}
+
+.table-filter {
+	width: 250px;
+	position: absolute;
+	bottom: -2px;
+	padding: 0px 15px;
 }

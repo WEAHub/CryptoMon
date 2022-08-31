@@ -1,5 +1,5 @@
 // Angular
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -24,9 +24,10 @@ import { marketReducer } from './modules/market/store/market.reducer'
 import { MarketEffects } from './modules/market/store/market.effects';
 
 // Components
-import { AppComponent } from './app.component';
+import { AppComponent } from './modules/core/app.component';
 
 // Services
+import { ConfigService, configFactory } from './services/config.service'
 import { AuthService } from './modules/auth/services/auth.service';
 import { NewsService } from './modules/news/services/news.service';
 import { MarketService } from './modules/market/services/market.service';
@@ -46,24 +47,39 @@ import { environment } from '../environments/environment';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     SharedModule,
     AppRoutingModule,
+    HttpClientModule,
     StoreModule.forRoot({ 
       user: loginReducer,
       news: newsReducer,
       market: marketReducer
     }),
-    EffectsModule.forRoot([AuthEffects, NewsEffects, MarketEffects]),
-    BrowserAnimationsModule,
-    HttpClientModule,
+    EffectsModule.forRoot([
+      AuthEffects, 
+      NewsEffects, 
+      MarketEffects
+    ]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
-  providers: [AuthGuardService, AuthGuard, AuthService, NewsService, MarketService,
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: JwtInterceptor,
-    multi: true
-  }
+  providers: [
+    AuthGuard, 
+    AuthGuardService, 
+    AuthService, 
+    NewsService, 
+    MarketService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      deps: [ConfigService],
+      useFactory: configFactory,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })

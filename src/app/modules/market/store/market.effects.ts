@@ -10,7 +10,7 @@ import { MarketService } from '../services/market.service';
 
 export class MarketEffects {
 
-	newsStart$ = createEffect(() => this.actions$.pipe(
+	marketLatest$ = createEffect(() => this.actions$.pipe(
 		ofType(marketActions.marketTableStart),
 		exhaustMap(() => this.marketService.getMarketLatest().pipe(
 			map((assets) => marketActions.marketTableSuccess({assets})),
@@ -18,9 +18,16 @@ export class MarketEffects {
 		))
 	));
 
+	marketAdded$ = createEffect(() => this.actions$.pipe(
+		ofType(marketActions.marketTableAddedStart),
+		exhaustMap(() => this.marketService.getMarketAdded().pipe(
+			map((assets) => marketActions.marketTableAddedSuccess({assets})),
+			catchError((error) => of(marketActions.marketTableAddedError()))
+		))
+	));
+
 	constructor(
 		private marketService: MarketService,
-		private actions$: Actions, 
-		private router: Router
+		private actions$: Actions
 	) {}
 }

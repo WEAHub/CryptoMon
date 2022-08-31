@@ -17,6 +17,7 @@ interface New {
 	date: string;
 	description: string;
 	author: string;
+	logo: string;
 }
 
 enum NewsStatus {

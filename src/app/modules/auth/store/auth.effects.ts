@@ -9,7 +9,6 @@ import { UserLogin } from '../models/user.model';
 import * as loginActions from './auth.actions';
 
 
-
 @Injectable()
 
 export class AuthEffects {
@@ -28,7 +27,7 @@ export class AuthEffects {
       localStorage.setItem('username', payload.user.username);
       localStorage.setItem('name', payload.user.name);
       localStorage.setItem('token', payload.user.token);
-			this.router.navigate(['/portfolio'])
+			this.router.navigate(['/news'])
 		})
 	), { dispatch: false });
 
