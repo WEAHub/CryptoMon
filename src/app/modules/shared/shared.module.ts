@@ -5,6 +5,7 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
 import { MaterialModule } from './modules/material.module'
 import { CryptoCurrencyPipe } from './pipes/cryptoCurrency.pipe';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MaterialModule,
     CryptoCurrencyPipe,
     FlexLayoutModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 

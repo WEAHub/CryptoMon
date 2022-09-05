@@ -30,41 +30,41 @@ class ConfigService {
 		}
 	}
 
+
 	get apiBaseUrl(): string {
 		this.checkConfig();
 		return this.appConfig.API_BASE_URL;
 	}
 
+
 	get login(): string {
-		this.checkConfig();
-		return this.appConfig.API_BASE_URL + this.appConfig.API_ROUTES.AUTH.LOGIN;
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.AUTH.LOGIN;
 	}
 
 	get logout(): string {
-		this.checkConfig();
-		return this.appConfig.API_BASE_URL + this.appConfig.API_ROUTES.AUTH.LOGOUT;
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.AUTH.LOGOUT;
 	}
 
 	get signup(): string {
-		this.checkConfig();
-		return this.appConfig.API_BASE_URL + this.appConfig.API_ROUTES.AUTH.SIGNUP;
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.AUTH.SIGNUP;
 	}
 
 	get getNews(): string {
-		this.checkConfig();
-		return this.appConfig.API_BASE_URL + this.appConfig.API_ROUTES.NEWS.GET_NEWS;
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.NEWS.GET_NEWS;
 	}
 
 	get marketLatest(): string {
-		this.checkConfig();
-		return this.appConfig.API_BASE_URL + this.appConfig.API_ROUTES.MARKET.GET_MARKET_LATEST;
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.MARKET.GET_MARKET_LATEST;
 	}
 
 	get marketAdded(): string {
-		this.checkConfig();
-		return this.appConfig.API_BASE_URL + this.appConfig.API_ROUTES.MARKET.GET_MARKET_ADDED;
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.MARKET.GET_MARKET_ADDED;
 	}
-}
+
+	get modifyUser(): string {
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.USER.MODIFY;
+	}
+}	
 
 export {
 	ConfigService,

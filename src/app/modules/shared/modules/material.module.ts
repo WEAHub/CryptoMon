@@ -16,6 +16,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSortModule } from '@angular/material/sort';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   exports: [
@@ -34,6 +36,8 @@ import { MatSortModule } from '@angular/material/sort';
 		MatPaginatorModule,
 		MatProgressBarModule,
 		MatSortModule,
+		MatMenuModule,
+		MatExpansionModule
   ],
 })
 

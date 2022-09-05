@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 
 import { AuthRoutingModule } from './auth-routing.module';
@@ -11,8 +10,6 @@ import { SignupComponent } from './components/signup/signup.component';
   declarations: [LoginComponent, SignupComponent],
   imports: [
     AuthRoutingModule,
-		FormsModule,
-		ReactiveFormsModule,
 		SharedModule,
   ],
 	providers: [

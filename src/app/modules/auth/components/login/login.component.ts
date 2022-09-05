@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
 
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private AuthGuardService : AuthGuardService, 
     private router: Router,
-    private store: Store<{ user: User }>) { 
+    private store: Store<{ user: User }>) {
       this.loginForm = new FormGroup({
         username: new FormControl('', [Validators.required, Validators.maxLength(16), Validators.minLength(2)]),
         password: new FormControl('', [Validators.required, Validators.maxLength(16), Validators.minLength(2)]),

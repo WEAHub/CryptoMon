@@ -1,0 +1,67 @@
+.user-sidenav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+	background: none;
+
+	.user-title {
+		margin-bottom: 30px;
+		font-size: 16px;
+
+		mat-icon {
+			vertical-align: middle;
+			margin-right: 10px;
+		}
+	}
+
+	.mat-drawer {
+		background: rgba(29, 29, 29, 0.95)
+	}
+
+	.user-sidenav-content {
+		padding: 25px;
+		width: 333px;
+	}
+	
+	.mat-form-field {
+		display: block
+	}
+	
+	.save-button {
+		width: 100%;
+	}
+
+	button {
+		mat-icon {
+			margin-right: 5px;
+		}
+	}
+	
+	.repeat-password {
+		margin-top: 15px;
+	}
+	
+	.message {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		padding: 10px;
+		background-color: #013a48;
+		color: white;
+	}
+
+	.message-error {
+		background-color: #480101;
+	}
+
+}
+
+
+::ng-deep {
+
+	.mat-drawer-backdrop.mat-drawer-shown {
+    background-color: rgb(0 0 0 / 70%);
+	}
+
+}

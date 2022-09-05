@@ -18,9 +18,20 @@
       <h1 class="toolbar-logo">{{ currentRoute | titlecase }}</h1>
       <span class="spacer"></span>
       <span class="toolbar-user">{{ (getUserState$ | async)?.name! }}</span>
-      <button mat-icon-button aria-label="Logout" (click)="logout()">
-        <mat-icon color="warn">logout</mat-icon>
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>manage_accounts</mat-icon>
       </button>
+      
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="toggleUserNav()">
+          <mat-icon>settings</mat-icon>
+          Settings
+        </button>
+        <button mat-menu-item aria-label="Logout" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Logout
+        </button>
+      </mat-menu>
     </mat-toolbar>
 
     <div ngClass="router-outlet-mobile" ngClass.gt-xs="router-outlet">
@@ -30,3 +41,9 @@
   </mat-sidenav-content>
 
 </mat-sidenav-container>
+
+
+<sidenav-user-settings 
+  [userState]="(getUserState$ | async)!"
+  [opened]="userSettingsOpen"
+></sidenav-user-settings>

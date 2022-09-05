@@ -59,7 +59,14 @@ const loginReducer = createReducer(
 			status: userStatus.UNINITIALIZED,
 			isLogged: false
 		}
+	}),
+	on(loginActions.changedUserName, (state, payload) => {
+		return {
+			...state,
+			name: payload.name
+		}
 	})
+
 )
 
 export {

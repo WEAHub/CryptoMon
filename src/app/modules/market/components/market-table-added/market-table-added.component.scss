@@ -14,10 +14,20 @@
 			height: 32px;
 			margin-right: 10px;
 		}
+		a {
+			display: -webkit-box;
+			-webkit-line-clamp: 1;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			max-height: 35px;
+		}
 	}
 	
 }
-
+a {
+	text-decoration: none;
+	color: white;
+}
 .mat-cell {
 	padding: 10px 0px;
 }

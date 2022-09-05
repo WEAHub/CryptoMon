@@ -12,8 +12,7 @@
 			<ng-container matColumnDef="name">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Name">Name</th>
 				<td mat-cell *matCellDef="let asset" class="market-cell-name">
-					<img src="{{ asset.imgLogo }}" />
-					<a [href]=asset.link >{{ asset.name }}</a>
+					<a [href]=asset.link ><img src="{{ asset.imgLogo }}" />{{ asset.name }}</a>
 				</td>
 			</ng-container>
 

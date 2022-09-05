@@ -1,0 +1,21 @@
+interface IUserSettings {
+	username: string;
+	name: string;
+	newPassword: string;
+	currentPassword: string;
+}
+
+interface IUserSettingsResponseSuccess {
+	name: string;
+	message: string;
+}
+
+interface IUserSettingsResponseError {
+	error: string;
+}
+
+export {
+	IUserSettingsResponseError,
+	IUserSettingsResponseSuccess,
+	IUserSettings
+}

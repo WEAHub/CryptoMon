@@ -50,6 +50,13 @@ export class AuthEffects {
 		))
 	));
 
+	changedName$ = createEffect(() => this.actions$.pipe(
+		ofType(loginActions.changedUserName),
+		tap(action => {
+			localStorage.setItem('name', action.name)
+		})
+	), { dispatch: false })
+
 	constructor(
 		private actions$: Actions, 
 		private authService: AuthService,

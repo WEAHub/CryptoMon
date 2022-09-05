@@ -6,6 +6,9 @@ export interface IConfig {
 			LOGOUT: string;
 			SIGNUP:  string;
 		},
+		USER: {
+			MODIFY: string;
+		},
 		NEWS: {
 			GET_NEWS:  string;
 		},

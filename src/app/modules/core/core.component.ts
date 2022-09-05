@@ -2,24 +2,27 @@ import { Component, OnInit,  } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { AuthGuardService } from './../auth/services/auth-guard.service';
-import { isAuthed, getUserState } from './../auth/store/auth.selectors';
+import { AuthGuardService } from '../auth/services/auth-guard.service';
+import { isAuthed, getUserState } from '../auth/store/auth.selectors';
 
-import { User } from './../auth/models/user.model';
-import { logout } from './../auth/store/auth.actions';
+import { User } from '../auth/models/user.model';
+import { IAppStore } from './models/app.model';
 
-import { INavMenuItems } from './models/navitems.model';
+import { logout } from '../auth/store/auth.actions';
+import { toggleUserSidenav } from './store/core-user.actions';
+
+import { INavMenuItems } from './models/nav-items.model';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  templateUrl: './core.component.html',
+  styleUrls: ['./core.component.scss'],
   providers: [ AuthGuardService ]
 })
 
-export class AppComponent implements OnInit {
+export class CoreComponent implements OnInit {
   title = 'CryptoMon';
-  navOpened: boolean = true;
+  navOpened: boolean = false;
   navMenuItems = <Array<INavMenuItems>>[
     //{  title: "dashboard", icon: "home", href: "", enabled: false },
     {  title: "news", icon: "newspaper", href: "/news", enabled: true },
@@ -31,20 +34,25 @@ export class AppComponent implements OnInit {
   isAuthed$ = this.store.select(isAuthed);
   getUserState$ = this.store.select(getUserState);
   currentRoute: string = '';
+  userSettingsOpen: boolean = false;
 
   constructor(
-    private store: Store<{ user: User }>,
+    private store: Store<{ user: User, app: IAppStore }>,
     private router: Router,
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.url.substring(1);
       }
-  });
+    });
   }
 
   ngOnInit(): void {
 
+  }
+
+  toggleUserNav() {
+    this.store.dispatch(toggleUserSidenav())
   }
 
   logout(): void {
