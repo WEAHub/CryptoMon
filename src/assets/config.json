@@ -6,6 +6,9 @@
 			"LOGOUT": "/auth/logout",
 			"SIGNUP": "/auth/signup"
 		},
+		"USER": {
+			"MODIFY": "/user/modifyUser"
+		},
 		"NEWS": {
 			"GET_NEWS": "/news/getNews"
 		},

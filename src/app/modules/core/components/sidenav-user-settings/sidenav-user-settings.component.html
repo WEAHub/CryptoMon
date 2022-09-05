@@ -1,0 +1,55 @@
+<mat-sidenav-container [ngClass]="{'user-sidenav': (toggleState$ | async)}">
+  <mat-sidenav #userSidenav (closedStart)="onSidenavClose()" mode="over" position="end" class="user-sidenav-content" [opened]="toggleState$ | async">
+    <div class="should-relog">
+
+		</div>
+		<div class="user-title">
+      <mat-icon>manage_accounts</mat-icon>
+      <span>User Settings - {{ userState.username }}</span>
+    </div>
+
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+			<mat-form-field appearance="outline" focused="true">
+				<mat-label>Name</mat-label>
+				<input matInput type="text" formControlName="name" name="name" placeholder="Type your name">
+				<mat-error *ngIf="userFormError('name', 'required')">Name required.</mat-error>
+				<mat-error *ngIf="userFormError('name', 'maxlength')">Name max. length exceded.</mat-error>
+				<mat-error *ngIf="userFormError('currentPnameassword', 'minlength')">Name min. length exceded.</mat-error>
+				<mat-icon matSuffix>person_fill</mat-icon>				
+			</mat-form-field>
+
+			<mat-form-field appearance="outline" focused="true">
+				<mat-label>New password</mat-label>
+				<input matInput type="text" formControlName="newPassword" name="newPassword" placeholder="Type your new password">
+				<mat-error *ngIf="userFormError('newPassword', 'maxlength')">Password max. length exceded.</mat-error>
+				<mat-error *ngIf="userFormError('newPassword', 'minlength')">Password min. length exceded.</mat-error>
+				<mat-icon matSuffix>password</mat-icon>				
+			</mat-form-field>
+
+      <mat-divider></mat-divider>
+						
+			<mat-card *ngIf="(userModify$ | async)?.message" class="message" [ngClass]="{'message-error': (userModify$ | async)?.error}">
+				<mat-card-content>
+					{{ (userModify$ | async)?.message }}
+				</mat-card-content>
+			</mat-card>
+
+			<mat-form-field appearance="legacy" focused="true" class="repeat-password">
+				<mat-label>Current password</mat-label>
+				<input matInput type="text" formControlName="currentPassword" name="currentPassword" placeholder="Type your current password">
+				<mat-error *ngIf="userFormError('currentPassword', 'required')">Password required.</mat-error>
+				<mat-error *ngIf="userFormError('currentPassword', 'maxlength')">Password max. length exceded.</mat-error>
+				<mat-error *ngIf="userFormError('currentPassword', 'minlength')">Password min. length exceded.</mat-error>
+				<mat-icon matSuffix>password</mat-icon>				
+			</mat-form-field>
+
+			
+      <button type="submit" class="save-button" mat-stroked-button>
+        <mat-icon>done_all</mat-icon>Save changes
+      </button>
+      
+    </form>
+  </mat-sidenav>
+
+</mat-sidenav-container>
