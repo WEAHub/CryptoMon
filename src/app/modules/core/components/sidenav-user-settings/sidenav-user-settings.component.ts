@@ -9,11 +9,12 @@ import { IDeleteUser, IUserSettings } from '../../models/user-settings.model';
 
 import { deleteUser, modifyUser } from '../../store/core-user.actions';
 import { toggleUserSidenav } from '../../store/core-user.actions';
+import { logout } from 'src/app/modules/auth/store/auth.actions';
+
 import { getToggleState } from '../../store/core-user.selectors';
 import { getUserModify } from '../../store/core-user.selectors';
-import { Router } from '@angular/router';
-import { ConfigService } from 'src/app/services/config.service';
-import { logout } from 'src/app/modules/auth/store/auth.actions';
+
+import { CustomValidators } from '../../providers/customValidators';
 
 @Component({
   selector: 'sidenav-user-settings',
@@ -26,6 +27,7 @@ export class CoreUserSettingsComponent implements OnInit, OnDestroy {
   @Input() opened: boolean = true;
   @ViewChild('currentPassword') currentPassword!: ElementRef;
 
+
   toggleState$ = this.store.select(getToggleState);
   userModify$ = this.store.select(getUserModify);
 
@@ -36,16 +38,21 @@ export class CoreUserSettingsComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<{ app: IAppStore }>,
-    private configService: ConfigService,
   ) {
+
     this.userForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(16), Validators.minLength(2)]),
       currentPassword: new FormControl('', [Validators.required, Validators.maxLength(16), Validators.minLength(2)]),
       newPassword: new FormControl('', [Validators.maxLength(16), Validators.minLength(2)]),
-    })
+    }, 
+    [CustomValidators.cantMatch('newPassword', 'currentPassword')]
+    );
+
     this.userSub = this.userModify$.subscribe((state) => {
       this.userModifyState = state;
+      this.userForm.get('name')?.setValue(this.userState.name)
     })
+
   }
 
 
@@ -63,6 +70,7 @@ export class CoreUserSettingsComponent implements OnInit, OnDestroy {
 
   onSidenavClose() {
     if(this.userModifyState.deleted) {
+      this.userFormReset()
       alert('Redirecting to login...')
       this.store.dispatch(logout())
       return
@@ -76,16 +84,15 @@ export class CoreUserSettingsComponent implements OnInit, OnDestroy {
       return
     }
 
-    if(this.userForm.value.newPassword == this.userForm.value.currentPassword) {
-      return
-    }
-
     const userData: IUserSettings = {
       ...this.userForm.value,
       username: this.userState.username
     }
 
+    this.userFormReset()
+
     this.store.dispatch(modifyUser({ data: userData }))
+    
   }
 
   deleteUser(): void {
@@ -101,7 +108,22 @@ export class CoreUserSettingsComponent implements OnInit, OnDestroy {
       password: currentPasswordCtl.value
     }
 
+    this.userFormReset()
+
     this.store.dispatch(deleteUser({data: deleteData}));
 
+  }
+
+  get passwordMatchError() {
+    return (
+      this.userForm.getError('cantMatch') &&
+      this.userForm.get('newPassword')?.touched &&
+      this.userForm.get('currentPassword')?.value
+    )
+  }
+
+  userFormReset() {
+    this.userForm.get('currentPassword')?.reset();
+    this.userForm.get('newPassword')?.reset();
   }
 }

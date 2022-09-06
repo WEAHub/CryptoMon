@@ -28,7 +28,14 @@
 			</mat-form-field>
 
       <mat-divider></mat-divider>
-						
+			
+			
+			<mat-card *ngIf="passwordMatchError" class="message" class="message-error">
+				<mat-card-content>
+					New password and current password can't be same.
+				</mat-card-content>
+			</mat-card>
+
 			<mat-card *ngIf="(userModify$ | async)?.message" class="message" [ngClass]="{'message-error': (userModify$ | async)?.error}">
 				<mat-card-content>
 					{{ (userModify$ | async)?.message }}
@@ -37,7 +44,7 @@
 
 			<mat-form-field appearance="legacy" focused="true" class="repeat-password mb-15">
 				<mat-label>Current password</mat-label>
-				<input #currentPassword matInput type="text" formControlName="currentPassword" name="currentPassword" placeholder="Type your current password">
+				<input #currentPassword matInput type="password" formControlName="currentPassword" name="currentPassword" placeholder="Type your current password">
 				<mat-error *ngIf="userFormError('currentPassword', 'required')">Password required.</mat-error>
 				<mat-error *ngIf="userFormError('currentPassword', 'maxlength')">Password max. length exceded.</mat-error>
 				<mat-error *ngIf="userFormError('currentPassword', 'minlength')">Password min. length exceded.</mat-error>
