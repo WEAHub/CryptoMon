@@ -11,7 +11,8 @@ const initialState: IAppStore = <IAppStore>{
 	},
 	userSettings: {
 		message: '',
-		error: false
+		error: false,
+		deleted: false,
 	}
 }
 
@@ -29,6 +30,7 @@ const appReducer = createReducer(
 		return {
 			...state,
 			userSettings: {
+				...state.userSettings,
 				message: '',
 				error: false,
 			}
@@ -39,6 +41,7 @@ const appReducer = createReducer(
 		return {
 			...state,
 			userSettings: {
+				...state.userSettings,
 				message: payload.message,
 				error: false,
 			}
@@ -48,6 +51,38 @@ const appReducer = createReducer(
 		return {
 			...state,
 			userSettings: {
+				...state.userSettings,
+				message: payload.error,
+				error: true,
+			}
+		}
+	}),
+	on(userActions.deleteUser, (state: IAppStore) => {
+		return {
+			...state,
+			userSettings: {
+				...state.userSettings,
+				message: '',
+				error: false,
+			}
+		}
+	}),
+	on(userActions.deleteUserSuccess, (state: IAppStore, payload: IUserSettingsResponseSuccess) => {
+		return {
+			...state,
+			userSettings: {
+				deleted: true,
+				message: payload.message,
+				error: false,
+			}
+		}
+	}),
+	on(userActions.deleteUserError, (state: IAppStore, payload: IUserSettingsResponseError) => {
+		console.log(payload)
+		return {
+			...state,
+			userSettings: {
+				deleted: false,
 				message: payload.error,
 				error: true,
 			}

@@ -1,14 +1,20 @@
 interface IAppStore {
-	userSideNav: {
-		toggleStatus: boolean;
-	},
-	userSettings: {
-		message: string;
-		error: boolean;
-	}
+	userSideNav: IAppUserSideNav,
+	userSettings: IAppUserSettings
 }
 
+interface IAppUserSideNav {
+	toggleStatus: boolean;
+}
+
+interface IAppUserSettings {
+	message: string;
+	error: boolean;
+	deleted: boolean;
+}
 
 export {
-	IAppStore
+	IAppStore,
+	IAppUserSettings,
+	IAppUserSideNav
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 
-import { IUserSettings } from '../models/user-settings.model'
+import { IDeleteUser, IUserSettings } from '../models/user-settings.model'
 import { ConfigService } from 'src/app/services/config.service';
 @Injectable()
 
@@ -20,6 +20,14 @@ export class UserService {
       )
   }
 	
+	deleteUser(userData: IDeleteUser): Observable<any> {
+		return this.http.post(this.configService.deleteUser, userData)
+			.pipe(
+				tap(data => data),
+				catchError(this.handleError)
+			)
+	}
+
   private handleError(err: HttpErrorResponse) {
     return throwError(() => new Error(
       err.status === 0

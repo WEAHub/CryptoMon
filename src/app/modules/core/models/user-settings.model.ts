@@ -14,8 +14,14 @@ interface IUserSettingsResponseError {
 	error: string;
 }
 
+interface IDeleteUser {
+	username: string;
+	password: string;
+}
+
 export {
 	IUserSettingsResponseError,
 	IUserSettingsResponseSuccess,
-	IUserSettings
+	IUserSettings,
+	IDeleteUser
 }

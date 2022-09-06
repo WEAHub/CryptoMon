@@ -35,20 +35,24 @@
 				</mat-card-content>
 			</mat-card>
 
-			<mat-form-field appearance="legacy" focused="true" class="repeat-password">
+			<mat-form-field appearance="legacy" focused="true" class="repeat-password mb-15">
 				<mat-label>Current password</mat-label>
-				<input matInput type="text" formControlName="currentPassword" name="currentPassword" placeholder="Type your current password">
+				<input #currentPassword matInput type="text" formControlName="currentPassword" name="currentPassword" placeholder="Type your current password">
 				<mat-error *ngIf="userFormError('currentPassword', 'required')">Password required.</mat-error>
 				<mat-error *ngIf="userFormError('currentPassword', 'maxlength')">Password max. length exceded.</mat-error>
 				<mat-error *ngIf="userFormError('currentPassword', 'minlength')">Password min. length exceded.</mat-error>
 				<mat-icon matSuffix>password</mat-icon>				
 			</mat-form-field>
 
-			
-      <button type="submit" class="save-button" mat-stroked-button>
-        <mat-icon>done_all</mat-icon>Save changes
-      </button>
-      
+					
+			<button type="submit" class="w100 mb-15" mat-stroked-button>
+				<mat-icon>done_all</mat-icon>Save changes
+			</button>
+
+			<button type="button" class="w100" color="warn" (click)="deleteUser()" mat-stroked-button>
+				<mat-icon>delete</mat-icon>Delete this user
+			</button>
+
     </form>
   </mat-sidenav>
 

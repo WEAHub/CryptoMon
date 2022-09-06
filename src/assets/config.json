@@ -7,7 +7,8 @@
 			"SIGNUP": "/auth/signup"
 		},
 		"USER": {
-			"MODIFY": "/user/modifyUser"
+			"MODIFY": "/user/modifyUser",
+			"DELETE": "/user/deleteUser"
 		},
 		"NEWS": {
 			"GET_NEWS": "/news/getNews"

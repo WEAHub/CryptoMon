@@ -64,6 +64,10 @@ class ConfigService {
 	get modifyUser(): string {
 		return this.apiBaseUrl + this.appConfig.API_ROUTES.USER.MODIFY;
 	}
+	
+	get deleteUser(): string {
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.USER.DELETE;
+	}
 }	
 
 export {

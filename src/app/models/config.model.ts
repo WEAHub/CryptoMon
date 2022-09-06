@@ -8,6 +8,7 @@ export interface IConfig {
 		},
 		USER: {
 			MODIFY: string;
+			DELETE: string;
 		},
 		NEWS: {
 			GET_NEWS:  string;
