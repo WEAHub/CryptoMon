@@ -15,6 +15,7 @@ import { getToggleState } from '../../store/core-user.selectors';
 import { getUserModify } from '../../store/core-user.selectors';
 
 import { CustomValidators } from '../../providers/customValidators';
+import { getUserState } from 'src/app/modules/auth/store/auth.selectors';
 
 @Component({
   selector: 'sidenav-user-settings',
@@ -23,15 +24,18 @@ import { CustomValidators } from '../../providers/customValidators';
 })
 
 export class CoreUserSettingsComponent implements OnInit, OnDestroy {
-  @Input() userState: User = <User>{};
   @Input() opened: boolean = true;
   @ViewChild('currentPassword') currentPassword!: ElementRef;
 
 
   toggleState$ = this.store.select(getToggleState);
   userModify$ = this.store.select(getUserModify);
+  getUserState$ = this.store.select(getUserState);
 
-  userSub: Subscription;
+  
+  userStateSub: Subscription;
+  userState: User = <User>{};
+  userModifySub: Subscription;
   userModifyState!: IAppUserSettings;
   userForm: FormGroup;
 
@@ -48,11 +52,8 @@ export class CoreUserSettingsComponent implements OnInit, OnDestroy {
     [CustomValidators.cantMatch('newPassword', 'currentPassword')]
     );
 
-    this.userSub = this.userModify$.subscribe((state) => {
-      this.userModifyState = state;
-      this.userForm.get('name')?.setValue(this.userState.name)
-    })
-
+    this.userStateSub = this.getUserState$.subscribe((state) => this.userState = state)
+    this.userModifySub = this.userModify$.subscribe((state) => this.userModifyState = state)
   }
 
 
@@ -61,7 +62,8 @@ export class CoreUserSettingsComponent implements OnInit, OnDestroy {
   }
   
   ngOnDestroy(): void {
-    this.userSub.unsubscribe();
+    this.userModifySub.unsubscribe();
+    this.userStateSub.unsubscribe();
   }
 
   userFormError(controlName: string, errorName: string) {
@@ -78,6 +80,10 @@ export class CoreUserSettingsComponent implements OnInit, OnDestroy {
     setTimeout(() => this.store.dispatch(toggleUserSidenav()), 300)
   }
 
+  onSidenavOpen() {
+    this.userFormReset();
+  }
+
   onSubmit(): void {
 
     if(this.userForm.invalid) {
@@ -90,7 +96,6 @@ export class CoreUserSettingsComponent implements OnInit, OnDestroy {
     }
 
     this.userFormReset()
-
     this.store.dispatch(modifyUser({ data: userData }))
     
   }
@@ -109,9 +114,14 @@ export class CoreUserSettingsComponent implements OnInit, OnDestroy {
     }
 
     this.userFormReset()
-
     this.store.dispatch(deleteUser({data: deleteData}));
 
+  }
+
+
+  userFormReset() {
+    this.userForm.get('currentPassword')?.reset();
+    this.userForm.get('newPassword')?.reset();
   }
 
   get passwordMatchError() {
@@ -120,10 +130,5 @@ export class CoreUserSettingsComponent implements OnInit, OnDestroy {
       this.userForm.get('newPassword')?.touched &&
       this.userForm.get('currentPassword')?.value
     )
-  }
-
-  userFormReset() {
-    this.userForm.get('currentPassword')?.reset();
-    this.userForm.get('newPassword')?.reset();
   }
 }
