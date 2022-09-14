@@ -37,7 +37,6 @@ const appReducer = createReducer(
 		}
 	}),
 	on(userActions.modifyUserSuccess, (state: IAppStore, payload: IUserSettingsResponseSuccess) => {
-		console.log(payload);
 		return {
 			...state,
 			userSettings: {

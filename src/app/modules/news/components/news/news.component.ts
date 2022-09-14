@@ -23,7 +23,6 @@ export class NewsComponent implements OnInit {
 
 
   constructor(
-    private router: Router,
     private store: Store<{ news: News }>) { }
 
   ngOnInit(): void {

@@ -1,40 +1,47 @@
 
-<div class="auth-container" *ngIf=!authed>
-	<h1 class="auth-logo">CryptoMon</h1>
-	<div class="auth-form" [ngClass]="{'error-shake': (userErrorMsg$ | async)}">
-		<loading-spinner diameter="75" *ngIf="userLoading$ | async"></loading-spinner>
-		<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-			<mat-form-field appearance="outline">
-				<mat-label>Username</mat-label>
-				<input matInput type="text" formControlName="username" name="username" placeholder="Type your username">
-				<mat-error *ngIf="loginFormError('username', 'required')">Username required.</mat-error>
-				<mat-error *ngIf="loginFormError('username', 'maxlength')">Username max. length exceded.</mat-error>
-				<mat-error *ngIf="loginFormError('username', 'minlength')">Username min. length exceded.</mat-error>
-				<mat-icon matSuffix>person_fill</mat-icon>				
-			</mat-form-field>
+<div
+	fxLayout="row"
+	fxLayout.xs="column"
+	fxLayoutAlign="center center"
+	fxLayoutFill
+	class="h-100"
+>
+	<div class="auth-container" *ngIf=!authed>
+		<h1 class="auth-logo">CryptoMon</h1>
+		<div class="auth-form" [ngClass]="{'error-shake': (userErrorMsg$ | async)}">
+			<loading-spinner diameter="75" *ngIf="userLoading$ | async"></loading-spinner>
+			<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+				<mat-form-field appearance="outline">
+					<mat-label>Username</mat-label>
+					<input matInput type="text" formControlName="username" name="username" placeholder="Type your username">
+					<mat-error *ngIf="loginFormError('username', 'required')">Username required.</mat-error>
+					<mat-error *ngIf="loginFormError('username', 'maxlength')">Username max. length exceded.</mat-error>
+					<mat-error *ngIf="loginFormError('username', 'minlength')">Username min. length exceded.</mat-error>
+					<mat-icon matSuffix>person_fill</mat-icon>				
+				</mat-form-field>
 
-			<mat-form-field appearance="outline">
-				<mat-label>Password</mat-label>
-				<input matInput type="password" formControlName="password" name="password" placeholder="Type your password">
-				<mat-error *ngIf="loginFormError('password', 'required')">Password required.</mat-error>
-				<mat-error *ngIf="loginFormError('password', 'maxlength')">Password max. length exceded.</mat-error>
-				<mat-error *ngIf="loginFormError('password', 'minlength')">Password min. length exceded.</mat-error>
-				<mat-icon matSuffix>key</mat-icon>
-			</mat-form-field>
-			
-			<mat-card *ngIf="userErrorMsg$ | async" class="auth-error">
-				<mat-card-content>
-					{{ userErrorMsg$ | async }}
-				</mat-card-content>
-			</mat-card>
+				<mat-form-field appearance="outline">
+					<mat-label>Password</mat-label>
+					<input matInput type="password" formControlName="password" name="password" placeholder="Type your password">
+					<mat-error *ngIf="loginFormError('password', 'required')">Password required.</mat-error>
+					<mat-error *ngIf="loginFormError('password', 'maxlength')">Password max. length exceded.</mat-error>
+					<mat-error *ngIf="loginFormError('password', 'minlength')">Password min. length exceded.</mat-error>
+					<mat-icon matSuffix>key</mat-icon>
+				</mat-form-field>
+				
+				<mat-card *ngIf="userErrorMsg$ | async" class="auth-error">
+					<mat-card-content>
+						{{ userErrorMsg$ | async }}
+					</mat-card-content>
+				</mat-card>
 
-			<div class="auth-buttons">
-				<section>
-					<button mat-button color="primary" routerLink="/auth/signup"><mat-icon>person_add</mat-icon>Signup</button>
-					<button type="submit" mat-stroked-button>Login</button>
-				</section>
-			</div>
-    </form>
-
+				<div class="auth-buttons">
+					<section>
+						<button mat-button color="primary" routerLink="/auth/signup"><mat-icon>person_add</mat-icon>Signup</button>
+						<button type="submit" mat-stroked-button>Login</button>
+					</section>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>

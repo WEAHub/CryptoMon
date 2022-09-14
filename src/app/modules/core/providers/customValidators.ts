@@ -12,10 +12,10 @@ export class CustomValidators {
     return (control: AbstractControl): ValidationErrors | null => {
       const sourceCtrl = control.get(controlName);
       const targetCtrl = control.get(matchControlName);
-
       return sourceCtrl && targetCtrl && sourceCtrl.value === targetCtrl.value
-        ? { cantMatch: true }
+				? { cantMatch: true }
         : null;
+
     };
 	}
 }

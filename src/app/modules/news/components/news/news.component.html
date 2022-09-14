@@ -1,8 +1,8 @@
 <loading-spinner *ngIf="newsLoading$ | async"></loading-spinner>
 <div 
 	fxLayout="row wrap" 
-	fxLayoutAlign="start baseline" 
-	fxLayoutGap="15px" 
+	fxLayoutAlign="center center" 
+	fxLayoutGap="15px 15px grid" 
 	*ngIf="!(newsLoading$ | async)"
 >
 	<div *ngFor="let feed of (newsData$ | async)" [@inOutLoading]>
