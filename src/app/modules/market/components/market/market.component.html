@@ -1,15 +1,18 @@
+<modal-error *ngIf="(marketError$ | async)"></modal-error>
 <div 
-	fxLayout="row wrap"
+	fxLayout="row"
 	fxLayout.lt-xl="column"
 	fxLayoutGap="15px" 
+	*ngIf="!(marketError$ | async)"
 >
+
 	<div fxFlex="70%" class="market-table">
 		<div class="feature-header">Market Ranks</div>
 		<market-table></market-table>
 	</div>
 	
-	<div fxFlex="28%" class="market-table">
-		<div class="feature-header">New added</div>
+	<div fxFlex="27%" class="market-table">
+		<div class="feature-header">New assets</div>
 		<market-table-added></market-table-added>
 	</div>
 

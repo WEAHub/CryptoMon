@@ -3,7 +3,7 @@ import { News, NewsStatus } from "../models/news.model";
 
 const newsState = createFeatureSelector<News>('news');
 const isNewsLoading = createSelector(newsState, (state: News) => state.status === NewsStatus.LOADING)
-//const getNews = createSelector(newsState, (state: News) => state.news)
+const isNewsError = createSelector(newsState, (state: News) => state.status === NewsStatus.ERROR)
 
 const getNews = createSelector(newsState, (state: News) => 
 	state.news.map(feedNews => 
@@ -21,5 +21,6 @@ const getNews = createSelector(newsState, (state: News) =>
 
 export {
 	isNewsLoading,
+	isNewsError,
 	getNews
 }

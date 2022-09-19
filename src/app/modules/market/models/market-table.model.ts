@@ -17,13 +17,20 @@ interface marketAsset {
 }
 
 interface marketAssetAdded {
-
+	index: string;
+	imgLogo: string;
+	link: string;
+	name:string;
+	symbol: string;
+	price: string;
+	added: string;
 }
 
 interface marketData {
 	marketAssets: marketAsset[];
 	marketAdded: marketAssetAdded[];
-	status: marketStatus;
+	statusAssets: marketStatus;
+	statusAdded: marketStatus;
 	error?: string;
 }
 

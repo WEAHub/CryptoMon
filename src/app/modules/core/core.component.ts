@@ -22,7 +22,7 @@ import { INavMenuItems } from './models/nav-items.model';
 
 export class CoreComponent implements OnInit {
   title = 'CryptoMon';
-  navOpened: boolean = false;
+  navOpened: boolean = true;
   navMenuItems = <Array<INavMenuItems>>[
     //{  title: "dashboard", icon: "home", href: "", enabled: false },
     {  title: "news", icon: "newspaper", href: "/news", enabled: true },

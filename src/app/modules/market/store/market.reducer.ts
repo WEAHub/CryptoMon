@@ -1,11 +1,12 @@
-import { createReducer, on, Action } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as marketActions from './market.actions';
-import { marketAsset, marketData, marketStatus } from '../models/market-table.model';
+import { marketData, marketStatus } from '../models/market-table.model';
 
 const initialState: marketData = {
 	marketAssets: [],
 	marketAdded: [],
-	status: marketStatus.UNINITIALIZED
+	statusAdded:  marketStatus.UNINITIALIZED,
+	statusAssets: marketStatus.UNINITIALIZED
 }
 
 const marketReducer = createReducer(
@@ -13,7 +14,7 @@ const marketReducer = createReducer(
 	on(marketActions.marketTableStart, (state) => {
 		return {
 			...state,
-			status: marketStatus.LOADING,
+			statusAssets: marketStatus.LOADING,
 			error: '',
 		}
 	}),
@@ -21,7 +22,20 @@ const marketReducer = createReducer(
 		return {
 			...state,
 			marketAssets: payload.assets,
-			status: marketStatus.LOADED,
+			statusAssets: marketStatus.LOADED,
+			error: '',
+		}
+	}),
+	on(marketActions.marketTableError, (state) => {
+		return {
+			...state,
+			statusAssets: marketStatus.ERROR
+		}
+	}),
+	on(marketActions.marketTableAddedStart, (state) => {
+		return {
+			...state,
+			statusAdded: marketStatus.LOADING,
 			error: '',
 		}
 	}),
@@ -29,7 +43,14 @@ const marketReducer = createReducer(
 		return {
 			...state,
 			marketAdded: payload.assets,
+			statusAdded: marketStatus.LOADED,
 			error: '',
+		}
+	}),
+	on(marketActions.marketTableAddedError, (state) => {
+		return {
+			...state,
+			statusAdded: marketStatus.ERROR
 		}
 	}),
 )

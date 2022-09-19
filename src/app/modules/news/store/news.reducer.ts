@@ -23,7 +23,12 @@ const newsReducer = createReducer(
 			status: NewsStatus.LOADED
 		}
 	}),
-	on(newsActions.newsError, (state) => state),
+	on(newsActions.newsError, (state) =>  {
+		return {
+			...state,
+			status: NewsStatus.ERROR
+		}
+	}),
 );
 
 export {

@@ -1,6 +1,6 @@
 interface News {
 	news: Array<FeedNews>;
-	status: string
+	status: NewsStatus
 }
 
 interface FeedNews {

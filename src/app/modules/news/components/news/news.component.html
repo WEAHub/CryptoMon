@@ -1,4 +1,5 @@
-<loading-spinner *ngIf="newsLoading$ | async"></loading-spinner>
+<loading-spinner *ngIf="(newsLoading$ | async) && !(newsError$ | async)"></loading-spinner>
+<modal-error *ngIf="(newsError$ | async)"></modal-error>
 <div 
 	fxLayout="row wrap" 
 	fxLayoutAlign="center center" 

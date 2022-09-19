@@ -1,9 +1,11 @@
 <div class="mat-elevation-z3" class="market-container">
-	<table 
+	
+	<loading-spinner *ngIf="!(marketTableAddedLoaded$ | async)"></loading-spinner>
+	<table
 		mat-table 
 		matSort 
-		[dataSource]="dataSource"
-		ngClass="market-table">
+		[dataSource]="dataSource.data.length > 0 && dataSource.filteredData.length > 0 ? dataSource : emptyData"
+		class="market-table">
 			<ng-container matColumnDef="index">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Index">#</th>
 				<td mat-cell *matCellDef="let asset" class="market-cell-rank">{{ asset.index }}</td>
@@ -26,11 +28,23 @@
 				<td mat-cell *matCellDef="let asset" class="market-cell-added">{{ asset.added }}</td>
 			</ng-container>
 
+			<!-- No Data Column -->
+			<ng-container matColumnDef="no-data-row">
+				<td mat-cell *matCellDef="let asset">No Data</td>
+			</ng-container>
+
+			<!-- Loading Column -->
+			<ng-container matColumnDef="loading-row">
+				<td mat-cell *matCellDef="let asset">Loading...</td>
+			</ng-container>
+
 			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+			<tr mat-row *matRowDef="let row; columns: !(marketTableAddedLoaded$ | async) ? ['loading-row'] : dataSource.data.length > 0 ? displayedColumns : ['no-data-row'];"></tr>
 	</table>
+
 	<mat-paginator [pageSizeOptions]="[7, 14, 21]"
 		showFirstLastButtons 
 		aria-label="Select page of assets">
 	</mat-paginator>
+
 </div>

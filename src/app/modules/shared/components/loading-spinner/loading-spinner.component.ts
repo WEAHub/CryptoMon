@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Observable } from 'rxjs';
 import { inOutLoading } from './../../animations/shared.animations';
 
 @Component({

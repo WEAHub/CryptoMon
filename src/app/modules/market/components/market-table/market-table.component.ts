@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -7,7 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
 import { marketData, marketAsset } from '../../models/market-table.model';
-import { getMarketState, isMarketTableLoading } from '../../store/market.selectors';
+import { getMarketState, isMarketTableLoaded } from '../../store/market.selectors';
 import { marketTableStart } from '../../store/market.actions';
 
 @Component({
@@ -21,13 +21,13 @@ export class MarketTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  marketTableLoading$ = this.store.select(isMarketTableLoading);
   marketTableData$ = this.store.select(getMarketState)
+  marketTableLoaded$ = this.store.select(isMarketTableLoaded)
 
   displayedColumns: string[] = ['rank', 'name',  'price', 'change', 'cap', 'volume', 'supply', 'sparklines']
   noMarketData: marketAsset[] = [<marketAsset>{}]
-  dataSource: MatTableDataSource<marketAsset> = new MatTableDataSource<marketAsset>(this.noMarketData)
-
+  emptyData: MatTableDataSource<marketAsset> = new MatTableDataSource(this.noMarketData)
+  dataSource: MatTableDataSource<marketAsset> = this.emptyData;
   marketDataSub: Subscription = this.marketTableData$
     .subscribe(assets => this.initializeData(assets))
 
@@ -37,10 +37,6 @@ export class MarketTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(marketTableStart())
-  }
-
-  ngAfterViewInit(): void {
-    
   }
 
   ngOnDestroy(): void {

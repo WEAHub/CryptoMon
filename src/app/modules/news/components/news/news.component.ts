@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { News, New } from './../../models/news.model'
 import { newsStart } from './../../store/news.actions';
-import { getNews, isNewsLoading } from './../../store/news.selectors';
+import { getNews, isNewsError, isNewsLoading } from './../../store/news.selectors';
 import { inOutLoading } from './../../../shared/animations/shared.animations';
 
 @Component({
@@ -19,8 +19,8 @@ import { inOutLoading } from './../../../shared/animations/shared.animations';
 export class NewsComponent implements OnInit {
 
   newsLoading$ = this.store.select(isNewsLoading);
+  newsError$ = this.store.select(isNewsError);
   newsData$ = this.store.select(getNews);
-
 
   constructor(
     private store: Store<{ news: News }>) { }
