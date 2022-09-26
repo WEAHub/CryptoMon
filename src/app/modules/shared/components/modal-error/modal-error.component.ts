@@ -12,7 +12,7 @@ import { inOutLoading } from './../../animations/shared.animations';
 
 export class ModalErrorComponent {
 
-	@Input() errorMessage: string = 'Cannot connect to the backend :(.'
+	@Input() errorMessage: string = 'Cannot connect to the backend.'
 
 	constructor(
 	) {

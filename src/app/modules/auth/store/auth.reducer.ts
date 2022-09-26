@@ -50,14 +50,15 @@ const loginReducer = createReducer(
 			isLogged: false,
 		}
 	}),
-	on(loginActions.logout, (state) => {
+	on(loginActions.logout, (state) =>  {
 		return {
 			...state,
 			username: '',
+			name: '',
 			token: '',
-			error: '',
+			isLogged: false,
 			status: userStatus.UNINITIALIZED,
-			isLogged: false
+			error: '',
 		}
 	}),
 	on(loginActions.changedUserName, (state, payload) => {
@@ -65,7 +66,8 @@ const loginReducer = createReducer(
 			...state,
 			name: payload.name
 		}
-	})
+	}),
+
 
 )
 

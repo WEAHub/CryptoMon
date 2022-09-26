@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
+import { IHTTPErrorResponse } from '../models/http.model';
 
 @Injectable()
 
@@ -17,11 +18,24 @@ export class RequestService {
 		)
 	}
 
-	private handleError(err: HttpErrorResponse) {
-		return throwError(() => new Error(
-			err.status === 0
-			? 'Connection with the server failed'
-			: err.error.message
-		));
+	httpPost(url: string, postData: object): Observable<any> {
+		return this.http.post(url, postData)
+		.pipe(
+			tap(data => data),
+			catchError(this.handleError)
+		)
+	}
+
+	private handleError(err: HttpErrorResponse): Observable<IHTTPErrorResponse>  {
+
+		const errorResponse: IHTTPErrorResponse = {
+			error: err.error.message
+		}
+
+		return throwError(() => {
+			new Error(errorResponse.error)
+			return errorResponse
+		});
+
 	}
 }

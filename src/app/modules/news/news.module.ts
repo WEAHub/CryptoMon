@@ -7,7 +7,8 @@ import { NewsCardComponent } from './components/news-card/news-card.component';
 @NgModule({
   declarations: [
     NewsComponent,
-    NewsCardComponent],
+    NewsCardComponent
+  ],
   imports: [
 		SharedModule,
     NewsRoutingModule,

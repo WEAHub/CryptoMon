@@ -12,6 +12,7 @@ import { logout } from '../auth/store/auth.actions';
 import { toggleUserSidenav } from './store/core-user.actions';
 
 import { INavMenuItems } from './models/nav-items.model';
+import { getNoConnection } from './store/core-user.selectors';
 
 @Component({
   selector: 'app-root',
@@ -23,16 +24,15 @@ import { INavMenuItems } from './models/nav-items.model';
 export class CoreComponent implements OnInit {
   title = 'CryptoMon';
   navOpened: boolean = true;
-  navMenuItems = <Array<INavMenuItems>>[
-    //{  title: "dashboard", icon: "home", href: "", enabled: false },
+  navMenuItems = <INavMenuItems[]> [
     {  title: "news", icon: "newspaper", href: "/news", enabled: true },
     {  title: "market", icon: "currency_bitcoin", href: "/market", enabled: true },
-    // {  title: "assets", icon: "currency_exchange", href: "/assets", enabled: false },
-    // {  title: "about", icon: "info", href: "/about", enabled: false }
+    {  title: "trades", icon: "currency_exchange", href: "/trades", enabled: true },
   ]
 
   isAuthed$ = this.store.select(isAuthed);
   getUserState$ = this.store.select(getUserState);
+  getNoConnection$ = this.store.select(getNoConnection)
   currentRoute: string = '';
   userSettingsOpen: boolean = false;
 

@@ -1,6 +1,14 @@
+::ng-deep {
+	.mat-paginator-page-size-label {
+		display: none;
+	}
+}
+
 .market-table {
   width: 100%;
+	min-width: 400px;
 	background: #141414;
+
 	.market-cell-rank {
 		font-weight: 400;
 	}
@@ -8,6 +16,7 @@
 	.market-cell-name {
 		font-size: 16px;
 		img {
+			display: inline;
 			vertical-align: middle;
 			width: 32px;
 			height: 32px;

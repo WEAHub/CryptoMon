@@ -1,9 +1,6 @@
-<loading-spinner *ngIf="(newsLoading$ | async) && !(newsError$ | async)"></loading-spinner>
-<modal-error *ngIf="(newsError$ | async)"></modal-error>
+<loading-spinner *ngIf="(newsLoading$ | async)"></loading-spinner>
 <div 
-	fxLayout="row wrap" 
-	fxLayoutAlign="center center" 
-	fxLayoutGap="15px 15px grid" 
+	class="flex flex-row flex-wrap grow gap-5 place-content-center"
 	*ngIf="!(newsLoading$ | async)"
 >
 	<div *ngFor="let feed of (newsData$ | async)" [@inOutLoading]>

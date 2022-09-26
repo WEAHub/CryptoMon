@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.invalid) {
       return;
     }
+    
     this.store.dispatch(loginStart({userData: this.loginForm.value}));
   }
 }

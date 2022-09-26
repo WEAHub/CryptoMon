@@ -53,6 +53,9 @@ const marketReducer = createReducer(
 			statusAdded: marketStatus.ERROR
 		}
 	}),
+	on(marketActions.resetStateMarket, () => {
+		return Object.assign({}, initialState)
+	}),
 )
 
 export {

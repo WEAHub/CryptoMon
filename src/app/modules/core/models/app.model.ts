@@ -1,6 +1,7 @@
 interface IAppStore {
 	userSideNav: IAppUserSideNav,
 	userSettings: IAppUserSettings
+	noConnection: boolean;
 }
 
 interface IAppUserSideNav {

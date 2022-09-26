@@ -21,6 +21,11 @@ const routes: Routes = [
     path: 'market',
     loadChildren: () => import('../market/market.module').then(m => m.MarketModule),
     canActivate: [ AuthGuard ]
+  },
+  {
+    path: 'trades',
+    loadChildren: () => import('../trades/trades.module').then(m => m.TradesModule),
+    canActivate: [ AuthGuard ]
   }
 ];
 

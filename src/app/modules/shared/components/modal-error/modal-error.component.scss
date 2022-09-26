@@ -12,29 +12,14 @@
 		min-width: 200px;
 		min-height: 100px;
 		border-radius: 5px;
-		background: rgb(53, 53, 53);
-	}
-
-
-	.modal-error-message {
-		font-size: 16px;
-		text-align: center;
-
-		.modal-error-header {
-			display: block;
-			font-size: 38px;
-			margin: auto auto 25px auto; 
-			text-transform: capitalize;
-
-			.modal-error-icon {
-				color: red;
-				vertical-align: middle;
-				margin-right: 15px;
-				width: 48px;
-				height: 48px;
-			}
+		background: #101010;
+		font-size:16px;
+		color: white;
+		font-weight: 500;
+		
+		img {
+			filter: hue-rotate(180deg) saturate(100%) brightness(0.8) contrast(150%);
 		}
-
 	}
 
 }

@@ -4,7 +4,7 @@
 	<table
 		mat-table 
 		matSort 
-		[dataSource]="dataSource.data.length > 0 && dataSource.filteredData.length > 0 ? dataSource : emptyData"
+		[dataSource]="(marketTableAddedLoaded$ | async) && dataSource.data.length > 0 && dataSource.filteredData.length > 0 ? dataSource : emptyData"
 		class="market-table">
 			<ng-container matColumnDef="index">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Index">#</th>
@@ -42,7 +42,9 @@
 			<tr mat-row *matRowDef="let row; columns: !(marketTableAddedLoaded$ | async) ? ['loading-row'] : dataSource.data.length > 0 ? displayedColumns : ['no-data-row'];"></tr>
 	</table>
 
-	<mat-paginator [pageSizeOptions]="[7, 14, 21]"
+	<mat-paginator 
+		[pageSizeOptions]="[6, 10, 15]"
+		[hidePageSize]="true"
 		showFirstLastButtons 
 		aria-label="Select page of assets">
 	</mat-paginator>

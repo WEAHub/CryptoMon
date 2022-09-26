@@ -16,6 +16,12 @@
 		"MARKET": {
 			"GET_MARKET_LATEST": "/market/getMarketLatest",
 			"GET_MARKET_ADDED": "/market/getMarketNew"
+		},
+		"TRADES": {
+			"GET_ALL_EXCHANGES": "/trades/getAllExchanges",
+			"GET_PAIRS_BY_EXCHANGE": "/trades/getPairsByExchange",
+			"GET_PRICE_BY_EXCHANGE_TS": "/trades/getPriceByExchangeTS",
+			"TRADE_ADD": "/trades/addTrade"
 		}
 	}
 	

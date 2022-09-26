@@ -13,7 +13,8 @@ const initialState: IAppStore = <IAppStore>{
 		message: '',
 		error: false,
 		deleted: false,
-	}
+	},
+	noConnection: false
 }
 
 const appReducer = createReducer(
@@ -77,7 +78,6 @@ const appReducer = createReducer(
 		}
 	}),
 	on(userActions.deleteUserError, (state: IAppStore, payload: IUserSettingsResponseError) => {
-		console.log(payload)
 		return {
 			...state,
 			userSettings: {
@@ -85,6 +85,15 @@ const appReducer = createReducer(
 				message: payload.error,
 				error: true,
 			}
+		}
+	}),
+	on(userActions.resetStateUser, () => {
+		return Object.assign({}, initialState)
+	}),
+	on(userActions.noConnection, (state) => {
+		return {
+			...state,
+			noConnection: true
 		}
 	})
 )

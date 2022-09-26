@@ -7,7 +7,7 @@ enum ActionTypes {
   LOGIN_REQUEST_ERROR = '[Auth] Login Error',
   LOGOUT = '[Auth] Logout',
   SIGNUP_REQUEST = '[Auth] Trying Signup',
-  USER_CHANGED_NAME = '[Auth] Setting new user data'
+  USER_CHANGED_NAME = '[Auth] Setting new user data',
 }
 
 const loginStart = createAction(
@@ -37,6 +37,7 @@ const changedUserName = createAction(
   ActionTypes.USER_CHANGED_NAME,
   props<{name: string}>()
 )
+
 
 export {
   loginStart,

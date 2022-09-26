@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, tap } from 'rxjs';
+import { catchError, map, Observable } from 'rxjs';
+
 import { IConfig } from '../models/config.model';
 
 const configFactory = (config: ConfigService): 
@@ -11,7 +12,7 @@ const configFactory = (config: ConfigService):
 })
 
 class ConfigService {
-	private appConfig: IConfig = <IConfig>{};
+	public appConfig: IConfig = <IConfig>{};
   constructor(private http: HttpClient) {}
   
   loadConfig(): Observable<Object> {
@@ -68,6 +69,23 @@ class ConfigService {
 	get deleteUser(): string {
 		return this.apiBaseUrl + this.appConfig.API_ROUTES.USER.DELETE;
 	}
+
+	get getAllExchanges(): string {
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.TRADES.GET_ALL_EXCHANGES;
+	}
+
+	get getPairsByExchange(): string {
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.TRADES.GET_PAIRS_BY_EXCHANGE;
+	}
+	
+	get getPriceByExchangeTS(): string {
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.TRADES.GET_PRICE_BY_EXCHANGE_TS;
+	}
+	
+	get addTrade(): string {
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.TRADES.TRADE_ADD;
+	}
+	
 }	
 
 export {

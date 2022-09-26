@@ -1,5 +1,5 @@
-<mat-sidenav-container class="navComponent">
-
+<modal-error *ngIf="(getNoConnection$ | async)"></modal-error>
+<mat-sidenav-container class="navComponent" *ngIf="!(getNoConnection$ | async)">
   <mat-sidenav [opened]="navOpened" disableClose="true" mode="side" class="navMenu" *ngIf="this.isAuthed$ | async">
     <mat-nav-list>
       <div class="logo"><h2>CryptoMon</h2></div>
@@ -42,7 +42,7 @@
 
 </mat-sidenav-container>
 
-
 <sidenav-user-settings
+  *ngIf="!(getNoConnection$ | async)"
   [opened]="userSettingsOpen"
 ></sidenav-user-settings>

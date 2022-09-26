@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { logout } from '../store/auth.actions';
 import { User } from '../models/user.model';
+import { noConnection } from '../../core/store/core-user.actions';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -31,6 +32,10 @@ export class JwtInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
 
+        if(err.status == 0) {
+          this.store.dispatch(noConnection())
+        }
+        
         if (err.status === 401) {
 					this.store.dispatch(logout())
         }

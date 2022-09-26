@@ -1,9 +1,4 @@
-<div
-fxLayout="row"
-fxLayout.xs="column"
-fxLayoutAlign="center center"
-fxLayoutFill
-class="h-100">
+<div class="grid place-items-center h-screen">
 <div class="auth-container" *ngIf=!authed>
 	<h1 class="auth-logo">CryptoMon</h1>
 	<div class="auth-form" [ngClass]="{'error-shake': (userErrorMsg$ | async)}">

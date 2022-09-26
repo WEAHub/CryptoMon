@@ -9,6 +9,8 @@ enum ActionTypes {
   DELETE_USER_REQUEST = '[User] Trying delete user',
   DELETE_USER_SUCCESS = '[User] Delete user success',
   DELETE_USER_ERROR = '[User] Delete user error',
+  USER_RESET = '[User] Reset user',
+  NO_CONNECTION = '[User] No connection'
 }
 
 const toggleUserSidenav = createAction(ActionTypes.TOGGLE_USER_SIDENAV)
@@ -20,6 +22,12 @@ const deleteUser = createAction(ActionTypes.DELETE_USER_REQUEST, props<{data: ID
 const deleteUserSuccess = createAction(ActionTypes.DELETE_USER_SUCCESS, props<IUserSettingsResponseSuccess>());
 const deleteUserError = createAction(ActionTypes.DELETE_USER_ERROR, props<{error: string}>());
 
+const resetStateUser = createAction(ActionTypes.USER_RESET);
+
+const noConnection = createAction(
+  ActionTypes.NO_CONNECTION,
+)
+
 export {
 	deleteUser,
 	deleteUserSuccess,
@@ -28,4 +36,6 @@ export {
   modifyUserSuccess,
   modifyUserError,
 	toggleUserSidenav,
+  resetStateUser,
+  noConnection
 }

@@ -29,6 +29,9 @@ const newsReducer = createReducer(
 			status: NewsStatus.ERROR
 		}
 	}),
+	on(newsActions.resetStateNews, () => {
+		return Object.assign({}, initialState)
+	}),
 );
 
 export {

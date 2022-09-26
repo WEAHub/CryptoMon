@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MaterialModule } from './modules/material.module'
 import { CryptoCurrencyPipe } from './pipes/cryptoCurrency.pipe';
@@ -14,12 +13,12 @@ import { ModalErrorComponent } from './components/modal-error/modal-error.compon
   declarations: [
     LoadingSpinnerComponent,
     ModalErrorComponent,
-    CryptoCurrencyPipe
+    CryptoCurrencyPipe,
+    
   ],
   imports: [
     CommonModule,
     MaterialModule,
-    FlexLayoutModule
   ],
   exports: [
     CommonModule,
@@ -27,9 +26,9 @@ import { ModalErrorComponent } from './components/modal-error/modal-error.compon
     ModalErrorComponent,
     MaterialModule,
     CryptoCurrencyPipe,
-    FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
+    
   ],
   providers: [
     RequestService

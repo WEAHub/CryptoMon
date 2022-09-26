@@ -1,0 +1,15 @@
+::ng-deep {
+	.mat-dialog-container {
+		background: black;
+	}
+	
+	.mat-select-panel {
+    width:155px;
+	}
+	.mat-button-toggle-checked.toggled-green {
+		background-color: rgb(0, 134, 0)
+	}
+	.mat-button-toggle-checked.toggled-red {
+		background-color: rgb(163, 0, 0)
+	}
+}

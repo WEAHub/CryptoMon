@@ -45,6 +45,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 // Env
 import { environment } from '../environments/environment';
+import { tradesReducer } from './modules/trades/store/trades.reducer';
+import { TradesEffects } from './modules/trades/store/trades.effects';
+import { TradesService } from './modules/trades/services/trades.service';
 
 @NgModule({
   declarations: [
@@ -61,13 +64,15 @@ import { environment } from '../environments/environment';
       app: appReducer,
       user: loginReducer,
       news: newsReducer,
-      market: marketReducer
+      market: marketReducer,
+      trades: tradesReducer,
     }),
     EffectsModule.forRoot([
       AuthEffects, 
       NewsEffects, 
       MarketEffects,
-      UserEffects
+      UserEffects,
+      TradesEffects
     ]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
@@ -78,6 +83,7 @@ import { environment } from '../environments/environment';
     NewsService, 
     MarketService,
     UserService,
+    TradesService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

@@ -1,0 +1,90 @@
+<h1 mat-dialog-title>Add new trade</h1>
+<div mat-dialog-content class="relative">
+	<loading-spinner *ngIf="isLoading$ | async"></loading-spinner>
+	<form [formGroup]="tradeForm" (ngSubmit)="onSubmit()">
+		<div class="flex flex-row flex-wrap gap-5">
+			<mat-form-field class="w-48">
+				<mat-label>Exchanges</mat-label>
+				<mat-select 
+				formControlName="exchanges" 
+				name="exchanges"
+				(selectionChange)="selectExchange($event.value)">
+					<mat-select-filter 
+					[displayMember]="'name'"
+					[array]="(getExchanges$ | async)" 
+					(filteredReturn)="filteredExchanges = $event">
+					</mat-select-filter>
+					<mat-option *ngFor="let exchange of filteredExchanges" [value]="exchange.name">
+						<div class="select-exchange">
+							<img class="w-8 align-middle inline" [src]=exchange.logo />
+							<span class="ml-5 text-sm">{{ exchange.name }}</span>
+						</div>
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+	
+			<mat-form-field class="w-48">
+				<mat-label>Pairs</mat-label>
+				<mat-select 
+				formControlName="pairs"
+				name="pairs"
+				[attr.disabled]="(getPairs$ | async)!.length < 1">
+					<mat-select-filter 
+					[displayMember]="'pairs'"
+					[array]="(getPairs$ | async)" 
+					(filteredReturn)="filteredPairs = $event">
+					</mat-select-filter>
+					<mat-option *ngFor="let pair of filteredPairs" [value]="pair.pairs">
+						<span class="text-sm">{{ pair.pairs }}</span>
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field class="w-48">
+				<input 
+				matInput 
+				[ngxMatDatetimePicker]="picker"
+				placeholder="Choose a date"
+				[formControl]="dateTrade"
+				formControlName="dateTrade"	
+				name="dateTrade"
+				[attr.disabled]="!tradeForm.controls['pairs'].valid"
+				(dateChange)="changeDate($event)">
+
+				<mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+				<ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
+			</mat-form-field>
+			
+			<mat-form-field class="w-48">
+				<mat-label>Price</mat-label>
+				<input 
+				matInput 
+				placeholder="Price"
+				formControlName="price"	
+				name="price"
+				[value]=priceData.price>
+				<span matSuffix>{{ priceData.toSymbol }}</span>
+			</mat-form-field>
+
+			<mat-form-field class="w-48">
+				<mat-label>Quantity</mat-label>
+				<input
+				matInput 
+				formControlName="quantity"	
+				name="quantity"
+				placeholder="Quantity" 
+				[value]="">
+			</mat-form-field>
+
+			<mat-button-toggle-group formControlName="tradeType" name="tradeType" aria-label="Trade type">
+				<mat-button-toggle value="buy" class="w-24 toggled-green">Buy</mat-button-toggle>
+				<mat-button-toggle value="sell" class="w-24 toggled-red">Sell</mat-button-toggle>
+			</mat-button-toggle-group>
+
+		</div>
+	</form>
+</div>
+<div mat-dialog-actions class="mt-5 place-content-center">
+	<button mat-button (click)="closeDialog()">Cancel</button>
+	<button mat-stroked-button (click)="onSubmit()">Add trade</button>
+</div>

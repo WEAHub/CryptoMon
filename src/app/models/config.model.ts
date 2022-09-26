@@ -16,6 +16,12 @@ export interface IConfig {
 		MARKET: {
 			GET_MARKET_LATEST:  string;
 			GET_MARKET_ADDED: string;
+		},
+		TRADES: {
+			GET_ALL_EXCHANGES: string;
+			GET_PAIRS_BY_EXCHANGE: string;
+			GET_PRICE_BY_EXCHANGE_TS: string;
+			TRADE_ADD: string;
 		}
 	}
 }

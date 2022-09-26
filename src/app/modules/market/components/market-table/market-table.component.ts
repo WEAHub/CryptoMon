@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
 import { marketData, marketAsset } from '../../models/market-table.model';
@@ -33,7 +33,8 @@ export class MarketTableComponent implements OnInit {
 
   constructor(
     private store: Store<{ market: marketData }>,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.store.dispatch(marketTableStart())

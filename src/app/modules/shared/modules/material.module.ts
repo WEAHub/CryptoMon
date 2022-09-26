@@ -18,6 +18,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule, } from '@angular/material/datepicker';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { NgxMatTimepickerModule, NgxMatDatetimePickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import { MatSelectFilterModule } from 'mat-select-filter';
 
 @NgModule({
   exports: [
@@ -37,8 +42,15 @@ import { MatExpansionModule } from '@angular/material/expansion';
 		MatProgressBarModule,
 		MatSortModule,
 		MatMenuModule,
-		MatExpansionModule
-  ],
+		MatExpansionModule,
+		MatSelectModule,
+		MatDatepickerModule,
+		NgxMatTimepickerModule,
+		NgxMatDatetimePickerModule,
+		NgxMatNativeDateModule,
+		MatButtonToggleModule,
+		MatSelectFilterModule,
+  ]
 })
 
 export class MaterialModule {}

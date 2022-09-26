@@ -43,17 +43,16 @@ export class CoreUserSettingsComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<{ app: IAppStore }>,
   ) {
-
+    this.userStateSub = this.getUserState$.subscribe((state) => this.userState = state)
+    this.userModifySub = this.userModify$.subscribe((state) => this.userModifyState = state)
+    
     this.userForm = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.maxLength(16), Validators.minLength(2)]),
+      name: new FormControl(this.userState.name, [Validators.required, Validators.maxLength(16), Validators.minLength(2)]),
       currentPassword: new FormControl('', [Validators.required, Validators.maxLength(16), Validators.minLength(2)]),
       newPassword: new FormControl('', [Validators.maxLength(16), Validators.minLength(2)]),
     }, 
     [CustomValidators.cantMatch('newPassword', 'currentPassword')]
     );
-
-    this.userStateSub = this.getUserState$.subscribe((state) => this.userState = state)
-    this.userModifySub = this.userModify$.subscribe((state) => this.userModifyState = state)
   }
 
 
@@ -81,6 +80,7 @@ export class CoreUserSettingsComponent implements OnInit, OnDestroy {
   }
 
   onSidenavOpen() {
+    this.userForm.controls['name'].setValue(this.userState.name);
     this.userFormReset();
   }
 
