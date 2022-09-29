@@ -23,7 +23,7 @@ openDialog(): void {
     width: '245px'
   });
 
-  dialogRef.afterClosed().subscribe(result => {
+  dialogRef.afterClosed().subscribe(() => {
     console.log('The dialog was closed');
   });
 

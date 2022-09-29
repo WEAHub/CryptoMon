@@ -16,7 +16,7 @@
 					</mat-select-filter>
 					<mat-option *ngFor="let exchange of filteredExchanges" [value]="exchange.name">
 						<div class="select-exchange">
-							<img class="w-8 align-middle inline" [src]=exchange.logo />
+							<img class="w-8 align-middle inline" [src]="configService.exchangeIcon + exchange.id" />
 							<span class="ml-5 text-sm">{{ exchange.name }}</span>
 						</div>
 					</mat-option>
@@ -28,7 +28,7 @@
 				<mat-select 
 				formControlName="pairs"
 				name="pairs"
-				[attr.disabled]="(getPairs$ | async)!.length < 1">
+				[disabled]="!((getPairs$ | async)!.length)">
 					<mat-select-filter 
 					[displayMember]="'pairs'"
 					[array]="(getPairs$ | async)" 
@@ -48,7 +48,7 @@
 				[formControl]="dateTrade"
 				formControlName="dateTrade"	
 				name="dateTrade"
-				[attr.disabled]="!tradeForm.controls['pairs'].valid"
+				[disabled]="!tradeForm.controls['pairs'].valid"
 				(dateChange)="changeDate($event)">
 
 				<mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
@@ -62,6 +62,7 @@
 				placeholder="Price"
 				formControlName="price"	
 				name="price"
+				type="number"
 				[value]=priceData.price>
 				<span matSuffix>{{ priceData.toSymbol }}</span>
 			</mat-form-field>
@@ -69,7 +70,8 @@
 			<mat-form-field class="w-48">
 				<mat-label>Quantity</mat-label>
 				<input
-				matInput 
+				matInput
+				type="number"
 				formControlName="quantity"	
 				name="quantity"
 				placeholder="Quantity" 
