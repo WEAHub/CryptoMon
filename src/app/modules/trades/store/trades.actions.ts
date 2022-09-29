@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+
 import { 
 	ITradesModalExchangeSuccess, 
 	ITradesModalPairLoad, 
@@ -9,6 +10,14 @@ import {
 	ITradesAdd,
 	ITradesAddSuccess, 
 } from '../models/trades-modal.model';
+
+import { 
+	ITrade,
+	ITradesDeleteError,
+	ITradesDeleteSuccess,
+	ITradesGetError, 
+	ITradesGetSuccess 
+} from '../models/trades.model';
 
 enum ActionTypes {
   TRADES_REQUEST = '[Trades] Getting Trades',
@@ -27,9 +36,17 @@ enum ActionTypes {
 	TRADES_PRICE_SUCCESS = '[Trades Modal] Trades Price Sucess',
 	TRADES_PRICE_ERROR = '[Trades Modal] Trades Price Error',
 
-	TRADES_ADD = '[Trades] Add',
+	TRADES_ADD = '[Trades] Add Trade',
 	TRADES_ADD_SUCCESS = '[Trades] Add Trade Success',
 	TRADES_ADD_ERROR = '[Trades] Add Trade Error',
+
+	TRADES_GET = '[Trades] Get Trades',
+	TRADES_GET_SUCCESS = '[Trades] Get Trades Success',
+	TRADES_GET_ERROR = '[Trades] Get Trades Error',
+
+	TRADES_DELETE = '[Trades] Delete Trade',
+	TRADES_DELETE_SUCCESS = '[Trades] Delete Trade Success',
+	TRADES_DELETE_ERROR = '[Trades] Delete Trade Error',
 
 	TRADES_RESET = '[Trades] Reset Trades',
 }
@@ -54,6 +71,16 @@ const tradesAdd = createAction(ActionTypes.TRADES_ADD, props<ITradesAdd>());
 const tradesAddSuccess = createAction(ActionTypes.TRADES_ADD_SUCCESS, props<ITradesAddSuccess>());
 const tradesAddError = createAction(ActionTypes.TRADES_ADD_ERROR, props<ITradesModalError>());
 
+// * GET TRADES
+const tradesGet = createAction(ActionTypes.TRADES_GET);
+const tradesGetSuccess = createAction(ActionTypes.TRADES_GET_SUCCESS, props<ITradesGetSuccess>());
+const tradesGetError = createAction(ActionTypes.TRADES_GET_ERROR, props<ITradesGetError>());
+
+// * DELETE TRADE
+const tradesDelete = createAction(ActionTypes.TRADES_DELETE, props<ITrade>());
+const tradesDeleteSuccess = createAction(ActionTypes.TRADES_DELETE_SUCCESS, props<ITradesDeleteSuccess>());
+const tradesDeleteError = createAction(ActionTypes.TRADES_DELETE_ERROR, props<ITradesDeleteError>());
+
 // * RESET STATES
 const resetStateTradesModal = createAction(ActionTypes.TRADES_RESET);
 
@@ -70,5 +97,11 @@ export {
 	tradesAdd,
 	tradesAddSuccess,
 	tradesAddError,
+	tradesGet,
+	tradesGetSuccess,
+	tradesGetError,
+	tradesDelete,
+	tradesDeleteSuccess,
+	tradesDeleteError,
 	resetStateTradesModal,
 }

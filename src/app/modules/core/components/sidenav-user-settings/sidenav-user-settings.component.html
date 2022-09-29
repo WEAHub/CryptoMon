@@ -1,8 +1,5 @@
 <mat-sidenav-container [ngClass]="{'user-sidenav': (toggleState$ | async)}">
   <mat-sidenav #userSidenav (openedStart)="onSidenavOpen()" (closedStart)="onSidenavClose()" mode="over" position="end" class="user-sidenav-content" [opened]="toggleState$ | async">
-    <div class="should-relog">
-
-		</div>
 		<div class="user-title">
       <mat-icon>manage_accounts</mat-icon>
       <span>User Settings - {{ userState.username }}</span>

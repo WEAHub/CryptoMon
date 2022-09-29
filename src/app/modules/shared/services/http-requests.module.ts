@@ -11,31 +11,31 @@ export class RequestService {
   ) { }
 
   httpGet(url: string): Observable<any> {
-		return this.http.get(url)
-		.pipe(
-			tap(data => data),
-			catchError(this.handleError)
-		)
-	}
+    return this.http.get(url)
+    .pipe(
+      tap(data => data),
+      catchError(this.handleError)
+    )
+  }
 
-	httpPost(url: string, postData: object): Observable<any> {
-		return this.http.post(url, postData)
-		.pipe(
-			tap(data => data),
-			catchError(this.handleError)
-		)
-	}
+  httpPost(url: string, postData: object): Observable<any> {
+    return this.http.post(url, postData)
+    .pipe(
+      tap(data => data),
+      catchError(this.handleError)
+    )
+  }
 
-	private handleError(err: HttpErrorResponse): Observable<IHTTPErrorResponse>  {
+  private handleError(err: HttpErrorResponse): Observable<IHTTPErrorResponse>  {
 
-		const errorResponse: IHTTPErrorResponse = {
-			error: err.error.message
-		}
+    const errorResponse: IHTTPErrorResponse = {
+      error: err.error.message
+    }
 
-		return throwError(() => {
-			new Error(errorResponse.error)
-			return errorResponse
-		});
+    return throwError(() => {
+      new Error(errorResponse.error)
+      return errorResponse
+    });
 
-	}
+  }
 }

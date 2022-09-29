@@ -10,7 +10,7 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content class ="navContent">
+  <mat-sidenav-content class="navContent">
     <mat-toolbar class="toolbar" *ngIf="this.isAuthed$ | async">
       <button mat-icon-button (click)="navOpened = !navOpened" class="toolbar-togglenav" aria-label="Toggle Menu" >
         <mat-icon color="accent">menu</mat-icon>

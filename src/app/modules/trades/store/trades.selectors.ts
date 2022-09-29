@@ -1,6 +1,7 @@
 import { createSelector, createFeatureSelector } from "@ngrx/store";
+import { EStatus } from "../../shared/models/status.enum";
 import { IPair } from "../models/trades-modal.model";
-import { ITradesStore } from "../models/trades.model";
+import { ITrade, ITradesStore } from "../models/trades.model";
 
 const tradesState = createFeatureSelector<ITradesStore>('trades');
 
@@ -39,10 +40,40 @@ const tradesModalGetPrice = createSelector(
 	}
 )
 
+// * Get Trades
+const getTrades = createSelector(
+	tradesState,
+	(state: ITradesStore) => state.trades.map((trade: ITrade) => {
+		return {
+			...trade,
+			percentType: trade.percentChange > 0 
+			? 'up'
+			: trade.percentChange < 0
+				? 'down'
+				: 'neutral'
+		}
+	}).sort((a, b) => b.timeStampAdded - a.timeStampAdded)
+)
+
+// * Trades loading
+const tradesLoading = createSelector(
+	tradesState,
+	(state: ITradesStore) => state.status === EStatus.LOADING
+)
+
+const tradesLoaded = createSelector(
+	tradesState,
+	(state: ITradesStore) => state.status === EStatus.LOADED
+)
+
 export {
 	tradesModalLoading,
 	tradesModalGetExchanges,
 	tradesModalGetPairs,
 	tradesModalGetPrice,
-	
+
+	tradesLoading,
+	tradesLoaded,
+	getTrades,
+
 }

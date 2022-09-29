@@ -85,6 +85,22 @@ class ConfigService {
 	get addTrade(): string {
 		return this.apiBaseUrl + this.appConfig.API_ROUTES.TRADES.TRADE_ADD;
 	}
+
+	get getTrades(): string {
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.TRADES.GET_TRADES;
+	}
+
+	get deleteTrade(): string {
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.TRADES.DELETE_TRADE;
+	}
+	
+	get assetIcon(): string {
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.ICONS.ASSET;
+	}
+
+	get exchangeIcon(): string {
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.ICONS.EXCHANGE;
+	}
 	
 }	
 

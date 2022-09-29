@@ -1,6 +1,10 @@
 export interface IConfig {
 	API_BASE_URL: string;
 	API_ROUTES: {
+		ICONS: {
+			ASSET: string;
+			EXCHANGE: string;
+		},
 		AUTH: {
 			LOGIN:  string;
 			LOGOUT: string;
@@ -22,6 +26,8 @@ export interface IConfig {
 			GET_PAIRS_BY_EXCHANGE: string;
 			GET_PRICE_BY_EXCHANGE_TS: string;
 			TRADE_ADD: string;
+			GET_TRADES: string;
+			DELETE_TRADE: string;
 		}
 	}
 }

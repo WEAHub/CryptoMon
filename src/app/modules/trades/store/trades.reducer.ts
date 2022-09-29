@@ -1,10 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
+import { EStatus } from '../../shared/models/status.enum';
 import { ITradesModalError, ITradesModalPairSuccess, ITradesModalPriceSuccess } from '../models/trades-modal.model';
-import { ITradesStore } from '../models/trades.model';
+import { ITradesGetError, ITradesGetSuccess, ITradesStore } from '../models/trades.model';
 import * as tradesActions from './trades.actions';
 
 const initialState: ITradesStore = {
-	loading: false,
+	error: '',
+	status: EStatus.UNINITIALIZED,
+	trades: [],
 	modalStore: {
 		loading: false,
 		exchanges: [],
@@ -33,6 +36,7 @@ const tradesReducer = createReducer(
 		}
 	}),
 	on(tradesActions.tradesModalLoadExchangesSuccess, (state, payload) => {
+		console.log(payload)
 		return {
 			...state,
 			modalStore: {
@@ -118,6 +122,26 @@ const tradesReducer = createReducer(
 				loading: false,
 				error: payload.error
 			}
+		}
+	}),
+	on(tradesActions.tradesGet, (state) => {
+		return {
+			...state,
+			status: EStatus.LOADING
+		}
+	}),
+	on(tradesActions.tradesGetSuccess, (state, payload: ITradesGetSuccess) => {
+		return {
+			...state,
+			status: EStatus.LOADED,
+			trades: payload.userTrades
+		}
+	}),
+	on(tradesActions.tradesGetError, (state, payload: ITradesGetError) => {
+		return {
+			...state,
+			status: EStatus.ERROR,
+			error: payload.error
 		}
 	}),
 	on(tradesActions.resetStateTradesModal, () => {

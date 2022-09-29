@@ -22,6 +22,7 @@ import {
   tradesModalGetPrice, 
   tradesModalLoading 
 } from '../../store/trades.selectors';
+import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
   selector: 'app-trades-add-modal',
@@ -48,6 +49,7 @@ export class TradesAddModalComponent implements OnDestroy  {
   dateTrade = new FormControl(null)
 
   constructor(
+    public configService: ConfigService,
     public dialogRef: MatDialogRef<TradesAddModalComponent>,
     private store: Store<{ trades: ITradesStore }>,
   ) {
@@ -84,7 +86,7 @@ export class TradesAddModalComponent implements OnDestroy  {
     this.priceSub.unsubscribe();
   }
 
-  loadExchanges(): void {
+  private loadExchanges(): void {
     this.store.dispatch(tradesModalLoadExchanges());
   }
 
@@ -97,7 +99,7 @@ export class TradesAddModalComponent implements OnDestroy  {
     const date: Date =  new Date(event.value);    
     this.tradeForm.get('dateTrade')?.setValue(date)
 
-    const ts: Number = new Date(date).getTime();
+    const ts: number = new Date(date).getTime();
     const [ fromSymbol, toSymbol ] = this.tradeForm.get('pairs')?.value.split('/');    
     const pairData: ITradesModalPriceLoad = {
       exchangeName: this.tradeForm.get('exchanges')?.value,
@@ -132,7 +134,7 @@ export class TradesAddModalComponent implements OnDestroy  {
       quantity: Number(this.tradeForm.get('quantity')?.value)
     }
 
-    console.log(addTradeRequest)
     this.store.dispatch(tradesAdd(addTradeRequest));
+    this.closeDialog();
   }
 }

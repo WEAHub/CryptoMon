@@ -1,33 +1,130 @@
-<!-- 
-<div class="mat-elevation-z3" class="market-container">
+
+<div class="mat-elevation-z3" class="trades-container">
 	
-	<loading-spinner *ngIf="!(marketTableAddedLoaded$ | async)"></loading-spinner>
+	<loading-spinner *ngIf="!(isTradesLoaded$ | async)"></loading-spinner>
+
 	<table
 		mat-table 
 		matSort 
-		[dataSource]="(marketTableAddedLoaded$ | async) && dataSource.data.length > 0 && dataSource.filteredData.length > 0 ? dataSource : emptyData"
-		class="market-table">
+		class="w-full black-table"
+		[dataSource]="(isTradesLoaded$ | async) ? tableData.dataSource : emptyData">
 		
-			<ng-container matColumnDef="index">
-				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Index">#</th>
-				<td mat-cell *matCellDef="let asset" class="market-cell-rank">{{ asset.index }}</td>
+			<!-- Exchange Column -->
+			<ng-container matColumnDef="exchange">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Exchange">Exchange</th>
+				<td mat-cell *matCellDef="let asset">
+					<img class="w-8 inline-block align-middle mr-3" [src]="configService.exchangeIcon + asset.ccMapExchangeId" />
+					<span>{{ asset.exchangeName }}</span>
+				</td>
+			</ng-container>
+			
+			<!-- Pairs Column -->
+			<ng-container matColumnDef="pairs">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Pairs">Pairs</th>
+				<td mat-cell *matCellDef="let asset">
+					<img class="w-8 inline-block align-middle mr-3" [src]="configService.assetIcon + asset.ccMapId" />
+					<span>{{ asset.fromSymbol + '/' + asset.toSymbol  }}</span>
+				</td>
 			</ng-container>
 
+			<!-- Trade Type Column -->
+			<ng-container matColumnDef="tradeType">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Trade Type">Trade Type</th>
+				<td mat-cell *matCellDef="let asset">
+					<span [class]="'trade-type ' + asset.tradeType">{{ asset.tradeType }}</span>
+				</td>
+			</ng-container>
+
+			<!-- Quantity Column -->
+			<ng-container matColumnDef="quantity">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Quantity">Quantity</th>
+				<td mat-cell *matCellDef="let asset">
+					<div class="block">
+						<span class="mr-1">{{ asset.quantity }}</span>
+						<span class="text-xs text-gray-400">{{ asset.fromSymbol }}</span>
+					</div>
+					<div class="block">
+						<span class="text-mm mr-1">{{ asset.quantityValue | cryptocurrency:'':2 }}</span>
+						<span class="text-mm text-gray-400">{{ asset.toSymbol }}</span>
+					</div>
+				</td>
+			</ng-container>
+
+			<!-- At Price Column -->
+			<ng-container matColumnDef="price">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="At Price">At Price</th>
+				<td mat-cell *matCellDef="let asset">
+					<span class="mr-1">{{ asset.price }}</span>
+					<span class="text-xs text-gray-400">{{ asset.toSymbol }}</span> 
+				</td>
+			</ng-container>
+
+			<!-- Actual Price Column -->
+			<ng-container matColumnDef="actualprice">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Actual Price">Actual Price</th>
+				<td mat-cell *matCellDef="let asset">
+					<div class="block">
+						<span class="mr-1">{{ asset.actualPrice }}</span>
+						<span class="text-xs text-gray-400">{{ asset.toSymbol }}</span> 
+					</div>
+					<div class="block">
+						<span class="text-mm mr-1">{{ asset.quantityActualValue | cryptocurrency:'':2 }}</span>
+						<span class="text-mm text-gray-400">{{ asset.toSymbol }}</span>
+					</div>
+				</td>
+			</ng-container>
+
+			<!-- % Profit/Loss Column -->
+			<ng-container matColumnDef="percentchange">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Percent change">% Profit/Loss</th>
+				<td mat-cell *matCellDef="let asset">
+					<span [class]="'block percent ' + asset.percentType">{{ asset.percentChange }}%</span>
+					<span class="text-mm mr-1">{{ asset.profitLoss | cryptocurrency:'':3}}</span>
+					<span class="text-mm text-gray-400">{{ asset.toSymbol }}</span>
+				</td>
+			</ng-container>
+
+			<!-- When Column -->
+			<ng-container matColumnDef="when">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="When">When</th>
+				<td mat-cell *matCellDef="let asset">
+					<span class="italic">{{ asset.timeStamp | dateAgo }}</span>
+				</td>
+			</ng-container>
+
+			<!-- Actions Column -->
+			<ng-container matColumnDef="actions">
+				<th mat-header-cell *matHeaderCellDef>Actions</th>
+				<td mat-cell *matCellDef="let asset">
+					<section class="actions">
+						<button  mat-icon-button color="legacy" aria-label="Edit this trade">
+							<mat-icon>edit</mat-icon>
+						</button>
+						<button (click)="deleteTrade(asset)" mat-icon-button color="warn" aria-label="Delete this trade">
+							<mat-icon>delete</mat-icon>
+						</button>
+					</section>
+				</td>
+			</ng-container>
+
+			<!-- No Data Column -->
 			<ng-container matColumnDef="no-data-row">
-				<td mat-cell *matCellDef="let asset">No Data</td>
+				<td mat-cell *matCellDef="let asset">No Trades</td>
 			</ng-container>
 
+			<!-- Loading Column -->
 			<ng-container matColumnDef="loading-row">
 				<td mat-cell *matCellDef="let asset">Loading...</td>
 			</ng-container>
 
-			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-			<tr mat-row *matRowDef="let row; columns: !(marketTableAddedLoaded$ | async) ? ['loading-row'] : dataSource.data.length > 0 ? displayedColumns : ['no-data-row'];"></tr>
+			<tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: !(isTradesLoaded$ | async) ? ['loading-row'] : tableData.columns"></tr>
 	</table>
 
-	<mat-paginator [pageSizeOptions]="[7, 14, 21]"
+	<mat-paginator [pageSizeOptions]="[10, 20, 30]"
 		showFirstLastButtons 
-		aria-label="Select page of assets">
+		aria-label="Select page of assets"
+		class="black-paginator">
 	</mat-paginator>
 
-</div> -->
+</div>

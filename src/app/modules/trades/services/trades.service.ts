@@ -4,7 +4,6 @@ import { ConfigService } from 'src/app/services/config.service';
 import { Observable } from 'rxjs';
 import { 
   ITradesAdd,
-  ITradesModalError, 
   ITradesModalExchangeSuccess, 
   ITradesModalPairLoad, 
   ITradesModalPairSuccess, 
@@ -12,6 +11,12 @@ import {
   ITradesModalPriceSuccess, 
   ITradesAddSuccess
 } from '../models/trades-modal.model';
+
+import { 
+  ITrade, 
+  ITradesDeleteSuccess, 
+  ITradesGetSuccess
+} from '../models/trades.model';
 
 @Injectable()
 
@@ -36,5 +41,14 @@ export class TradesService {
 
   addTrade(tradeData: ITradesAdd): Observable<ITradesAddSuccess> {
     return this.requestService.httpPost(this.configService.addTrade, tradeData);
+  }
+
+  getTrades(): Observable<ITradesGetSuccess> {
+    return this.requestService.httpGet(this.configService.getTrades)
+  }
+
+  deleteTrade(trade: ITrade): Observable<ITradesDeleteSuccess> {
+    console.log(this.configService.deleteTrade, trade)
+    return this.requestService.httpPost(this.configService.deleteTrade, trade)
   }
 }

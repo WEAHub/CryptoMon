@@ -36,6 +36,7 @@ export class JwtInterceptor implements HttpInterceptor {
           this.store.dispatch(noConnection())
         }
         
+        console.log(err)
         if (err.status === 401) {
 					this.store.dispatch(logout())
         }

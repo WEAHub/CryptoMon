@@ -16,9 +16,8 @@ interface ITradesModalExchangeSuccess {
 }
 
 interface IExchange {
-	id: Number;
+	id: number;
 	name: string;
-	logo: string;
 }
 
 // * LOAD PAIRS
@@ -43,7 +42,7 @@ interface ITradesModalPairSuccess {
 
 // * LOAD PRICE
 interface ITradesModalPriceLoad {
-	timeStamp: Number;
+	timeStamp: number;
 	exchangeName: String;
 	fromSymbol: String;
 	toSymbol: String;

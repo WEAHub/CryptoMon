@@ -1,0 +1,45 @@
+::ng-deep {
+	.mat-cell {
+		padding: 10px !important;
+	}
+}
+
+.black-table {
+	background: #141414;
+}
+
+.black-paginator {
+	background: #202020;
+}
+
+.trade-type {
+	text-transform: capitalize;
+	padding: 5px 10px;
+	font-weight: 400;
+	letter-spacing: 1px;
+	border-radius: 5px;
+	border: 1px dashed;
+}
+
+.trade-type.sell {
+	color: red;
+	background-color: rgb(56, 0, 0);
+	border-color:rgba(175, 1, 1, 0.466)
+}
+.trade-type.buy {
+	color: green;
+	background-color: rgb(0, 43, 0);
+	border-color:rgba(0, 121, 0, 0.466);
+}
+
+.percent {
+
+}
+
+.percent.up {
+	color: green;
+}
+
+.percent.down {
+	color: red;
+}

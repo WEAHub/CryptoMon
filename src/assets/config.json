@@ -1,6 +1,10 @@
 {
 	"API_BASE_URL": "http://localhost:3000",
 	"API_ROUTES": {
+		"ICONS": {
+			"ASSET": "/icon/getIcon/asset/",
+			"EXCHANGE": "/icon/getIcon/exchange/"
+		},
 		"AUTH": {
 			"LOGIN": "/auth/login",
 			"LOGOUT": "/auth/logout",
@@ -21,7 +25,9 @@
 			"GET_ALL_EXCHANGES": "/trades/getAllExchanges",
 			"GET_PAIRS_BY_EXCHANGE": "/trades/getPairsByExchange",
 			"GET_PRICE_BY_EXCHANGE_TS": "/trades/getPriceByExchangeTS",
-			"TRADE_ADD": "/trades/addTrade"
+			"TRADE_ADD": "/trades/addTrade",
+			"GET_TRADES": "/trades/getTrades",
+			"DELETE_TRADE": "/trades/deleteTrade"
 		}
 	}
 	
