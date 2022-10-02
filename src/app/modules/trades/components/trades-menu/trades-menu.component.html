@@ -1,9 +1,22 @@
 <div class="flex flex-row place-content-end items-center mb-5 mt-2 p-3 trade-menu">
-	<div class="section-header">
+	
+  <div class="section-header">
 		<img class="w-9 inline align-middle" src="/assets/images/chart.png" />
 		<span class="text-xl align-text-top ml-2 text-neutral-100 title">Trades monitor</span>
 	</div>
-	
-	<div class="grow"></div>
+
+	<div class="grow text-center">
+    <div class="invested">
+      <ng-container *ngIf="(getTotalInvested$ | async) as inversion" class="block">
+        <span class="mr-2 text-xs">Total capital:</span>
+        <span class="mr-2 text-xs">{{ inversion.EUR | currency:'€' }}</span>
+        <span class="mr-2 text-xs">{{ inversion.USD | currency:'$' }}</span>
+        <span class="text-xs">{{ inversion.JPY | currency:'¥' }}</span>
+      </ng-container>
+
+    </div>
+  </div>
+
 	<button mat-raised-button (click)="openDialog()" color="primary">Add new trade</button>
+
 </div>

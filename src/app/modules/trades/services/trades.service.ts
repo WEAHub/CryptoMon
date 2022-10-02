@@ -51,4 +51,9 @@ export class TradesService {
     console.log(this.configService.deleteTrade, trade)
     return this.requestService.httpPost(this.configService.deleteTrade, trade)
   }
+  
+  modifyTrade(tradeData: ITradesAdd): Observable<ITradesAddSuccess> {
+    return this.requestService.httpPost(this.configService.modifyTrade, tradeData);
+  }
+
 }

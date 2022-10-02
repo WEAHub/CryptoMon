@@ -1,5 +1,5 @@
 <div class="news-card mat-elevation-z2" (click)="openFeed(feed)">
-	<img class="news-image" mat-card-image src="{{ feed.imageUrl }}"/>
+	<img class="news-image" src="{{ feed.imageUrl }}"/>
 	<div class="news-desc" *ngIf=feed.description>
 		<img class="news-logo-image" src="{{ feed.logo }}" />
 		<span class="news-desc-content">{{ feed.description }}</span>

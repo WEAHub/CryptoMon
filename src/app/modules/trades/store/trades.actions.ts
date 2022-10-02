@@ -8,7 +8,8 @@ import {
 	ITradesModalPriceSuccess ,
 	ITradesModalError,
 	ITradesAdd,
-	ITradesAddSuccess, 
+	ITradesAddSuccess,
+  ITradesModify, 
 } from '../models/trades-modal.model';
 
 import { 
@@ -40,6 +41,10 @@ enum ActionTypes {
 	TRADES_ADD_SUCCESS = '[Trades] Add Trade Success',
 	TRADES_ADD_ERROR = '[Trades] Add Trade Error',
 
+	TRADES_MODIFY = '[Trades] Modify Trade',
+	TRADES_MODIFY_SUCCESS = '[Trades] Modify Trade Success',
+	TRADES_MODIFY_ERROR = '[Trades] Modify Trade Error',
+
 	TRADES_GET = '[Trades] Get Trades',
 	TRADES_GET_SUCCESS = '[Trades] Get Trades Success',
 	TRADES_GET_ERROR = '[Trades] Get Trades Error',
@@ -70,6 +75,11 @@ const tradesModalLoadPriceError = createAction(ActionTypes.TRADES_PRICE_ERROR, p
 const tradesAdd = createAction(ActionTypes.TRADES_ADD, props<ITradesAdd>());
 const tradesAddSuccess = createAction(ActionTypes.TRADES_ADD_SUCCESS, props<ITradesAddSuccess>());
 const tradesAddError = createAction(ActionTypes.TRADES_ADD_ERROR, props<ITradesModalError>());
+
+// * MODIFY TRADE
+const tradesModify = createAction(ActionTypes.TRADES_MODIFY, props<ITradesModify>());
+const tradesModifySuccess = createAction(ActionTypes.TRADES_MODIFY_SUCCESS, props<ITradesAddSuccess>());
+const tradesModifyError = createAction(ActionTypes.TRADES_MODIFY_ERROR, props<ITradesModalError>());
 
 // * GET TRADES
 const tradesGet = createAction(ActionTypes.TRADES_GET);
@@ -104,4 +114,7 @@ export {
 	tradesDeleteSuccess,
 	tradesDeleteError,
 	resetStateTradesModal,
+  tradesModify,
+  tradesModifySuccess,
+  tradesModifyError
 }

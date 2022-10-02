@@ -66,14 +66,20 @@ const tradesLoaded = createSelector(
 	(state: ITradesStore) => state.status === EStatus.LOADED
 )
 
+// * Get total invested
+const totalInvested = createSelector(
+  tradesState,
+  (state: ITradesStore) => state.totalInvested
+)
+
 export {
 	tradesModalLoading,
 	tradesModalGetExchanges,
 	tradesModalGetPairs,
 	tradesModalGetPrice,
-
 	tradesLoading,
 	tradesLoaded,
 	getTrades,
+  totalInvested
 
 }

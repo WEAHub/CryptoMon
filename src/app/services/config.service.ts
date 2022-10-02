@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable } from 'rxjs';
 
-import { IConfig } from '../models/config.model';
+import { IConfig } from './interfaces/config.model';
 
 const configFactory = (config: ConfigService): 
 	(() => Observable<Object>) => () => config.loadConfig();
@@ -102,6 +102,10 @@ class ConfigService {
 		return this.apiBaseUrl + this.appConfig.API_ROUTES.ICONS.EXCHANGE;
 	}
 	
+	get modifyTrade(): string {
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.TRADES.MODIFY_TRADE;
+	}
+  
 }	
 
 export {

@@ -13,7 +13,8 @@ import {
 	ITradesModalPairLoad, 
 	ITradesModalPairSuccess, 
 	ITradesModalPriceLoad, 
-	ITradesModalPriceSuccess
+	ITradesModalPriceSuccess,
+  ITradesModify
 } from '../models/trades-modal.model';
 import { ITrade, ITradesDeleteError, ITradesDeleteSuccess, ITradesGetError, ITradesGetSuccess } from '../models/trades.model';
 
@@ -49,8 +50,19 @@ export class TradesEffects {
 	tradeAdd$ = createEffect(() => this.actions$.pipe(
 		ofType(tradesActions.tradesAdd),
 		exhaustMap((action: ITradesAdd) => this.tradesService.addTrade(action).pipe(
-			switchMap((price: ITradesAddSuccess) => of(
-				tradesActions.tradesAddSuccess(price),
+			switchMap((payload: ITradesAddSuccess) => of(
+				tradesActions.tradesAddSuccess(payload),
+				tradesActions.tradesGet()
+			)),
+			catchError((error: ITradesModalError) => of(tradesActions.tradesAddError(error)))
+		))
+	))
+
+  tradeModify$ = createEffect(() => this.actions$.pipe(
+		ofType(tradesActions.tradesModify),
+		exhaustMap((action: ITradesModify) => this.tradesService.modifyTrade(action).pipe(
+			switchMap((payload: ITradesAddSuccess) => of(
+				tradesActions.tradesAddSuccess(payload),
 				tradesActions.tradesGet()
 			)),
 			catchError((error: ITradesModalError) => of(tradesActions.tradesAddError(error)))

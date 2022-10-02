@@ -12,8 +12,8 @@
 			<!-- Exchange Column -->
 			<ng-container matColumnDef="exchange">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Exchange">Exchange</th>
-				<td mat-cell *matCellDef="let asset">
-					<img class="w-8 inline-block align-middle mr-3" [src]="configService.exchangeIcon + asset.ccMapExchangeId" />
+				<td mat-cell *matCellDef="let asset" class="text-center">
+					<img class="w-8 inline-block align-middle mr-3" [src]="configService.exchangeIcon + asset.exchangeName" />
 					<span>{{ asset.exchangeName }}</span>
 				</td>
 			</ng-container>
@@ -22,7 +22,7 @@
 			<ng-container matColumnDef="pairs">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Pairs">Pairs</th>
 				<td mat-cell *matCellDef="let asset">
-					<img class="w-8 inline-block align-middle mr-3" [src]="configService.assetIcon + asset.ccMapId" />
+					<img class="w-8 inline-block align-middle mr-3" [src]="configService.assetIcon + asset.fromSymbol" />
 					<span>{{ asset.fromSymbol + '/' + asset.toSymbol  }}</span>
 				</td>
 			</ng-container>
@@ -97,7 +97,7 @@
 				<th mat-header-cell *matHeaderCellDef>Actions</th>
 				<td mat-cell *matCellDef="let asset">
 					<section class="actions">
-						<button  mat-icon-button color="legacy" aria-label="Edit this trade">
+						<button (click)="modifyTrade(asset)" mat-icon-button color="legacy" aria-label="Edit this trade">
 							<mat-icon>edit</mat-icon>
 						</button>
 						<button (click)="deleteTrade(asset)" mat-icon-button color="warn" aria-label="Delete this trade">

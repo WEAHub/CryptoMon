@@ -1,19 +1,21 @@
 import { MatDatetimePickerInputEvent } from '@angular-material-components/datetime-picker';
-import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { EmailValidator, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { IPair, IPrice, ITradesAdd, ITradesModalPriceLoad } from '../../models/trades-modal.model';
+import { IPair, IPrice, ITradesAdd, ITradesModalPriceLoad, ITradesModify } from '../../models/trades-modal.model';
 
-import { ITradesStore } from '../../models/trades.model';
+import { ITrade, ITradesStore } from '../../models/trades.model';
 import { IExchange } from '../../models/trades-modal.model';
 
 import { 
   tradesAdd,
   tradesModalLoadExchanges, 
   tradesModalLoadPairs, 
-  tradesModalLoadPrice
+  tradesModalLoadPrice,
+  tradesModalLoadPriceSuccess,
+  tradesModify
 } from '../../store/trades.actions';
 
 import { 
@@ -24,13 +26,24 @@ import {
 } from '../../store/trades.selectors';
 import { ConfigService } from 'src/app/services/config.service';
 
+enum EModalType {
+  ADD = 'ADD',
+  MODIFY = 'MODIFY'
+}
+
+interface modalData {
+  title: string,
+  modalType: EModalType,
+  trade: ITrade | undefined,
+}
+
 @Component({
   selector: 'app-trades-add-modal',
   templateUrl: './trades-add-modal.component.html',
   styleUrls: ['./trades-add-modal.component.scss']
 })
 
-export class TradesAddModalComponent implements OnDestroy  {
+export class TradesAddModalComponent implements OnInit, OnDestroy  {
   @ViewChild('picker') picker: any;
   
   isLoading$ = this.store.select(tradesModalLoading)
@@ -44,16 +57,25 @@ export class TradesAddModalComponent implements OnDestroy  {
   exchangesSub: Subscription
   pairsSub: Subscription
   priceSub: Subscription
+
   priceData: IPrice = <IPrice>{}
+
   tradeForm: FormGroup
   dateTrade = new FormControl(null)
+
+  dateValue = this.data.modalType === EModalType.MODIFY
+  ? new FormControl(new Date(this.data.trade?.timeStamp!).toISOString())
+  : new FormControl(new Date().toISOString())
 
   constructor(
     public configService: ConfigService,
     public dialogRef: MatDialogRef<TradesAddModalComponent>,
     private store: Store<{ trades: ITradesStore }>,
+    @Inject(MAT_DIALOG_DATA) public data: modalData
   ) {
-
+    
+    this.loadExchanges();
+    
     this.tradeForm = new FormGroup({
       exchanges: new FormControl('', [Validators.required]),
       pairs: new FormControl('', [Validators.required]),
@@ -62,8 +84,7 @@ export class TradesAddModalComponent implements OnDestroy  {
       quantity: new FormControl('', [Validators.required]),
       price: new FormControl('', [Validators.required])
     })
-
-    this.loadExchanges();
+    
 
     this.exchangesSub = this.getExchanges$.subscribe(
       (exchanges: IExchange[]) => this.filteredExchanges = exchanges
@@ -72,11 +93,32 @@ export class TradesAddModalComponent implements OnDestroy  {
     this.pairsSub = this.getPairs$.subscribe(
       (pairs: IPair[]) => this.filteredPairs = pairs
     )
+    
+    this.priceSub = this.getPrice$.subscribe(
+      (price: IPrice) => {
+        this.priceData = price
+        this.tradeForm.get('price')?.setValue(this.priceData.price)
+      }
+    )
 
-    this.priceSub = this.getPrice$.subscribe((price: IPrice) => {
-      this.priceData = price
-      this.tradeForm.get('price')?.setValue(this.priceData.price)
-    })
+  }
+
+  ngOnInit(): void {
+
+    if(this.data.modalType == EModalType.MODIFY) {
+      const pairs = `${this.data.trade?.fromSymbol}/${this.data.trade?.toSymbol}`
+      this.selectExchange(this.data.trade?.exchangeName);
+      this.tradeForm.get('exchanges')?.setValue(this.data.trade?.exchangeName)
+      this.tradeForm.get('pairs')?.setValue(pairs);
+      this.tradeForm.get('dateTrade')?.setValue(new Date(this.data.trade?.timeStamp!))
+
+      this.store.dispatch(tradesModalLoadPriceSuccess({
+        price: this.data.trade?.price!,
+        toSymbol: this.data.trade?.toSymbol!
+      }))
+
+      this.tradeForm.get('quantity')?.setValue(this.data.trade?.quantity)
+    }
 
   }
 
@@ -90,13 +132,13 @@ export class TradesAddModalComponent implements OnDestroy  {
     this.store.dispatch(tradesModalLoadExchanges());
   }
 
-  selectExchange(exchangeName: string) {
+  selectExchange(exchangeName: any) {
     this.store.dispatch(tradesModalLoadPairs({exchangeName}))
   }
 
   changeDate(event: MatDatetimePickerInputEvent<any>) {
-    
-    const date: Date =  new Date(event.value);    
+   
+    const date: Date =  new Date(event.value);
     this.tradeForm.get('dateTrade')?.setValue(date)
 
     const ts: number = new Date(date).getTime();
@@ -119,12 +161,13 @@ export class TradesAddModalComponent implements OnDestroy  {
   
   onSubmit(): void {
     console.log(this.tradeForm)
+
     if(this.tradeForm.invalid) return
     
     const pairs: string[] = this.tradeForm.get('pairs')?.value.split('/');
     const ts: number = new Date(this.tradeForm.get('dateTrade')?.value).getTime();
 
-    const addTradeRequest: ITradesAdd = {
+    const tradeRequest: ITradesAdd = {
       exchangeName: this.tradeForm.get('exchanges')?.value,
       fromSymbol: pairs[0],
       toSymbol: pairs[1],
@@ -134,7 +177,19 @@ export class TradesAddModalComponent implements OnDestroy  {
       quantity: Number(this.tradeForm.get('quantity')?.value)
     }
 
-    this.store.dispatch(tradesAdd(addTradeRequest));
+    
+
+    if(this.data.modalType == EModalType.MODIFY) {
+      const tradeRequestModify: ITradesModify = {
+        ...tradeRequest,
+        id: this.data.trade?._id!
+      }
+      this.store.dispatch(tradesModify(tradeRequestModify));
+    }
+    else {
+      this.store.dispatch(tradesAdd(tradeRequest));
+    }
+    
     this.closeDialog();
   }
 }

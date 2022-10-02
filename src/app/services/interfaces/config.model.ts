@@ -28,6 +28,7 @@ export interface IConfig {
 			TRADE_ADD: string;
 			GET_TRADES: string;
 			DELETE_TRADE: string;
+      MODIFY_TRADE: string;
 		}
 	}
 }

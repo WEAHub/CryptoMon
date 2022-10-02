@@ -44,8 +44,8 @@ interface ITradesModalPairSuccess {
 interface ITradesModalPriceLoad {
 	timeStamp: number;
 	exchangeName: String;
-	fromSymbol: String;
-	toSymbol: String;
+	fromSymbol: string;
+	toSymbol: string;
 }
 
 
@@ -59,6 +59,11 @@ interface ITradesAdd extends ITradesModalPriceLoad {
 	tradeType: string;
 	quantity: number;
 	price: number;
+}
+
+// * MODIFY TRADE
+interface ITradesModify extends ITradesAdd {
+  id: string;
 }
 
 interface ITradesAddSuccess {
@@ -90,4 +95,5 @@ export {
 	IPair,
 	IExchange,
 	IPrice,
+  ITradesModify
 }

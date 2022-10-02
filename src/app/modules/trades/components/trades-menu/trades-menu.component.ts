@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { ITradesStore } from '../../models/trades.model';
+import { totalInvested } from '../../store/trades.selectors';
 
 import { TradesAddModalComponent } from '../trades-add-modal/trades-add-modal.component';
 
@@ -12,25 +13,31 @@ import { TradesAddModalComponent } from '../trades-add-modal/trades-add-modal.co
 })
 export class TradesMenuComponent implements OnInit {
 
-constructor(
-  public dialog: MatDialog,
-  private store: Store<{ trades: ITradesStore }>
-) { }
+  getTotalInvested$ = this.store.select(totalInvested)
 
-openDialog(): void {
+  constructor(
+    public dialog: MatDialog,
+    private store: Store<{ trades: ITradesStore }>
+  ) { }
 
-  const dialogRef = this.dialog.open(TradesAddModalComponent, {
-    width: '245px'
-  });
+  openDialog(): void {
 
-  dialogRef.afterClosed().subscribe(() => {
-    console.log('The dialog was closed');
-  });
+    const dialogRef = this.dialog.open(TradesAddModalComponent, {
+      width: '240px',
+      data: {
+        title: 'Add new trade',
+        modalType: 'ADD',
+      }
+    });
 
-}
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
 
-ngOnInit(): void {
+  }
 
-}
+  ngOnInit(): void {
+
+  }
 
 }

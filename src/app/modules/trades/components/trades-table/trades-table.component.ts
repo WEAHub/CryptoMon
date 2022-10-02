@@ -11,6 +11,7 @@ import { ITrade } from '../../models/trades.model';
 import { ITradesStore } from '../../models/trades.model';
 import { tradesDelete, tradesGet } from '../../store/trades.actions';
 import { getTrades, tradesLoaded, tradesLoading } from '../../store/trades.selectors';
+import { TradesAddModalComponent } from '../trades-add-modal/trades-add-modal.component';
 
 @Component({
   selector: 'app-trades-table',
@@ -39,7 +40,8 @@ export class TradesTableComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<{ trades: ITradesStore }>,
     public configService: ConfigService,
-    public deleteDialog: MatDialog
+    public deleteDialog: MatDialog,
+    public modifyDialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -67,10 +69,6 @@ export class TradesTableComponent implements OnInit, OnDestroy {
   }
 
   deleteTrade(trade: ITrade): void {
-    this.deleteTradeDialog(trade)
-  }
-
-  deleteTradeDialog(trade: ITrade): void {
     const dialogRef = this.deleteDialog.open(ModalConfirmComponent, {
       width: '250px',
       data: {message: 'Are you sure of delete this trade?'}
@@ -80,6 +78,17 @@ export class TradesTableComponent implements OnInit, OnDestroy {
       console.log(answer, trade)
       if(answer) {
         this.store.dispatch(tradesDelete(trade))
+      }
+    });
+  }
+
+  modifyTrade(trade: ITrade): void {
+    this.modifyDialog.open(TradesAddModalComponent, {
+      width: '250px',
+      data: {
+        title: 'Modify trade',
+        modalType: 'MODIFY',
+        trade,
       }
     });
   }

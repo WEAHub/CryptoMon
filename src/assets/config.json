@@ -27,7 +27,8 @@
 			"GET_PRICE_BY_EXCHANGE_TS": "/trades/getPriceByExchangeTS",
 			"TRADE_ADD": "/trades/addTrade",
 			"GET_TRADES": "/trades/getTrades",
-			"DELETE_TRADE": "/trades/deleteTrade"
+			"DELETE_TRADE": "/trades/deleteTrade",
+      "MODIFY_TRADE": "/trades/modifyTrade"
 		}
 	}
 	

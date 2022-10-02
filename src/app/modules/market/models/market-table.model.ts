@@ -3,7 +3,6 @@ interface marketAsset {
 	name: string;
 	symbol: string;
 	sparklinesImgUrl: string;
-	assetIconImgUrl: string;
 	max_supply: number;
 	total_supply: number;
 	supplyPercent: number;
