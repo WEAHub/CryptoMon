@@ -8,6 +8,11 @@ const initialState: ITradesStore = {
 	error: '',
 	status: EStatus.UNINITIALIZED,
 	trades: [],
+  totalInvested: {
+    USD: 0,
+    EUR: 0,
+    JPY: 0
+  },
 	modalStore: {
 		loading: false,
 		exchanges: [],
@@ -36,7 +41,6 @@ const tradesReducer = createReducer(
 		}
 	}),
 	on(tradesActions.tradesModalLoadExchangesSuccess, (state, payload) => {
-		console.log(payload)
 		return {
 			...state,
 			modalStore: {
@@ -134,7 +138,14 @@ const tradesReducer = createReducer(
 		return {
 			...state,
 			status: EStatus.LOADED,
-			trades: payload.userTrades
+			trades: payload.userTrades,
+      totalInvested: payload.userTrades.reduce((prev, next) => {
+        return {
+          USD: prev.USD + (next.symbolPrice.USD * next.quantity),
+          EUR: prev.EUR + (next.symbolPrice.EUR * next.quantity),
+          JPY: prev.JPY + (next.symbolPrice.JPY * next.quantity),
+        }
+      },{ USD: 0, EUR: 0, JPY: 0 })
 		}
 	}),
 	on(tradesActions.tradesGetError, (state, payload: ITradesGetError) => {

@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Add new trade</h1>
+<h1 mat-dialog-title>{{ data.title }}</h1>
 <div mat-dialog-content class="relative">
 	<loading-spinner *ngIf="isLoading$ | async"></loading-spinner>
 	<form [formGroup]="tradeForm" (ngSubmit)="onSubmit()">
@@ -16,7 +16,7 @@
 					</mat-select-filter>
 					<mat-option *ngFor="let exchange of filteredExchanges" [value]="exchange.name">
 						<div class="select-exchange">
-							<img class="w-8 align-middle inline" [src]="configService.exchangeIcon + exchange.id" />
+							<img class="w-8 align-middle inline" [src]="configService.exchangeIcon + exchange.name" />
 							<span class="ml-5 text-sm">{{ exchange.name }}</span>
 						</div>
 					</mat-option>
@@ -35,7 +35,8 @@
 					(filteredReturn)="filteredPairs = $event">
 					</mat-select-filter>
 					<mat-option *ngFor="let pair of filteredPairs" [value]="pair.pairs">
-						<span class="text-sm">{{ pair.pairs }}</span>
+            <img class="w-8 align-middle inline" [src]="configService.assetIcon + pair.fsym" />
+						<span class="ml-5 text-sm">{{ pair.pairs }}</span>
 					</mat-option>
 				</mat-select>
 			</mat-form-field>
@@ -45,12 +46,11 @@
 				matInput 
 				[ngxMatDatetimePicker]="picker"
 				placeholder="Choose a date"
-				[formControl]="dateTrade"
+				[formControl]="dateValue"
 				formControlName="dateTrade"	
 				name="dateTrade"
 				[disabled]="!tradeForm.controls['pairs'].valid"
 				(dateChange)="changeDate($event)">
-
 				<mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
 				<ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
 			</mat-form-field>
@@ -63,7 +63,7 @@
 				formControlName="price"	
 				name="price"
 				type="number"
-				[value]=priceData.price>
+				[value]="priceData.price">
 				<span matSuffix>{{ priceData.toSymbol }}</span>
 			</mat-form-field>
 
@@ -88,5 +88,5 @@
 </div>
 <div mat-dialog-actions class="mt-5 place-content-center">
 	<button mat-button (click)="closeDialog()">Cancel</button>
-	<button mat-stroked-button (click)="onSubmit()">Add trade</button>
+	<button mat-stroked-button (click)="onSubmit()">Confirm</button>
 </div>

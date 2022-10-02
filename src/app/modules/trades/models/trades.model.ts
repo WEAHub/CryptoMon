@@ -7,12 +7,15 @@ interface ITradesStore extends IStatus {
 	error: string;
 	modalStore: ITradesStoreModal
 	trades : ITrade[];
+  totalInvested: {
+    USD: number;
+    EUR: number;
+    JPY: number;
+  };
 }
 
 // * TRADES GET
 interface ITrade extends ITradesAdd {
-	ccMapId: number;
-	ccMapExchangeId: number;
 	actualPrice: number;
 	percentChange: number;
 	quantityValue: number;
@@ -20,6 +23,11 @@ interface ITrade extends ITradesAdd {
 	profitLoss: number;
 	_id: string;
 	timeStampAdded: number;
+  symbolPrice: {
+    EUR: number;
+    USD: number;
+    JPY: number;
+  }
 }
 
 interface ITradesGetSuccess {
