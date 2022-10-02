@@ -32,28 +32,28 @@ export class TradesService {
   }
 
   getPairsByExchange(pairData: ITradesModalPairLoad): Observable<ITradesModalPairSuccess> {
-    return this.requestService.httpGet(this.configService.getPairsByExchange + `/${pairData.exchangeName}`);
+    return this.requestService.httpGet(`${this.configService.getPairsByExchange}/${pairData.exchangeName}`);
   }
 
   getPriceByExchangeTS(pairData: ITradesModalPriceLoad): Observable<ITradesModalPriceSuccess> {
     return this.requestService.httpPost(this.configService.getPriceByExchangeTS, pairData);
   }
 
-  addTrade(tradeData: ITradesAdd): Observable<ITradesAddSuccess> {
-    return this.requestService.httpPost(this.configService.addTrade, tradeData);
-  }
 
   getTrades(): Observable<ITradesGetSuccess> {
     return this.requestService.httpGet(this.configService.getTrades)
   }
+  
+  addTrade(tradeData: ITradesAdd): Observable<ITradesAddSuccess> {
+    return this.requestService.httpPost(this.configService.addTrade, tradeData);
+  }
 
   deleteTrade(trade: ITrade): Observable<ITradesDeleteSuccess> {
-    console.log(this.configService.deleteTrade, trade)
-    return this.requestService.httpPost(this.configService.deleteTrade, trade)
+    return this.requestService.httpDelete(`${this.configService.deleteTrade}/${trade._id}`)
   }
   
   modifyTrade(tradeData: ITradesAdd): Observable<ITradesAddSuccess> {
-    return this.requestService.httpPost(this.configService.modifyTrade, tradeData);
+    return this.requestService.httpPatch(this.configService.modifyTrade, tradeData);
   }
 
 }

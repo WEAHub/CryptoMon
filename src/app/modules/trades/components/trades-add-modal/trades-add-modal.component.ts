@@ -61,11 +61,14 @@ export class TradesAddModalComponent implements OnInit, OnDestroy  {
   priceData: IPrice = <IPrice>{}
 
   tradeForm: FormGroup
-  dateTrade = new FormControl(null)
+  dateTrade: FormControl = new FormControl(null)
 
-  dateValue = this.data.modalType === EModalType.MODIFY
+  dateValue: FormControl = this.data.modalType === EModalType.MODIFY
   ? new FormControl(new Date(this.data.trade?.timeStamp!).toISOString())
   : new FormControl(new Date().toISOString())
+
+  // TRUE = buy - FALSE = sell
+  selectedTradeType: boolean = this.data.trade?.tradeType == 'buy'
 
   constructor(
     public configService: ConfigService,
@@ -75,14 +78,14 @@ export class TradesAddModalComponent implements OnInit, OnDestroy  {
   ) {
     
     this.loadExchanges();
-    
+
     this.tradeForm = new FormGroup({
-      exchanges: new FormControl('', [Validators.required]),
-      pairs: new FormControl('', [Validators.required]),
-      dateTrade: new FormControl('', [Validators.required]),
-      tradeType: new FormControl('', [Validators.required]),
-      quantity: new FormControl('', [Validators.required]),
-      price: new FormControl('', [Validators.required])
+      exchanges: new FormControl(this.data.trade?.exchangeName, [Validators.required]),
+      pairs: new FormControl(`${this.data.trade?.fromSymbol}/${this.data.trade?.toSymbol}`, [Validators.required]),
+      dateTrade: new FormControl(new Date(this.data.trade?.timeStamp!), [Validators.required]),
+      tradeType: new FormControl(this.data.trade?.tradeType, [Validators.required]),
+      quantity: new FormControl(this.data.trade?.quantity, [Validators.required]),
+      price: new FormControl(this.data.trade?.price, [Validators.required])
     })
     
 
@@ -106,18 +109,14 @@ export class TradesAddModalComponent implements OnInit, OnDestroy  {
   ngOnInit(): void {
 
     if(this.data.modalType == EModalType.MODIFY) {
-      const pairs = `${this.data.trade?.fromSymbol}/${this.data.trade?.toSymbol}`
+
       this.selectExchange(this.data.trade?.exchangeName);
-      this.tradeForm.get('exchanges')?.setValue(this.data.trade?.exchangeName)
-      this.tradeForm.get('pairs')?.setValue(pairs);
-      this.tradeForm.get('dateTrade')?.setValue(new Date(this.data.trade?.timeStamp!))
 
       this.store.dispatch(tradesModalLoadPriceSuccess({
         price: this.data.trade?.price!,
         toSymbol: this.data.trade?.toSymbol!
       }))
-
-      this.tradeForm.get('quantity')?.setValue(this.data.trade?.quantity)
+      
     }
 
   }
@@ -176,8 +175,6 @@ export class TradesAddModalComponent implements OnInit, OnDestroy  {
       price: this.tradeForm.get('price')?.value,
       quantity: Number(this.tradeForm.get('quantity')?.value)
     }
-
-    
 
     if(this.data.modalType == EModalType.MODIFY) {
       const tradeRequestModify: ITradesModify = {
