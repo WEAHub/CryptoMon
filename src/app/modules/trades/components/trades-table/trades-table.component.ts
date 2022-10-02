@@ -12,6 +12,7 @@ import { ITradesStore } from '../../models/trades.model';
 import { tradesDelete, tradesGet } from '../../store/trades.actions';
 import { getTrades, tradesLoaded, tradesLoading } from '../../store/trades.selectors';
 import { TradesAddModalComponent } from '../trades-add-modal/trades-add-modal.component';
+import { TradesChartModalComponent } from '../trades-chart-modal/trades-chart-modal.component';
 
 @Component({
   selector: 'app-trades-table',
@@ -41,7 +42,8 @@ export class TradesTableComponent implements OnInit, OnDestroy {
     private store: Store<{ trades: ITradesStore }>,
     public configService: ConfigService,
     public deleteDialog: MatDialog,
-    public modifyDialog: MatDialog
+    public modifyDialog: MatDialog,
+    public chartDialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -91,6 +93,18 @@ export class TradesTableComponent implements OnInit, OnDestroy {
         trade,
       }
     });
+  }
+
+  showChart(trade: ITrade): void {
+    this.chartDialog.open(TradesChartModalComponent, {
+      width: '900px',
+      height: '650px',
+      data: {
+        exchange: trade.exchangeName,
+        fromSymbol: trade.fromSymbol,
+        toSymbol: trade.toSymbol
+      }
+    })
   }
 
   private initializeData(trades: ITrade[]): void {

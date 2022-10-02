@@ -13,6 +13,8 @@ import { toggleUserSidenav } from './store/core-user.actions';
 
 import { INavMenuItems } from './models/nav-items.model';
 import { getNoConnection } from './store/core-user.selectors';
+import { MatDialog } from '@angular/material/dialog';
+import { TradesChartModalComponent } from '../trades/components/trades-chart-modal/trades-chart-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -40,11 +42,13 @@ export class CoreComponent implements OnInit {
     private store: Store<{ user: User, app: IAppStore }>,
     private router: Router,
   ) {
+    
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.url.substring(1);
       }
     });
+
   }
 
   ngOnInit(): void {

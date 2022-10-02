@@ -97,6 +97,9 @@
 				<th mat-header-cell *matHeaderCellDef>Actions</th>
 				<td mat-cell *matCellDef="let asset">
 					<section class="actions">
+						<button (click)="showChart(asset)" mat-icon-button color="legacy" aria-label="Show chart of this pairs">
+							<mat-icon>bar_chart</mat-icon>
+						</button>
 						<button (click)="modifyTrade(asset)" mat-icon-button color="legacy" aria-label="Edit this trade">
 							<mat-icon>edit</mat-icon>
 						</button>

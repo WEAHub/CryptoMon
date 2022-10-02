@@ -18,8 +18,32 @@ export class RequestService {
     )
   }
 
+  httpDelete(url: string): Observable<any> {
+    return this.http.delete(url)
+    .pipe(
+      tap(data => data),
+      catchError(this.handleError)
+    )
+  }
+
   httpPost(url: string, postData: object): Observable<any> {
     return this.http.post(url, postData)
+    .pipe(
+      tap(data => data),
+      catchError(this.handleError)
+    )
+  }
+
+  httpPut(url: string, postData: object): Observable<any> {
+    return this.http.put(url, postData)
+    .pipe(
+      tap(data => data),
+      catchError(this.handleError)
+    )
+  }
+
+  httpPatch(url: string, postData: object): Observable<any> {
+    return this.http.patch(url, postData)
     .pipe(
       tap(data => data),
       catchError(this.handleError)

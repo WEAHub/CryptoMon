@@ -5,14 +5,16 @@ import { TradesComponent } from './components/trades/trades.component';
 import { TradesTableComponent } from './components/trades-table/trades-table.component';
 import { TradesMenuComponent } from './components/trades-menu/trades-menu.component';
 import { TradesAddModalComponent } from './components/trades-add-modal/trades-add-modal.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { TradesChartModalComponent } from './components/trades-chart-modal/trades-chart-modal.component';
+
 
 @NgModule({
   declarations: [
     TradesComponent,
     TradesTableComponent,
     TradesMenuComponent,
-    TradesAddModalComponent
+    TradesAddModalComponent,
+    TradesChartModalComponent
   ],
   imports: [
 		SharedModule,

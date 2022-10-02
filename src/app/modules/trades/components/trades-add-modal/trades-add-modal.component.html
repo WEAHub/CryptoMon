@@ -88,5 +88,5 @@
 </div>
 <div mat-dialog-actions class="mt-5 place-content-center">
 	<button mat-button (click)="closeDialog()">Cancel</button>
-	<button mat-stroked-button (click)="onSubmit()">Confirm</button>
+	<button mat-stroked-button (click)="onSubmit()" [disabled]="tradeForm.invalid">Confirm</button>
 </div>
