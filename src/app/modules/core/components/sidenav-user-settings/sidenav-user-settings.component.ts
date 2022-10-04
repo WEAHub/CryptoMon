@@ -27,18 +27,15 @@ export class CoreUserSettingsComponent implements OnInit, OnDestroy {
   @Input() opened: boolean = true;
   @ViewChild('currentPassword') currentPassword!: ElementRef;
 
-
   toggleState$ = this.store.select(getToggleState);
   userModify$ = this.store.select(getUserModify);
   getUserState$ = this.store.select(getUserState);
-
   
   userStateSub: Subscription;
   userState: User = <User>{};
   userModifySub: Subscription;
   userModifyState!: IAppUserSettings;
   userForm: FormGroup;
-
 
   constructor(
     private store: Store<{ app: IAppStore }>,
