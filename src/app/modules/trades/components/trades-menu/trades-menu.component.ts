@@ -24,6 +24,7 @@ export class TradesMenuComponent implements OnInit {
 
     const dialogRef = this.dialog.open(TradesAddModalComponent, {
       width: '240px',
+      panelClass: ['black-modal', 'add-trade-modal'],
       data: {
         title: 'Add new trade',
         modalType: 'ADD',

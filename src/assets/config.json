@@ -12,7 +12,8 @@
 		},
 		"USER": {
 			"MODIFY": "/user/modifyUser",
-			"DELETE": "/user/deleteUser"
+			"DELETE": "/user/deleteUser",
+      "STATS": "/user/stats"
 		},
 		"NEWS": {
 			"GET_NEWS": "/news/getNews"

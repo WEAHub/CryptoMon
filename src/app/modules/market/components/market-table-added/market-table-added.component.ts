@@ -9,6 +9,7 @@ import { MatSort } from '@angular/material/sort';
 import { marketData, marketAssetAdded } from '../../models/market-table.model';
 import { getMarketAddedState, isMarketTableAddedLoaded, isMarketTableAddedLoading } from '../../store/market.selectors';
 import { marketTableAddedStart } from '../../store/market.actions';
+import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
   selector: 'market-table-added',
@@ -34,6 +35,7 @@ export class MarketTableAddedComponent implements OnInit {
 
   constructor(
     private store: Store<{ market: marketData }>,
+    public configService: ConfigService
   ) { }
 
   ngOnInit(): void {

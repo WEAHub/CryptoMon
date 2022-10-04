@@ -73,6 +73,7 @@ export class TradesTableComponent implements OnInit, OnDestroy {
   deleteTrade(trade: ITrade): void {
     const dialogRef = this.deleteDialog.open(ModalConfirmComponent, {
       width: '250px',
+      panelClass: 'black-modal',
       data: {message: 'Are you sure of delete this trade?'}
     });
 
@@ -87,6 +88,7 @@ export class TradesTableComponent implements OnInit, OnDestroy {
   modifyTrade(trade: ITrade): void {
     this.modifyDialog.open(TradesAddModalComponent, {
       width: '250px',
+      panelClass: ['black-modal', 'add-trade-modal'],
       data: {
         title: 'Modify trade',
         modalType: 'MODIFY',
@@ -97,8 +99,9 @@ export class TradesTableComponent implements OnInit, OnDestroy {
 
   showChart(trade: ITrade): void {
     this.chartDialog.open(TradesChartModalComponent, {
-      width: '900px',
-      height: '650px',
+      width: '100vh',
+      height: '600px',
+      panelClass: ['black-modal', 'tv-chart'],
       data: {
         exchange: trade.exchangeName,
         fromSymbol: trade.fromSymbol,
@@ -107,11 +110,20 @@ export class TradesTableComponent implements OnInit, OnDestroy {
     })
   }
 
+  setAlarm(trade: ITrade): void {
+
+    return
+  }
+
   private initializeData(trades: ITrade[]): void {
     const sourceData = trades.length ? trades : this.noTradesData
     this.dataSource = new MatTableDataSource<ITrade>(sourceData)
     this.dataSource.paginator = this.paginator
     this.dataSource.sort = this.sort;
+  }
+
+  tsToDate(timestamp: number) {
+    return new Date(timestamp).toString();
   }
 
 }

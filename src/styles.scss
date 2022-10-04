@@ -2,6 +2,33 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import './app/modules/shared/directives/mat-table-responsive/mat-table-responsive.directive';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.tv-chart {
+  mat-dialog-container {
+    overflow: hidden;
+    padding: 10px;
+  }
+}
+
+.black-modal {
+  mat-dialog-container {
+    background: black;
+  }
+}
+
+.add-trade-modal {
+  mat-select-panel {
+    width:155px;
+  }
+
+  .mat-button-toggle-checked.toggled-green {
+    background-color: rgb(0, 134, 0)
+  }
+  .mat-button-toggle-checked.toggled-red {
+    background-color: rgb(163, 0, 0)
+  }
+}

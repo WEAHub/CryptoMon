@@ -6,6 +6,9 @@ import { IUserSettingsResponseSuccess, IUserSettingsResponseError } from '../mod
 import * as userActions from './core-user.actions';
 
 const initialState: IAppStore = <IAppStore>{
+  userStats: {
+    trades: 0,
+  },
 	userSideNav: {
 		toggleStatus: false
 	},
@@ -85,6 +88,15 @@ const appReducer = createReducer(
 				message: payload.error,
 				error: true,
 			}
+		}
+	}),
+  on(userActions.getUserStatsSuccess, (state, payload) => {
+		return {
+			...state,
+			userStats: {
+        ...state.userStats,
+        trades: payload.trades
+      }
 		}
 	}),
 	on(userActions.resetStateUser, () => {

@@ -3,10 +3,12 @@
   <mat-sidenav [opened]="navOpened" disableClose="true" mode="side" class="navMenu" *ngIf="this.isAuthed$ | async">
     <mat-nav-list>
       <div class="logo"><h2>CryptoMon</h2></div>
+
       <mat-list-item *ngFor="let navItem of navMenuItems" class="navItem" [routerLink]=navItem.href>
-        <mat-icon class="navItem-icon">{{navItem.icon}}</mat-icon>
+        <mat-icon [matBadge]="navItem.badgesCount" matBadgeSize="small" class="navItem-icon">{{navItem.icon}}</mat-icon>
         <span class="navItem-title">{{navItem.title}}</span>
       </mat-list-item>
+
     </mat-nav-list>
   </mat-sidenav>
 

@@ -3,4 +3,5 @@ export interface INavMenuItems {
   icon: string;
   href: string;
   enabled: boolean;
+  badgesCount: number;
 }

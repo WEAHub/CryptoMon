@@ -7,6 +7,7 @@ import * as userActions from './core-user.actions'
 import { UserService } from '../services/core-user.service';
 import { IUserSettingsResponseSuccess } from '../models/user-settings.model';
 import { changedUserName } from '../../auth/store/auth.actions';
+import { IUserStats } from '../models/app.model';
 
 @Injectable()
 export class UserEffects {
@@ -27,6 +28,14 @@ export class UserEffects {
 		exhaustMap(action => this.userService.deleteUser(action.data).pipe(
 			map(message => userActions.deleteUserSuccess(message)),
 			catchError(message => of(userActions.deleteUserError({ error: message })))
+		))
+	))
+
+	userStats$ = createEffect(() => this.actions$.pipe(
+		ofType(userActions.getUserStats),
+		exhaustMap(() => this.userService.getUserStats().pipe(
+			map((stats: IUserStats) => userActions.getUserStatsSuccess(stats)),
+			catchError(message => of(userActions.getUserStatsError({ error: message })))
 		))
 	))
 

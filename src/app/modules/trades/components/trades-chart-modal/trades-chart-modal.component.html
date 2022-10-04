@@ -1,3 +1,7 @@
 <div class="h-full" mat-dialog-content>
-  <div id="tv-chart" class="h-full"></div>
+  <app-tradingview-chart
+  [exchange]="data.exchange"
+  [fromSymbol]="data.fromSymbol"
+  [toSymbol]="data.toSymbol"
+  ></app-tradingview-chart>
 </div>

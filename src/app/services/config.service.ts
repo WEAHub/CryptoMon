@@ -31,12 +31,10 @@ class ConfigService {
 		}
 	}
 
-
 	get apiBaseUrl(): string {
 		this.checkConfig();
 		return this.appConfig.API_BASE_URL;
 	}
-
 
 	get login(): string {
 		return this.apiBaseUrl + this.appConfig.API_ROUTES.AUTH.LOGIN;
@@ -106,6 +104,10 @@ class ConfigService {
 		return this.apiBaseUrl + this.appConfig.API_ROUTES.TRADES.MODIFY_TRADE;
 	}
   
+  get userStats(): string {
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.USER.STATS;
+  }
+
 }	
 
 export {

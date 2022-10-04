@@ -2,6 +2,11 @@ interface IAppStore {
 	userSideNav: IAppUserSideNav,
 	userSettings: IAppUserSettings
 	noConnection: boolean;
+  userStats: IUserStats;
+}
+
+interface IUserStats {
+  trades: number;
 }
 
 interface IAppUserSideNav {
@@ -17,5 +22,6 @@ interface IAppUserSettings {
 export {
 	IAppStore,
 	IAppUserSettings,
-	IAppUserSideNav
+	IAppUserSideNav,
+  IUserStats
 }

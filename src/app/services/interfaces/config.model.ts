@@ -13,6 +13,7 @@ export interface IConfig {
 		USER: {
 			MODIFY: string;
 			DELETE: string;
+      STATS: string;
 		},
 		NEWS: {
 			GET_NEWS:  string;

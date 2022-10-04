@@ -18,7 +18,13 @@ const getNoConnection = createSelector(
 	(state: IAppStore) => state.noConnection
 )
 
+const userStats = createSelector(
+  appState,
+  (state: IAppStore) => state.userStats
+)
+
 export {
+  userStats,
 	getNoConnection,
 	getToggleState,
 	getUserModify

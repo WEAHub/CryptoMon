@@ -10,12 +10,15 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
 import { RequestService } from './services/http-requests.module';
 import { ModalErrorComponent } from './components/modal-error/modal-error.component';
 import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
+import { TradingviewChartComponent } from './components/tradingview-chart/tradingview-chart.component';
+import { MatTableResponsiveModule } from './directives/mat-table-responsive/mat-table-responsive.module';
 
 @NgModule({
   declarations: [
     LoadingSpinnerComponent,
     ModalErrorComponent,
     ModalConfirmComponent,
+    TradingviewChartComponent,
   ],
   imports: [
     CommonModule,
@@ -29,7 +32,9 @@ import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    PipesModule
+    PipesModule,
+    TradingviewChartComponent,
+    MatTableResponsiveModule
     
   ],
   providers: [

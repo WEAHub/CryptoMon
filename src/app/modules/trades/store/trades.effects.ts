@@ -4,6 +4,8 @@ import { catchError, map, exhaustMap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import * as tradesActions from './trades.actions'
+import * as userActions from '@modules/core/store/core-user.actions'
+
 import { TradesService } from '../services/trades.service';
 import { 
 	ITradesAdd,
@@ -72,7 +74,10 @@ export class TradesEffects {
 	getTrades$ = createEffect(() => this.actions$.pipe(
 		ofType(tradesActions.tradesGet),
 		exhaustMap(() => this.tradesService.getTrades().pipe(
-			map((trades: ITradesGetSuccess) => tradesActions.tradesGetSuccess(trades)),
+			switchMap((payload: ITradesGetSuccess) => of(
+				tradesActions.tradesGetSuccess(payload),
+				userActions.getUserStats(),
+			)),
 			catchError((error: ITradesGetError) => of(tradesActions.tradesGetError(error)))
 		))
 	))
