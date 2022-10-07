@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { RequestService } from '../../shared/services/http-requests.module';
-import { ConfigService } from 'src/app/services/config.service';
+import { ConfigService } from '@shared/services/config/config.service';
+import { RequestService } from '@shared/services/http-request/http-requests.service';
 import { Observable } from 'rxjs';
+
 import { 
   ITradesAdd,
   ITradesModalExchangeSuccess, 
@@ -38,7 +39,6 @@ export class TradesService {
   getPriceByExchangeTS(pairData: ITradesModalPriceLoad): Observable<ITradesModalPriceSuccess> {
     return this.requestService.httpPost(this.configService.getPriceByExchangeTS, pairData);
   }
-
 
   getTrades(): Observable<ITradesGetSuccess> {
     return this.requestService.httpGet(this.configService.getTrades)

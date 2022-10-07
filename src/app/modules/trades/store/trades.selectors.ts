@@ -2,6 +2,7 @@ import { createSelector, createFeatureSelector } from "@ngrx/store";
 import { EStatus } from "../../shared/models/status.enum";
 import { IPair } from "../models/trades-modal.model";
 import { ITrade, ITradesStore } from "../models/trades.model";
+import { calcTotalInvest } from "../utils/trade.functions";
 
 const tradesState = createFeatureSelector<ITradesStore>('trades');
 
@@ -66,12 +67,6 @@ const tradesLoaded = createSelector(
 	(state: ITradesStore) => state.status === EStatus.LOADED
 )
 
-// * Get total invested
-const totalInvested = createSelector(
-  tradesState,
-  (state: ITradesStore) => state.totalInvested
-)
-
 export {
 	tradesModalLoading,
 	tradesModalGetExchanges,
@@ -80,6 +75,5 @@ export {
 	tradesLoading,
 	tradesLoaded,
 	getTrades,
-  totalInvested
 
 }
