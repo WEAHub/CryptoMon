@@ -53,7 +53,7 @@ function updateTrades(userTrades: ITrade[], update: ITradeUpdate[]): ITrade[] {
     }
   })
 
-  return trades;
+  return processTrades(trades);
 }
 
 export {
