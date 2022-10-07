@@ -15,5 +15,8 @@ Se ha utilizado Angular + NGRX para el front y NestJS + MongoDB para el back.
 ## Trades
 ![](https://github.com/WEAHub/CryptoMon/blob/master/trades.gif)
 
+## Trades en tiempo real con sockets
+![](https://github.com/WEAHub/CryptoMon/blob/master/tradesrealtime.gif)
+
 ## Desarrollo
 Ejecuta `ng serve` para iniciar el servidor de desarrollo. Navega a `http://localhost:4200/` para verlo.
