@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ConfigService } from 'src/app/services/config.service';
-import { RequestService } from '../../shared/services/http-requests.module';
+import { ConfigService } from '@shared/services/config/config.service';
+import { RequestService } from '@shared/services/http-request/http-requests.service';
 
 @Injectable()
 

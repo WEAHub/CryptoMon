@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { inOutLoading } from './../../animations/shared.animations';
+import { inOutLoading } from '@shared/animations/shared.animations';
 
 @Component({
   selector: 'modal-error',

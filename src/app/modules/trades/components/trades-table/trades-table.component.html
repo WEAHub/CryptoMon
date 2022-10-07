@@ -1,5 +1,5 @@
 
-<div class="mat-elevation-z3" class="trades-container">
+<div class="mat-elevation-z3" class="trades-container relative">
 	
 	<loading-spinner *ngIf="!(isTradesLoaded$ | async)"></loading-spinner>
 
@@ -71,7 +71,7 @@
 			<!-- Actual Price Column -->
 			<ng-container matColumnDef="actualprice">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Actual Price">Actual Price</th>
-				<td mat-cell *matCellDef="let asset">
+				<td mat-cell *matCellDef="let asset" [ngClass]="{'changed': asset.changed}">
           <div class="actual-price-cell">
             <div class="block">
               <span class="mr-1">{{ asset.actualPrice }}</span>

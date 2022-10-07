@@ -2,17 +2,13 @@ import { createReducer, on } from '@ngrx/store';
 import { EStatus } from '../../shared/models/status.enum';
 import { ITradesModalError, ITradesModalPairSuccess, ITradesModalPriceSuccess } from '../models/trades-modal.model';
 import { ITradesGetError, ITradesGetSuccess, ITradesStore } from '../models/trades.model';
+import { calcTotalInvest, processTrades, updateTrades } from '../utils/trade.functions';
 import * as tradesActions from './trades.actions';
 
 const initialState: ITradesStore = {
 	error: '',
 	status: EStatus.UNINITIALIZED,
 	trades: [],
-  totalInvested: {
-    USD: 0,
-    EUR: 0,
-    JPY: 0
-  },
 	modalStore: {
 		loading: false,
 		exchanges: [],
@@ -138,14 +134,7 @@ const tradesReducer = createReducer(
 		return {
 			...state,
 			status: EStatus.LOADED,
-			trades: payload.userTrades,
-      totalInvested: payload.userTrades.reduce((prev, next) => {
-        return {
-          USD: prev.USD + (next.symbolPrice.USD * next.quantity),
-          EUR: prev.EUR + (next.symbolPrice.EUR * next.quantity),
-          JPY: prev.JPY + (next.symbolPrice.JPY * next.quantity),
-        }
-      },{ USD: 0, EUR: 0, JPY: 0 })
+			trades: processTrades(payload.userTrades),
 		}
 	}),
 	on(tradesActions.tradesGetError, (state, payload: ITradesGetError) => {

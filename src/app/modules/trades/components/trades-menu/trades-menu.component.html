@@ -7,7 +7,7 @@
 
 	<div class="grow text-center">
     <div class="invested">
-      <ng-container *ngIf="(getTotalInvested$ | async) as inversion" class="block">
+      <ng-container *ngIf="tradesInvest as inversion" class="block">
         <span class="mr-2 text-xs">Total capital invested:</span>
         <span class="mr-2 text-xs">{{ inversion.EUR | currency:'€' }}</span>
         <span class="mr-2 text-xs">{{ inversion.USD | currency:'$' }}</span>

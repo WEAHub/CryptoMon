@@ -24,7 +24,8 @@ import {
   tradesModalGetPrice, 
   tradesModalLoading 
 } from '../../store/trades.selectors';
-import { ConfigService } from 'src/app/services/config.service';
+
+import { ConfigService } from '@shared/services/config/config.service';
 
 enum EModalType {
   ADD = 'ADD',
@@ -159,7 +160,6 @@ export class TradesAddModalComponent implements OnInit, OnDestroy  {
 
   
   onSubmit(): void {
-    console.log(this.tradeForm)
 
     if(this.tradeForm.invalid) return
     

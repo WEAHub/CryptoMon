@@ -9,7 +9,8 @@ import { MatSort } from '@angular/material/sort';
 import { marketData, marketAsset } from '../../models/market-table.model';
 import { getMarketState, isMarketTableLoaded } from '../../store/market.selectors';
 import { marketTableStart } from '../../store/market.actions';
-import { ConfigService } from 'src/app/services/config.service';
+
+import { ConfigService } from '@shared/services/config/config.service';
 
 @Component({
   selector: 'market-table',

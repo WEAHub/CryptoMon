@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ITradesStore } from '../../models/trades.model';
+import { ITrade, ITradesInvest, ITradesStore } from '../../models/trades.model';
 
 @Component({
   selector: 'app-trades',
@@ -9,12 +9,18 @@ import { ITradesStore } from '../../models/trades.model';
 })
 export class TradesComponent implements OnInit {
 
+  totalInvest!: ITradesInvest
+
   constructor(
     private store: Store<{ trades: ITradesStore }>,
   ) { }
 
   ngOnInit(): void {
 
+  }
+
+  setTotalInvest(tradesInvest: ITradesInvest): void {
+    this.totalInvest = tradesInvest
   }
 
 }

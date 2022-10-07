@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Add Alert for {{ alertTitle }}</h1>
+<div mat-dialog-content class="relative">
+  
+  <form [formGroup]="alertForm" (ngSubmit)="onSubmit()">
+	
+    <div class="flex flex-row flex-wrap gap-5">
+			<mat-form-field class="w-48">
+				<mat-label>Condition</mat-label>
+				<mat-select 
+				formControlName="condition" 
+				name="condition">
+					<mat-option *ngFor="let condition of alertConditions" [value]="condition">
+            <span class="ml-5 text-sm">{{ condition }}</span>
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+    </div>
+    
+
+  </form>
+
+</div>

@@ -5,7 +5,7 @@ import { catchError, map, exhaustMap, tap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
-import { ConfigService } from 'src/app/services/config.service';
+import { ConfigService } from '@shared/services/config/config.service';
 
 import * as loginActions from './auth.actions';
 import { resetStateMarket } from '../../market/store/market.actions';

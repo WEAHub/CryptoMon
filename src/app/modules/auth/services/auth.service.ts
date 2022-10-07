@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 
-import { UserLogin, User } from '../models/user.model';
-import { ConfigService } from 'src/app/services/config.service';
+import { UserLogin } from '../models/user.model';
+import { ConfigService } from '@shared/services/config/config.service';
+
 @Injectable()
 
 export class AuthService {

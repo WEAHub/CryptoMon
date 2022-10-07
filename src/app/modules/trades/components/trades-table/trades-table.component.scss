@@ -41,3 +41,12 @@
 .percent.down {
 	color: red;
 }
+
+tr.mat-row:has(td.changed) {
+  animation: changedBg 2s ease-in-out;
+}
+
+@keyframes changedBg {
+  0% { background: black }
+  20% { background: #141414 }
+}

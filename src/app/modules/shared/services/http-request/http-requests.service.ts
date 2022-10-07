@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
-import { IHTTPErrorResponse } from '../models/http.model';
+import { IHTTPErrorResponse } from '@shared/models/http.model';
 
 @Injectable()
 

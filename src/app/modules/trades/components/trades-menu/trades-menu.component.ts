@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { TradesDataService } from '@modules/trades/services/trade-data.service';
 import { Store } from '@ngrx/store';
-import { ITradesStore } from '../../models/trades.model';
-import { totalInvested } from '../../store/trades.selectors';
+import { Subscription } from 'rxjs';
+import { ITradesInvest, ITradesStore } from '../../models/trades.model';
 
 import { TradesAddModalComponent } from '../trades-add-modal/trades-add-modal.component';
 
@@ -11,13 +12,15 @@ import { TradesAddModalComponent } from '../trades-add-modal/trades-add-modal.co
   templateUrl: './trades-menu.component.html',
   styleUrls: ['./trades-menu.component.scss']
 })
-export class TradesMenuComponent implements OnInit {
+export class TradesMenuComponent implements OnInit, OnDestroy {
 
-  getTotalInvested$ = this.store.select(totalInvested)
+  tradesInvest!: ITradesInvest
+  tradesDataSub!: Subscription
 
   constructor(
     public dialog: MatDialog,
-    private store: Store<{ trades: ITradesStore }>
+    private store: Store<{ trades: ITradesStore }>,
+    private tradesData: TradesDataService
   ) { }
 
   openDialog(): void {
@@ -38,7 +41,11 @@ export class TradesMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.tradesDataSub = this.tradesData.investData.subscribe(investData => this.tradesInvest = investData)
+  }
 
+  ngOnDestroy(): void {
+    this.tradesDataSub.unsubscribe()
   }
 
 }

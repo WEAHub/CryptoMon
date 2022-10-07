@@ -17,7 +17,8 @@ import {
 	ITradesDeleteError,
 	ITradesDeleteSuccess,
 	ITradesGetError, 
-	ITradesGetSuccess 
+	ITradesGetSuccess, 
+  ITradeUpdate
 } from '../models/trades.model';
 
 enum ActionTypes {
@@ -52,6 +53,8 @@ enum ActionTypes {
 	TRADES_DELETE = '[Trades] Delete Trade',
 	TRADES_DELETE_SUCCESS = '[Trades] Delete Trade Success',
 	TRADES_DELETE_ERROR = '[Trades] Delete Trade Error',
+
+  TRADES_UPDATE = '[Trades] Socket Update Trade',
 
 	TRADES_RESET = '[Trades] Reset Trades',
 }

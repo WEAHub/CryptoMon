@@ -7,11 +7,12 @@ interface ITradesStore extends IStatus {
 	error: string;
 	modalStore: ITradesStoreModal
 	trades : ITrade[];
-  totalInvested: {
-    USD: number;
-    EUR: number;
-    JPY: number;
-  };
+}
+
+interface ITradesInvest {
+  EUR: number;
+  USD: number;
+  JPY: number;
 }
 
 // * TRADES GET
@@ -23,11 +24,8 @@ interface ITrade extends ITradesAdd {
 	profitLoss: number;
 	_id: string;
 	timeStampAdded: number;
-  symbolPrice: {
-    EUR: number;
-    USD: number;
-    JPY: number;
-  }
+  symbolPrice: ITradesInvest
+  changed: boolean;
 }
 
 interface ITradesGetSuccess {
@@ -46,11 +44,27 @@ interface ITradesGetError {
 	error: string;
 }
 
+enum tradeType {
+	BUY = 'buy',
+	SELL = 'sell'
+}
+
+interface ITradeUpdate {
+  id: string,
+  exchange: string;
+  fromSymbol: string;
+  toSymbol: string;
+  price: number;
+}
+
 export {
 	ITradesStore,
 	ITradesGetSuccess,
 	ITradesGetError,
 	ITradesDeleteSuccess,
 	ITradesDeleteError,
-	ITrade
+	ITrade,
+  tradeType,
+  ITradeUpdate,
+  ITradesInvest
 }

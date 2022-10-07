@@ -1,3 +1,4 @@
+import { tradeType } from "./trades.model";
 
 
 // * MODAL STORE
@@ -56,7 +57,7 @@ interface ITradesModalPriceSuccess{
 
 // * ADD TRADE
 interface ITradesAdd extends ITradesModalPriceLoad {
-	tradeType: string;
+	tradeType: tradeType;
 	quantity: number;
 	price: number;
 }

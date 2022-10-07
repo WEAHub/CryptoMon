@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-// Routing
+// Guards & Interceptor
 import { AuthGuardService } from './modules/auth/services/auth-guard.service'
 import { AuthGuard } from './modules/auth/guard/auth.guard'
 import { JwtInterceptor } from './modules/auth/intercepter/jwt.interceptor';
@@ -25,17 +25,22 @@ import { NewsEffects } from './modules/news/store/news.effects';
 import { marketReducer } from './modules/market/store/market.reducer'
 import { MarketEffects } from './modules/market/store/market.effects';
 
+
+import { tradesReducer } from './modules/trades/store/trades.reducer';
+import { TradesEffects } from './modules/trades/store/trades.effects';
+
 // Core
 import { CoreComponent } from './modules/core/core.component';
 import { CoreUserSettingsComponent } from './modules/core/components/sidenav-user-settings/sidenav-user-settings.component';
 import { CoreRoutingModule } from './modules/core/core-routing.module';
 
 // Services
-import { ConfigService, configFactory } from './services/config.service'
+import { ConfigService, configFactory } from '@shared/services/config/config.service';
 import { AuthService } from './modules/auth/services/auth.service';
 import { NewsService } from './modules/news/services/news.service';
 import { MarketService } from './modules/market/services/market.service';
 import { UserService } from './modules/core/services/core-user.service';
+import { TradesService } from './modules/trades/services/trades.service'
 
 // Shared
 import { SharedModule } from './modules/shared/shared.module';
@@ -45,9 +50,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 // Env
 import { environment } from '../environments/environment';
-import { tradesReducer } from './modules/trades/store/trades.reducer';
-import { TradesEffects } from './modules/trades/store/trades.effects';
-import { TradesService } from './modules/trades/services/trades.service';
+
+
 
 @NgModule({
   declarations: [
@@ -74,7 +78,10 @@ import { TradesService } from './modules/trades/services/trades.service';
       UserEffects,
       TradesEffects
     ]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, 
+      logOnly: environment.production 
+    }),
   ],
   providers: [
     AuthGuard, 
@@ -96,7 +103,7 @@ import { TradesService } from './modules/trades/services/trades.service';
       multi: true,
     },
   ],
-  bootstrap: [ CoreComponent ]
+  bootstrap: [CoreComponent]
 })
 
 export class AppModule {}
