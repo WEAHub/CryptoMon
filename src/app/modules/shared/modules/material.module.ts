@@ -25,6 +25,7 @@ import { NgxMatTimepickerModule, NgxMatDatetimePickerModule, NgxMatNativeDateMod
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 @NgModule({
   exports: [
@@ -53,7 +54,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 		MatButtonToggleModule,
 		MatSelectFilterModule,
     MatTooltipModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatSnackBarModule
   ]
 })
 

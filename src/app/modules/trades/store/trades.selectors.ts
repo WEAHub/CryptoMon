@@ -6,6 +6,11 @@ import { calcTotalInvest } from "../utils/trade.functions";
 
 const tradesState = createFeatureSelector<ITradesStore>('trades');
 
+// * MAIN TRADE COMPONENT
+const tradesMessage = createSelector(
+  tradesState,
+  (state: ITradesStore) => state.message
+)
 
 // * Modal Loading
 const tradesModalLoading = createSelector(
@@ -44,16 +49,7 @@ const tradesModalGetPrice = createSelector(
 // * Get Trades
 const getTrades = createSelector(
 	tradesState,
-	(state: ITradesStore) => state.trades.map((trade: ITrade) => {
-		return {
-			...trade,
-			percentType: trade.percentChange > 0 
-			? 'up'
-			: trade.percentChange < 0
-				? 'down'
-				: 'neutral'
-		}
-	}).sort((a, b) => b.timeStampAdded - a.timeStampAdded)
+	(state: ITradesStore) => state.trades
 )
 
 // * Trades loading
@@ -67,7 +63,18 @@ const tradesLoaded = createSelector(
 	(state: ITradesStore) => state.status === EStatus.LOADED
 )
 
+const alertList = createSelector(
+	tradesState,
+	(state: ITradesStore) => state.alerts.alertList
+)
+
+const alertListLoaded = createSelector(
+  tradesState,
+  (state: ITradesStore) => state.alerts.loaded
+)
+
 export {
+  tradesMessage,
 	tradesModalLoading,
 	tradesModalGetExchanges,
 	tradesModalGetPairs,
@@ -75,5 +82,6 @@ export {
 	tradesLoading,
 	tradesLoaded,
 	getTrades,
-
+  alertList,
+  alertListLoaded
 }

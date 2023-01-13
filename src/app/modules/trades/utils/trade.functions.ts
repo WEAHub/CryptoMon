@@ -1,8 +1,9 @@
-import { ITrade, ITradesInvest, ITradeUpdate, tradeType } from '../models/trades.model'
+import { AnyFn } from '@ngrx/store/src/selector'
+import { ITrade, ITradesInvest, ITradeUpdate, ETradeType, EAlertStatus } from '../models/trades.model'
 
 function calcPercentageChange(trade: ITrade): number {
 
-  const tradeDirection = trade.tradeType == tradeType.BUY
+  const tradeDirection = trade.tradeType == ETradeType.BUY
   
   const tradePriceAction = tradeDirection 
   ? trade.actualPrice > trade.price
@@ -28,7 +29,7 @@ function calcTotalInvest(trades: ITrade[]): ITradesInvest {
   },{ USD: 0, EUR: 0, JPY: 0 })
 }
 
-function processTrades(userTrades: ITrade[]): ITrade[] {
+function processTrades(userTrades: any): ITrade[] {
   return userTrades.map((trade: ITrade) => {
     const quantityValue = trade.price * trade.quantity
     const quantityActualValue = trade.actualPrice * trade.quantity
@@ -45,20 +46,43 @@ function processTrades(userTrades: ITrade[]): ITrade[] {
 
 function updateTrades(userTrades: ITrade[], update: ITradeUpdate[]): ITrade[] {
   const trades = userTrades.map(trade => {
-    const updatedTrade = update.filter(v => v.id == trade._id)[0]
-    return {
+    const updatedTrade = update.find(v => v.id == trade._id)
+      
+    let _update = typeof(updatedTrade?.price) === undefined || updatedTrade?.price === -1 
+    ? trade 
+    : {
       ...trade,
-      actualPrice: updatedTrade.price,
-      changed: trade.actualPrice !== updatedTrade.price
+      actualPrice: updatedTrade?.price,
+      changed: trade.actualPrice !== updatedTrade?.price
     }
+    
+    if(updatedTrade?.alert !== undefined) {
+      _update = {
+        ..._update,
+        alert: updatedTrade?.alert
+      }
+    }
+
+    return _update
+
   })
 
   return processTrades(trades);
 }
 
+function checkAlerts(userTrades: ITrade[]) {
+  return userTrades.filter(trade => trade.alert?.status === EAlertStatus.PENDING)
+}
+
+function compareObjectsEqual(firstObject: Object, secondObject: Object) {
+  return JSON.stringify(firstObject) === JSON.stringify(secondObject)
+}
+
 export {
+  compareObjectsEqual,
   calcPercentageChange,
   calcTotalInvest,
   processTrades,
-  updateTrades
+  updateTrades,
+  checkAlerts
 }

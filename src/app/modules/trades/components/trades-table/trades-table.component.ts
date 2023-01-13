@@ -3,23 +3,24 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Store } from '@ngrx/store';
-import { delay, Subscription, tap } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { delay, Subscription, tap, distinctUntilChanged, withLatestFrom, take, distinct, Observable, combineLatest, combineLatestAll } from 'rxjs';
 import { ModalConfirmComponent } from '@shared/components/modal-confirm/modal-confirm.component';
 import { ConfigService } from '@shared/services/config/config.service';;
 
-import { ITrade, ITradesInvest, ITradeUpdate } from '../../models/trades.model';
+import { ITrade, ITradeAlertFinished, ITradesInvest, ITradeUpdate } from '../../models/trades.model';
 import { ITradesStore } from '../../models/trades.model';
-import { tradesDelete, tradesGet } from '../../store/trades.actions';
+import { alertFinished, showSnackBarMsg, tradesDelete, tradesGet } from '../../store/trades.actions';
 import { getTrades, tradesLoaded, tradesLoading } from '../../store/trades.selectors';
 import { TradesAddModalComponent } from '../trades-add-modal/trades-add-modal.component';
 import { TradesAlertModalComponent } from '../trades-alert-modal/trades-alert-modal.component';
 import { TradesChartModalComponent } from '../trades-chart-modal/trades-chart-modal.component';
 
 import { TradesRealTimeService } from '@modules/trades/services/trades-realtime.service';
-import { TradesDataService } from '@modules/trades/services/trade-data.service';
+import { TradesDataService } from '@modules/trades/services/trades-data.service';
 
-import { calcTotalInvest, updateTrades } from '@modules/trades/utils/trade.functions';
+import { calcTotalInvest, checkAlerts, updateTrades } from '@modules/trades/utils/trade.functions';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-trades-table',
@@ -31,9 +32,9 @@ export class TradesTableComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  getTrades$ = this.store.select(getTrades)
   isTradesLoading$ = this.store.select(tradesLoading)
   isTradesLoaded$ = this.store.select(tradesLoaded)
+  getTrades$ = this.store.select(getTrades)
 
   dataColumns: string[] = ['exchange', 'pairs', 'tradeType', 'quantity', 'price', 'actualprice', 'percentchange', 'when', 'actions']
   noDataColumns: string[] = ['no-data-row']
@@ -43,17 +44,22 @@ export class TradesTableComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<any> = this.emptyData;
 
   tradesDataSub: Subscription = this.getTrades$
-    .subscribe(trades => this.initializeData(trades))
+    .subscribe(trades => {
+      this.initializeData(trades)
+      console.log('[Trades] Initialize trades')
+    })
 
-  updatedTrades: Subscription = this.tradesSocket.getUpdatedTrades()
-    .pipe(
-      delay(2000),
-      tap((trades: ITradeUpdate[]) => {
-        this.updateDataSource(trades)
-        this.tradesSocket.updateTrades(this.dataSource.data)
-      }),
-    )
-  .subscribe()
+  updatedTrades: Observable<ITradeUpdate[]> = this.tradesSocket.getUpdatedTrades()
+  .pipe(
+    delay(5000),
+    tap((trades: ITradeUpdate[]) => {
+      console.log('[Trades] Update trades')
+      this.updateDataSource(trades)
+      this.tradesSocket.emitUpdateTrades(this.dataSource.data)
+    }),
+  )
+
+  updatedTradesSub: Subscription = this.updatedTrades.subscribe()
 
   constructor(
     private store: Store<{ trades: ITradesStore }>,
@@ -66,20 +72,36 @@ export class TradesTableComponent implements OnInit, OnDestroy {
     public alertDialog: MatDialog,
   ) {
 
+    tradesSocket.onConnect = this.onSocketConnect.bind(this)
+    tradesSocket.onDisconnect = this.onSocketDisconnect.bind(this)
 
   }
 
   ngOnInit(): void {
-    this.store.dispatch(tradesGet())
     this.tradesSocket.connect();
   }
 
   ngOnDestroy(): void {
-    this.tradesSocket.disconnect();
+    this.stopUpdateTrades()
     this.tradesDataSub.unsubscribe();
-    this.updatedTrades.unsubscribe();
   }
 
+  stopUpdateTrades() {
+    this.updatedTradesSub.unsubscribe();
+    this.tradesSocket.disconnect();
+  }
+
+  onSocketConnect() {
+    console.log('[TRADE SOCKET] Connect')
+    this.store.dispatch(showSnackBarMsg({ message: 'Socket connected! Prices will update in real time'}))
+    this.store.dispatch(tradesGet())
+  }
+
+  onSocketDisconnect() {
+    console.log('[TRADE SOCKET] Disconnect')
+    this.store.dispatch(showSnackBarMsg({ message: 'Socket disconnected!' }))
+  }
+  
   get tableData() {    
 
     const checkData: boolean = this.dataSource.data.length > 0 
@@ -104,7 +126,6 @@ export class TradesTableComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(answer => {
-      console.log(answer, trade)
       if(answer) {
         this.store.dispatch(tradesDelete(trade))
       }
@@ -137,37 +158,83 @@ export class TradesTableComponent implements OnInit, OnDestroy {
   }
 
   setAlarm(trade: ITrade): void {
-    this.alertDialog.open(TradesAlertModalComponent, {
-      width: '500px',
-      height: '300px',
+    const alertDialog = this.alertDialog.open(TradesAlertModalComponent, {
+      width: '325px',
       panelClass: 'black-modal',
       data: {
-        exchange: trade.exchangeName,
-        fromSymbol: trade.fromSymbol,
-        toSymbol: trade.toSymbol,
-        actualPrice: trade.actualPrice,
+        ...trade
+      }
+    })
+
+    alertDialog.afterClosed().subscribe(result => {
+      if(result) {
+        this.store.dispatch(tradesGet())
       }
     })
     return
   }
 
+  checkDataSource(trades: ITrade[]) {
+    return trades.map((trade: ITrade) => {
+      return {
+        ...trade,
+        percentType: trade.percentChange > 0 
+        ? 'up'
+        : trade.percentChange < 0
+          ? 'down'
+          : 'neutral'
+      }
+    }).sort((a, b) => b.timeStampAdded - a.timeStampAdded)
+  }
+
   private initializeData(trades: ITrade[]): void {
-    const sourceData = trades.length ? trades : this.noTradesData
+
+    const sourceData = trades.length 
+    ? this.checkDataSource(trades) 
+    : this.noTradesData
+
     this.dataSource = new MatTableDataSource<ITrade>(sourceData)
     this.dataSource.paginator = this.paginator
     this.dataSource.sort = this.sort;
 
     if(sourceData !== this.noTradesData) {
-      this.tradesSocket.updateTrades(this.dataSource.data)
+      this.resetUpdateEvent()
+      this.tradesSocket.emitUpdateTrades(this.dataSource.data)
       this.tradesData.updateInvest(calcTotalInvest(sourceData))
+      this.fireAlerts(sourceData)
     }
 
+  }
+
+  resetUpdateEvent() {
+    this.updatedTradesSub.unsubscribe();
+    this.updatedTradesSub = this.updatedTrades.subscribe()
   }
 
   updateDataSource(trades: ITradeUpdate[]) {
     const updatedData = updateTrades(this.dataSource.data, trades);
     this.dataSource = new MatTableDataSource<ITrade>(updatedData)
     this.tradesData.updateInvest(calcTotalInvest(updatedData))
+    this.fireAlerts(updatedData)
+  }
+
+  fireAlerts(trades: ITrade[]) {
+    const alertsFired = checkAlerts(trades)
+    if(alertsFired.length) {
+      this.tradesData.updateAlerts(alertsFired)
+    }
+  }
+  
+  finishAlert(trade: ITrade) {
+    this.updatedTradesSub.unsubscribe()
+
+    const finishAlertPayload: ITradeAlertFinished = {
+      tradeId: trade._id,
+      alertId: trade.alert?._id
+    }
+
+    this.store.dispatch(alertFinished(finishAlertPayload))
+
   }
 
 

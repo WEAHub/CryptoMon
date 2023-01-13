@@ -1,14 +1,20 @@
 import { createReducer, on } from '@ngrx/store';
 import { EStatus } from '../../shared/models/status.enum';
-import { ITradesModalError, ITradesModalPairSuccess, ITradesModalPriceSuccess } from '../models/trades-modal.model';
-import { ITradesGetError, ITradesGetSuccess, ITradesStore } from '../models/trades.model';
+import { ITradesModalError, ITradesModalPairSuccess, ITradesModalPriceSuccess, ITradesModalSuccess } from '../models/trades-modal.model';
+import { IAlertsList, ITradeAlertFinished, ITradesGetError, ITradesGetSuccess, ITradesStore } from '../models/trades.model';
 import { calcTotalInvest, processTrades, updateTrades } from '../utils/trade.functions';
 import * as tradesActions from './trades.actions';
 
 const initialState: ITradesStore = {
 	error: '',
 	status: EStatus.UNINITIALIZED,
+  message: '',
 	trades: [],
+  alerts: {
+    loaded: false,
+    alertList: [],
+    error: '',
+  },
 	modalStore: {
 		loading: false,
 		exchanges: [],
@@ -16,12 +22,12 @@ const initialState: ITradesStore = {
 		price: 0,
 		toSymbolPrice: '',
 		error: '',
-	}
+	},
 }
 
 const tradesReducer = createReducer(
 	initialState,
-	// * TRADES MODAL
+  // ! TRADES ADD MODAL
 	on(tradesActions.tradesModalLoadExchanges, (state) => {
 		return {
 			...state,
@@ -124,6 +130,7 @@ const tradesReducer = createReducer(
 			}
 		}
 	}),
+  // ! TRADES TABLE
 	on(tradesActions.tradesGet, (state) => {
 		return {
 			...state,
@@ -144,6 +151,85 @@ const tradesReducer = createReducer(
 			error: payload.error
 		}
 	}),
+  // ! ALERTS
+  // GET ALERTS
+  on(tradesActions.getAlertList, (state) => {
+    return {
+      ...state,    
+      alerts: {
+        alertList: [],
+        error: '',
+        loaded: false,
+      }
+    }
+  }),
+  on(tradesActions.getAlertListError, (state, payload: ITradesModalError) => {
+    return {
+      ...state,    
+      alerts: {
+        alertList: [],
+        error: payload.error,
+        loaded: false,
+      }
+    }
+  }),
+  on(tradesActions.getAlertListSuccess, (state, payload: IAlertsList) => {
+    return {
+      ...state,    
+      alerts: {
+        alertList: payload.alertList,
+        error: '',
+        loaded: true,
+      }
+    }
+  }),
+
+  // ADD ALERT
+  on(tradesActions.addAlert, (state) => {
+    return {
+      ...state,
+      message: ''
+    }
+  }),
+  on(tradesActions.addAlertError, (state, payload: ITradesModalError) => {
+    return {
+      ...state,
+      message: 'Error during adding alert'  
+    }
+  }),
+  on(tradesActions.addAlertSuccess, (state, payload: ITradesModalSuccess) => {
+    return {
+      ...state,
+      message: 'Alert added successfully'
+    }
+  }),
+  // FINISH ALERT
+  
+  on(tradesActions.alertFinished, (state) => {
+    return {
+      ...state,
+      message: ''
+    }
+  }),
+  on(tradesActions.alertFinishedError, (state, payload: ITradesModalError) => {
+    return {
+      ...state,
+      message: 'Error finishing alert'  
+    }
+  }),
+  on(tradesActions.alertFinishedSuccess, (state) => {
+    return {
+      ...state,
+      message: 'Alert finished successfully'
+    }
+  }),
+  on(tradesActions.showSnackBarMsg, (state, payload) => {
+    return {
+      ...state,
+      message: payload.message
+    }
+  }),
+  // ! RESET
 	on(tradesActions.resetStateTradesModal, () => {
 		return Object.assign({}, initialState)
 	}),

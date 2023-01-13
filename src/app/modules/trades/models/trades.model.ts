@@ -4,9 +4,15 @@ import { ITradesAdd, ITradesStoreModal } from "./trades-modal.model";
 
 // * TRADES STORE
 interface ITradesStore extends IStatus {
+  message: string;
 	error: string;
-	modalStore: ITradesStoreModal
+	modalStore: ITradesStoreModal;
 	trades : ITrade[];
+  alerts: {
+    alertList: IAlertListItem[];
+    error: string;
+    loaded: boolean;
+  }
 }
 
 interface ITradesInvest {
@@ -24,17 +30,15 @@ interface ITrade extends ITradesAdd {
 	profitLoss: number;
 	_id: string;
 	timeStampAdded: number;
-  symbolPrice: ITradesInvest
+  symbolPrice: ITradesInvest;
   changed: boolean;
+  percentType: string;
+  alert?: ITradeAlert;
+  pricesOnAdd: ITradesInvest;
 }
 
 interface ITradesGetSuccess {
 	userTrades: ITrade[]
-}
-
-// * TRADES DELETE
-interface ITradesDeleteSuccess {
-	message: string;
 }
 
 interface ITradesDeleteError extends ITradesGetError {}
@@ -44,7 +48,7 @@ interface ITradesGetError {
 	error: string;
 }
 
-enum tradeType {
+enum ETradeType {
 	BUY = 'buy',
 	SELL = 'sell'
 }
@@ -55,16 +59,70 @@ interface ITradeUpdate {
   fromSymbol: string;
   toSymbol: string;
   price: number;
+  alert?: ITradeAlert;
+}
+
+// * ALERTS LIST
+
+interface IAlertsList {
+  alertList: IAlertListItem[]
+}
+
+interface IAlertListItem {
+  name: string;
+  description: string;
+  inputs: IAlertListItemInput[];
+}
+
+interface IAlertListItemInput {
+  name: string;
+  type: string;
+  title: string;
+  value: string;
+}
+
+interface IAlertAdd {
+  tradeId: string;
+  alertType: string;
+  data: IAlertAddInputs[];
+}
+
+interface IAlertAddInputs {
+  name: string;
+  value: string;
+}
+
+interface ITradeAlert {
+  alertType: string;
+  data: IAlertAddInputs[];
+  _id: string;
+  status: string;
+}
+
+enum EAlertStatus {
+  RUNNING = 'RUNNING',
+  PENDING = 'PENDING',
+  FINISHED = 'FINISHED',
+}
+
+interface ITradeAlertFinished {
+  tradeId: string;
+  alertId?: string;
 }
 
 export {
 	ITradesStore,
 	ITradesGetSuccess,
 	ITradesGetError,
-	ITradesDeleteSuccess,
 	ITradesDeleteError,
 	ITrade,
-  tradeType,
+  ETradeType,
   ITradeUpdate,
-  ITradesInvest
+  ITradesInvest,
+  IAlertsList,
+  IAlertListItem,
+  IAlertAdd,
+  IAlertAddInputs,
+  ITradeAlertFinished,
+  EAlertStatus
 }

@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TradesDataService } from '@modules/trades/services/trade-data.service';
+import { TradesDataService } from '@modules/trades/services/trades-data.service';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { ITradesInvest, ITradesStore } from '../../models/trades.model';

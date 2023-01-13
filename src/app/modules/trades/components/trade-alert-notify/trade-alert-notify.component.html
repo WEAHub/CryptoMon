@@ -1,0 +1,76 @@
+<div class="n-container fixed bottom-5 right-5">
+  <ng-container *ngIf="tradeAlerts.length">
+    <div *ngFor="let trade of tradeAlerts.slice(0, 2)" class="shadow-md mt-5">
+      <div class="rounded bg-slate-800 bg-opacity-80 backdrop-blur-sm">
+        <div class="grid grid-cols-1 gap-4 text-lg p-5">
+
+          <!-- HEADER -->
+          <div>
+            <span class="text-lg text-blue-100">
+              <span class="animate-ping absolute inline-flex opacity-50">🔔</span>🔔 
+              {{ trade.alert?.alertType }}
+            </span>
+          </div>
+          
+          <mat-divider></mat-divider>
+
+          <!-- EXCHANGE -->
+          <div>
+            <img class="w-7 inline mr-3" [src]="configService.exchangeIcon + trade.exchangeName"/>
+            <span>{{ trade.exchangeName }}</span>
+          </div>
+
+          <!-- PAIRS -->
+          <div>
+            <img class="w-7 inline mr-3" [src]="configService.assetIcon + trade.fromSymbol"/>
+            <span>{{ trade.fromSymbol }}</span>
+            <span class="align-text-bottom mr-3 ml-3">➔</span>
+            <img class="w-7 inline mr-3" [src]="configService.assetIcon + trade.toSymbol"/>
+            <span>{{ trade.toSymbol }}</span>
+          </div>
+
+          <!-- PRICE -->
+          <div class="text-right bg-slate-900 rounded p-3">
+            <div class="grid grid-cols-2 gap-y-3">
+              <div class="col-span-1 text-sm mr-1 text-blue-300">
+                <span>Actual price:</span>
+              </div>
+              <div class="col-span-1">
+                <span>{{ trade.actualPrice }}</span>
+                <span class="ml-2 text-xs text-gray-400">{{ trade.toSymbol }}</span>
+              </div>
+
+              <ng-template ngFor let-input [ngForOf]="trade.alert?.data">
+                <div class="col-span-1 text-sm mr-1 text-blue-300">
+                  <span>{{ input.name | titlecase }}:</span>
+                </div>
+                <div class="col-span-1">
+                  <span>{{ input.value }}</span>
+                  <span class="ml-2 text-xs text-gray-400">{{ trade.toSymbol }}</span>
+                </div>
+              </ng-template>
+              
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="grid grid-cols-2 text-lg pr-5 pl-5 pb-5 pt-0">
+          <div class="col-span-1">
+            <button type="button" color="accent" (click)="openChart(trade)" mat-flat-button>
+              <mat-icon class="mr-1">bar_chart</mat-icon>Live Chart
+            </button>
+          </div>
+          <div class="col-span-1">
+            <button type="button" color="warn" (click)="finishAlarm(trade)" mat-flat-button>
+              <mat-icon class="mr-2">task_alt</mat-icon>Finish Alarm
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+</div>

@@ -9,16 +9,25 @@ import * as userActions from '@modules/core/store/core-user.actions'
 import { TradesService } from '../services/trades.service';
 import { 
 	ITradesAdd,
-	ITradesAddSuccess,
 	ITradesModalError, 
 	ITradesModalExchangeSuccess,
 	ITradesModalPairLoad, 
 	ITradesModalPairSuccess, 
 	ITradesModalPriceLoad, 
 	ITradesModalPriceSuccess,
-  ITradesModify
+  ITradesModify,
+  ITradesModalSuccess
 } from '../models/trades-modal.model';
-import { ITrade, ITradesDeleteError, ITradesDeleteSuccess, ITradesGetError, ITradesGetSuccess } from '../models/trades.model';
+
+import { 
+  IAlertAdd,
+  IAlertsList, 
+  ITrade, 
+  ITradeAlertFinished, 
+  ITradesDeleteError, 
+  ITradesGetError, 
+  ITradesGetSuccess 
+} from '../models/trades.model';
 
 
 @Injectable()
@@ -52,7 +61,7 @@ export class TradesEffects {
 	tradeAdd$ = createEffect(() => this.actions$.pipe(
 		ofType(tradesActions.tradesAdd),
 		exhaustMap((action: ITradesAdd) => this.tradesService.addTrade(action).pipe(
-			switchMap((payload: ITradesAddSuccess) => of(
+			switchMap((payload: ITradesModalSuccess) => of(
 				tradesActions.tradesAddSuccess(payload),
 				tradesActions.tradesGet()
 			)),
@@ -63,7 +72,7 @@ export class TradesEffects {
   tradeModify$ = createEffect(() => this.actions$.pipe(
 		ofType(tradesActions.tradesModify),
 		exhaustMap((action: ITradesModify) => this.tradesService.modifyTrade(action).pipe(
-			switchMap((payload: ITradesAddSuccess) => of(
+			switchMap((payload: ITradesModalSuccess) => of(
 				tradesActions.tradesAddSuccess(payload),
 				tradesActions.tradesGet()
 			)),
@@ -85,7 +94,7 @@ export class TradesEffects {
 	deleteTrade$ = createEffect(() => this.actions$.pipe(
 		ofType(tradesActions.tradesDelete),
 		exhaustMap((action: ITrade) => this.tradesService.deleteTrade(action).pipe(
-			switchMap((message: ITradesDeleteSuccess) => of(
+			switchMap((message: ITradesModalSuccess) => of(
 				tradesActions.tradesAddSuccess(message),
 				tradesActions.tradesGet()
 			)),
@@ -93,6 +102,33 @@ export class TradesEffects {
 		))
 	))
 
+	getAlertList$ = createEffect(() => this.actions$.pipe(
+		ofType(tradesActions.getAlertList),
+		exhaustMap(() => this.tradesService.getAlertList().pipe(
+			map((alertList: IAlertsList) => tradesActions.getAlertListSuccess(alertList)),
+			catchError((error: ITradesModalError) => of(tradesActions.getAlertListError(error)))
+		))
+	))
+
+  addAlert$ = createEffect(() => this.actions$.pipe(
+		ofType(tradesActions.addAlert),
+		exhaustMap((alertData: IAlertAdd) => this.tradesService.addAlert(alertData).pipe(
+			map((message: ITradesModalSuccess) => tradesActions.addAlertSuccess(message)),
+			catchError((error: ITradesModalError) => of(tradesActions.addAlertError(error)))
+		))
+	))
+
+  finishAlert$ = createEffect(() => this.actions$.pipe(
+		ofType(tradesActions.alertFinished),
+		exhaustMap((alertData: ITradeAlertFinished) => this.tradesService.finishAlert(alertData).pipe(
+      switchMap((message: ITradesModalSuccess) => of(
+				tradesActions.alertFinishedSuccess(message),
+				tradesActions.tradesGet()
+      )),
+			catchError((error: ITradesModalError) => of(tradesActions.alertFinishedError(error)))
+		))
+	));
+  
 	constructor(
 		private tradesService: TradesService,
 		private actions$: Actions,

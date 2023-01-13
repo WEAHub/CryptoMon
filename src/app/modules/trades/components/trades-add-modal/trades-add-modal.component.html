@@ -28,6 +28,7 @@
 				<mat-select 
 				formControlName="pairs"
 				name="pairs"
+				(selectionChange)="selectPair($event.value)"
 				[disabled]="!((getPairs$ | async)!.length)">
 					<mat-select-filter 
 					[displayMember]="'pairs'"

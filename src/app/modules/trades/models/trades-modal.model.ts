@@ -1,4 +1,4 @@
-import { tradeType } from "./trades.model";
+import { ETradeType } from "./trades.model";
 
 
 // * MODAL STORE
@@ -17,7 +17,6 @@ interface ITradesModalExchangeSuccess {
 }
 
 interface IExchange {
-	id: number;
 	name: string;
 }
 
@@ -57,7 +56,7 @@ interface ITradesModalPriceSuccess{
 
 // * ADD TRADE
 interface ITradesAdd extends ITradesModalPriceLoad {
-	tradeType: tradeType;
+	tradeType: ETradeType;
 	quantity: number;
 	price: number;
 }
@@ -67,13 +66,14 @@ interface ITradesModify extends ITradesAdd {
   id: string;
 }
 
-interface ITradesAddSuccess {
-	message: string
-}
-
 // * ERROR 
 interface ITradesModalError {
 	error: string;
+
+}
+
+interface ITradesModalSuccess {
+	message: string;
 }
 
 
@@ -92,7 +92,7 @@ export {
 	ITradesModalPriceSuccess,
 	ITradesModalError,
 	ITradesAdd,
-	ITradesAddSuccess,
+	ITradesModalSuccess,
 	IPair,
 	IExchange,
 	IPrice,

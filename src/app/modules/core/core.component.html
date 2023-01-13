@@ -19,10 +19,10 @@
       </button>
       <h1 class="toolbar-logo">{{ currentRoute | titlecase }}</h1>
       <span class="spacer"></span>
-      <span class="toolbar-user">{{ (getUserState$ | async)?.name! }}</span>
       <button mat-button [matMenuTriggerFor]="menu">
         <mat-icon>manage_accounts</mat-icon>
       </button>
+      <span class="toolbar-user">{{ (getUserState$ | async)?.name! }}</span>
       
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="toggleUserNav()">
@@ -31,7 +31,7 @@
         </button>
         <button mat-menu-item aria-label="Logout" (click)="logout()">
           <mat-icon>logout</mat-icon>
-          Logout
+          Logout 
         </button>
       </mat-menu>
     </mat-toolbar>

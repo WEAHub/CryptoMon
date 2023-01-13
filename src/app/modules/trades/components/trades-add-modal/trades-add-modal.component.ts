@@ -68,7 +68,6 @@ export class TradesAddModalComponent implements OnInit, OnDestroy  {
   ? new FormControl(new Date(this.data.trade?.timeStamp!).toISOString())
   : new FormControl(new Date().toISOString())
 
-  // TRUE = buy - FALSE = sell
   selectedTradeType: boolean = this.data.trade?.tradeType == 'buy'
 
   constructor(
@@ -91,7 +90,9 @@ export class TradesAddModalComponent implements OnInit, OnDestroy  {
     
 
     this.exchangesSub = this.getExchanges$.subscribe(
-      (exchanges: IExchange[]) => this.filteredExchanges = exchanges
+      (exchanges: IExchange[]) => {
+        this.filteredExchanges = exchanges
+      }
     )
 
     this.pairsSub = this.getPairs$.subscribe(
@@ -110,13 +111,15 @@ export class TradesAddModalComponent implements OnInit, OnDestroy  {
   ngOnInit(): void {
 
     if(this.data.modalType == EModalType.MODIFY) {
-
+      
       this.selectExchange(this.data.trade?.exchangeName);
 
-      this.store.dispatch(tradesModalLoadPriceSuccess({
-        price: this.data.trade?.price!,
-        toSymbol: this.data.trade?.toSymbol!
-      }))
+      this.store.dispatch(
+        tradesModalLoadPriceSuccess({
+          price: this.data.trade?.price!,
+          toSymbol: this.data.trade?.toSymbol!
+        })
+      )
       
     }
 
@@ -136,9 +139,12 @@ export class TradesAddModalComponent implements OnInit, OnDestroy  {
     this.store.dispatch(tradesModalLoadPairs({exchangeName}))
   }
 
-  changeDate(event: MatDatetimePickerInputEvent<any>) {
-   
-    const date: Date =  new Date(event.value);
+  selectPair(pairName: any) {
+    setTimeout(() => this.changeDate(this.dateValue), 800)
+  }
+
+  changeDate(event: any) {
+    const date: Date = new Date(event.value);
     this.tradeForm.get('dateTrade')?.setValue(date)
 
     const ts: number = new Date(date).getTime();

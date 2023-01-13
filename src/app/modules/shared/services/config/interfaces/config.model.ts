@@ -1,5 +1,6 @@
 export interface IConfig {
 	API_BASE_URL: string;
+  WS_TRADE_URL: string;
 	API_ROUTES: {
 		ICONS: {
 			ASSET: string;
@@ -30,6 +31,9 @@ export interface IConfig {
 			GET_TRADES: string;
 			DELETE_TRADE: string;
       MODIFY_TRADE: string;
+      GET_ALERT_LIST: string;
+      ADD_ALERT: string;
+      FINISH_ALERT: string;
 		}
 	}
 }

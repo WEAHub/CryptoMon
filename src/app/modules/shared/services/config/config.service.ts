@@ -108,6 +108,22 @@ class ConfigService {
 		return this.apiBaseUrl + this.appConfig.API_ROUTES.USER.STATS;
   }
 
+  get wsUrlTrades(): string {
+    return this.appConfig.WS_TRADE_URL
+  }
+
+  get alertList(): string {
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.TRADES.GET_ALERT_LIST;
+  }
+
+  get addAlert(): string {
+		return this.apiBaseUrl + this.appConfig.API_ROUTES.TRADES.ADD_ALERT;
+  }
+
+  get finishAlert(): string {
+    return this.apiBaseUrl + this.appConfig.API_ROUTES.TRADES.FINISH_ALERT;
+  }
+  
 }	
 
 export {

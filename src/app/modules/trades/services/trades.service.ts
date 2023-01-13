@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ConfigService } from '@shared/services/config/config.service';
 import { RequestService } from '@shared/services/http-request/http-requests.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { 
   ITradesAdd,
@@ -9,13 +9,15 @@ import {
   ITradesModalPairLoad, 
   ITradesModalPairSuccess, 
   ITradesModalPriceLoad, 
-  ITradesModalPriceSuccess, 
-  ITradesAddSuccess
+  ITradesModalPriceSuccess,
+  ITradesModalSuccess, 
 } from '../models/trades-modal.model';
 
 import { 
-  ITrade, 
-  ITradesDeleteSuccess, 
+  IAlertAdd,
+  IAlertsList,
+  ITrade,
+  ITradeAlertFinished,
   ITradesGetSuccess
 } from '../models/trades.model';
 
@@ -44,16 +46,28 @@ export class TradesService {
     return this.requestService.httpGet(this.configService.getTrades)
   }
   
-  addTrade(tradeData: ITradesAdd): Observable<ITradesAddSuccess> {
+  addTrade(tradeData: ITradesAdd): Observable<ITradesModalSuccess> {
     return this.requestService.httpPost(this.configService.addTrade, tradeData);
   }
 
-  deleteTrade(trade: ITrade): Observable<ITradesDeleteSuccess> {
+  deleteTrade(trade: ITrade): Observable<ITradesModalSuccess> {
     return this.requestService.httpDelete(`${this.configService.deleteTrade}/${trade._id}`)
   }
   
-  modifyTrade(tradeData: ITradesAdd): Observable<ITradesAddSuccess> {
+  modifyTrade(tradeData: ITradesAdd): Observable<ITradesModalSuccess> {
     return this.requestService.httpPatch(this.configService.modifyTrade, tradeData);
   }
 
+  getAlertList(): Observable<IAlertsList> {
+    return this.requestService.httpGet(this.configService.alertList)
+  }
+
+  addAlert(alertData: IAlertAdd): Observable<ITradesModalSuccess> {
+    return this.requestService.httpPut(this.configService.addAlert, alertData)
+  }
+
+  finishAlert(alertData: ITradeAlertFinished): Observable<ITradesModalSuccess> {
+    return this.requestService.httpPatch(this.configService.finishAlert, alertData)
+  }
+  
 }

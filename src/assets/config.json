@@ -1,5 +1,6 @@
 {
 	"API_BASE_URL": "http://localhost:3000",
+  "WS_TRADE_URL": "ws://localhost:3001/wsTrade",
 	"API_ROUTES": {
 		"ICONS": {
 			"ASSET": "/icon/getIcon/asset/",
@@ -29,7 +30,10 @@
 			"TRADE_ADD": "/trades/addTrade",
 			"GET_TRADES": "/trades/getTrades",
 			"DELETE_TRADE": "/trades/deleteTrade",
-      "MODIFY_TRADE": "/trades/modifyTrade"
+      "MODIFY_TRADE": "/trades/modifyTrade",
+      "GET_ALERT_LIST": "/trades/getAlertsList",
+      "ADD_ALERT": "/trades/addAlert",
+      "FINISH_ALERT": "/trades/finishAlert"
 		}
 	}
 	

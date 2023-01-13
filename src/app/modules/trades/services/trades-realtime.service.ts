@@ -1,39 +1,64 @@
 import { Injectable } from '@angular/core';
 import { ConfigService } from '@shared/services/config/config.service';
-import { Socket } from 'ngx-socket-io';
-import { map, Observable } from 'rxjs';
+import { Socket, SocketIoConfig } from 'ngx-socket-io';
+import { BehaviorSubject, map, Observable, of } from 'rxjs';
 import { ITrade, ITradeUpdate } from '../models/trades.model';
 
+enum ESocketEvents {
+  CHECK_TRADES = 'checkTrades',
+  UPDATE_TRADES = 'updateTrades'
+}
 
-@Injectable()
-
+@Injectable({
+  providedIn: 'root'
+})
 export class TradesRealTimeService extends Socket {
+  onConnect!: Function
+  onDisconnect!: Function
+  connected: Boolean = this.ioSocket.connected
 
   constructor(
     private configService: ConfigService
   ) { 
-    super({
-      url: 'ws://localhost:3001/wsTrade',
+    super(<SocketIoConfig>{
+      url: configService.wsUrlTrades + '?authorization=' + localStorage.getItem('token'),
       options: {
-        transports: ['websocket']
+        transports: ['websocket'],
       }
     });
+
+    this.on('connect', this.onConnectEvent.bind(this))
+    this.on('disconnect', this.onDisonnectEvent.bind(this))
   }
 
+  private onConnectEvent() {
+    this.onConnect();
+  }
+
+  private onDisonnectEvent() {
+    this.onDisconnect();
+  }
+
+
+
   getUpdatedTrades(): Observable<any> {
-    return this.fromEvent('updateTrades').pipe(
+    return this.fromEvent(ESocketEvents.UPDATE_TRADES).pipe(
       map(data => data)
     )
   }
 
-  async updateTrades(userTrades: ITrade[]) {
-    return this.emit('checkTrades', userTrades.map(trade => Object.assign({}, {
-      id: trade._id,
-      exchange: trade.exchangeName,
-      fromSymbol: trade.fromSymbol,
-      toSymbol: trade.toSymbol,
-    })))
-
+  async emitUpdateTrades(userTrades: ITrade[]) {
+    this.emit(ESocketEvents.CHECK_TRADES, 
+      userTrades.map(trade => 
+        Object.assign({}, {
+          id: trade._id,
+          exchange: trade.exchangeName,
+          fromSymbol: trade.fromSymbol,
+          toSymbol: trade.toSymbol,
+          alert: trade.alert
+        })
+      )
+    )
   }
 
 

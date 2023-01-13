@@ -8,20 +8,23 @@ import {
 	ITradesModalPriceSuccess ,
 	ITradesModalError,
 	ITradesAdd,
-	ITradesAddSuccess,
-  ITradesModify, 
+  ITradesModify,
+  ITradesModalSuccess, 
 } from '../models/trades-modal.model';
 
 import { 
+  IAlertAdd,
+  IAlertsList,
 	ITrade,
+	ITradeAlertFinished,
 	ITradesDeleteError,
-	ITradesDeleteSuccess,
 	ITradesGetError, 
 	ITradesGetSuccess, 
   ITradeUpdate
 } from '../models/trades.model';
 
 enum ActionTypes {
+  // ! ADD MODAL
   TRADES_REQUEST = '[Trades] Getting Trades',
   TRADES_REQUEST_SUCCESS = '[Trades] Getting Trades Success',
   TRADES_REQUEST_ERROR = '[Trades] Getting Trades Error',
@@ -46,6 +49,7 @@ enum ActionTypes {
 	TRADES_MODIFY_SUCCESS = '[Trades] Modify Trade Success',
 	TRADES_MODIFY_ERROR = '[Trades] Modify Trade Error',
 
+  // ! TABLE
 	TRADES_GET = '[Trades] Get Trades',
 	TRADES_GET_SUCCESS = '[Trades] Get Trades Success',
 	TRADES_GET_ERROR = '[Trades] Get Trades Error',
@@ -57,8 +61,25 @@ enum ActionTypes {
   TRADES_UPDATE = '[Trades] Socket Update Trade',
 
 	TRADES_RESET = '[Trades] Reset Trades',
+
+  // ! ALERT MODAL
+  GET_ALERT_LIST = '[Trades Alert Modal] Get alert list',
+  GET_ALERT_LIST_SUCCESS = '[Trades Alert Modal] Get alert list success',
+  GET_ALERT_LIST_ERROR = '[Trades Alert Modal] Get alert list error',
+
+  ADD_ALERT_LIST = '[Trades Alert Modal] ADD alert list',
+  ADD_ALERT_LIST_SUCCESS = '[Trades Alert Modal] ADD alert list success',
+  ADD_ALERT_LIST_ERROR = '[Trades Alert Modal] ADD alert list error',
+
+  ALERT_FINISHED = '[Trades Alert] Alert finished',
+  ALERT_FINISHED_SUCCESS = '[Trades Alert] Alert finished success',
+  ALERT_FINISHED_ERROR = '[Trades Alert] Alert finished error',
+
+  // ! SNACK BAR MSG
+  SHOW_SNACKBAR_MSG = '[Trades] Show snackbar msg',
 }
 
+// ! TRADES ADD MODAL
 // * LOAD EXCHANGES
 const tradesModalLoadExchanges = createAction(ActionTypes.TRADES_EXCHANGES);
 const tradesModalLoadExchangesSuccess = createAction(ActionTypes.TRADES_EXCHANGES_SUCCESS, props<ITradesModalExchangeSuccess>());
@@ -76,13 +97,15 @@ const tradesModalLoadPriceError = createAction(ActionTypes.TRADES_PRICE_ERROR, p
 
 // * ADD TRADE
 const tradesAdd = createAction(ActionTypes.TRADES_ADD, props<ITradesAdd>());
-const tradesAddSuccess = createAction(ActionTypes.TRADES_ADD_SUCCESS, props<ITradesAddSuccess>());
+const tradesAddSuccess = createAction(ActionTypes.TRADES_ADD_SUCCESS, props<ITradesModalSuccess>());
 const tradesAddError = createAction(ActionTypes.TRADES_ADD_ERROR, props<ITradesModalError>());
 
 // * MODIFY TRADE
 const tradesModify = createAction(ActionTypes.TRADES_MODIFY, props<ITradesModify>());
-const tradesModifySuccess = createAction(ActionTypes.TRADES_MODIFY_SUCCESS, props<ITradesAddSuccess>());
+const tradesModifySuccess = createAction(ActionTypes.TRADES_MODIFY_SUCCESS, props<ITradesModalSuccess>());
 const tradesModifyError = createAction(ActionTypes.TRADES_MODIFY_ERROR, props<ITradesModalError>());
+
+// ! TRADES TABLE
 
 // * GET TRADES
 const tradesGet = createAction(ActionTypes.TRADES_GET);
@@ -91,13 +114,46 @@ const tradesGetError = createAction(ActionTypes.TRADES_GET_ERROR, props<ITradesG
 
 // * DELETE TRADE
 const tradesDelete = createAction(ActionTypes.TRADES_DELETE, props<ITrade>());
-const tradesDeleteSuccess = createAction(ActionTypes.TRADES_DELETE_SUCCESS, props<ITradesDeleteSuccess>());
+const tradesDeleteSuccess = createAction(ActionTypes.TRADES_DELETE_SUCCESS, props<ITradesModalSuccess>());
 const tradesDeleteError = createAction(ActionTypes.TRADES_DELETE_ERROR, props<ITradesDeleteError>());
+
+// ! ALERTS
+// * GET ALERT LIST
+const getAlertList = createAction(ActionTypes.GET_ALERT_LIST)
+const getAlertListSuccess = createAction(ActionTypes.GET_ALERT_LIST_SUCCESS, props<IAlertsList>())
+const getAlertListError = createAction(ActionTypes.GET_ALERT_LIST_ERROR, props<ITradesModalError>())
+
+
+// * ADD ALERT
+
+const addAlert = createAction(ActionTypes.ADD_ALERT_LIST, props<IAlertAdd>())
+const addAlertSuccess = createAction(ActionTypes.ADD_ALERT_LIST_SUCCESS, props<ITradesModalSuccess>())
+const addAlertError = createAction(ActionTypes.ADD_ALERT_LIST_ERROR, props<ITradesModalError>())
+
+const alertFinished = createAction(ActionTypes.ALERT_FINISHED, props<ITradeAlertFinished>())
+const alertFinishedSuccess = createAction(ActionTypes.ALERT_FINISHED_SUCCESS, props<ITradesModalSuccess>())
+const alertFinishedError = createAction(ActionTypes.ALERT_FINISHED_ERROR, props<ITradesModalError>())
+
+// * SNACKBAR MSG
+const showSnackBarMsg = createAction(ActionTypes.SHOW_SNACKBAR_MSG, props<{message: string}>())
 
 // * RESET STATES
 const resetStateTradesModal = createAction(ActionTypes.TRADES_RESET);
 
 export {
+  // SNACKBAR
+  showSnackBarMsg,
+  // ALERTS
+  getAlertList,
+  getAlertListSuccess,
+  getAlertListError,
+  addAlert,
+  addAlertSuccess,
+  addAlertError,
+  alertFinished,
+  alertFinishedSuccess,
+  alertFinishedError,
+  // ADD TRADE MODAL
 	tradesModalLoadExchanges,
 	tradesModalLoadExchangesSuccess,
 	tradesModalLoadExchangesError,
@@ -110,6 +166,10 @@ export {
 	tradesAdd,
 	tradesAddSuccess,
 	tradesAddError,
+  tradesModify,
+  tradesModifySuccess,
+  tradesModifyError,
+  // TRADES TABLE
 	tradesGet,
 	tradesGetSuccess,
 	tradesGetError,
@@ -117,7 +177,4 @@ export {
 	tradesDeleteSuccess,
 	tradesDeleteError,
 	resetStateTradesModal,
-  tradesModify,
-  tradesModifySuccess,
-  tradesModifyError
 }

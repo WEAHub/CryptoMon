@@ -8,7 +8,8 @@ import { TradesAddModalComponent } from './components/trades-add-modal/trades-ad
 import { TradesChartModalComponent } from './components/trades-chart-modal/trades-chart-modal.component';
 import { TradesAlertModalComponent } from './components/trades-alert-modal/trades-alert-modal.component';
 import { TradesRealTimeService } from './services/trades-realtime.service';
-import { TradesDataService } from './services/trade-data.service';
+import { TradesDataService } from './services/trades-data.service';
+import { TradeAlertNotifyComponent } from './components/trade-alert-notify/trade-alert-notify.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { TradesDataService } from './services/trade-data.service';
     TradesMenuComponent,
     TradesAddModalComponent,
     TradesChartModalComponent,
-    TradesAlertModalComponent
+    TradesAlertModalComponent,
+    TradeAlertNotifyComponent
   ],
   imports: [
 		SharedModule,

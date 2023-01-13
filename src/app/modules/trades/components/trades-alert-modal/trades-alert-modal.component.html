@@ -1,22 +1,42 @@
-<h1 mat-dialog-title>Add Alert for {{ alertTitle }}</h1>
+<h1 mat-dialog-title>🔔{{ alertTitle }}</h1>
 <div mat-dialog-content class="relative">
   
   <form [formGroup]="alertForm" (ngSubmit)="onSubmit()">
-	
-    <div class="flex flex-row flex-wrap gap-5">
-			<mat-form-field class="w-48">
-				<mat-label>Condition</mat-label>
-				<mat-select 
-				formControlName="condition" 
-				name="condition">
-					<mat-option *ngFor="let condition of alertConditions" [value]="condition">
-            <span class="ml-5 text-sm">{{ condition }}</span>
-					</mat-option>
-				</mat-select>
-			</mat-form-field>
-    </div>
-    
+    <div class="flex flex-col gap-2 items-center">
 
+      <mat-form-field class="w-48">
+        <mat-label>Alert type</mat-label>
+        <mat-select 
+        formControlName="condition" 
+        name="condition"
+        (selectionChange)="selectAlert($event.value)">
+          <mat-option *ngFor="let alertType of (alertList$ | async)" [value]="alertType.name">
+            <span class="ml-5 text-sm">{{ alertType.name }}</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <label *ngIf="selectedAlert" class="text-xs leading-10 alert-description mb-1">{{ selectedAlert.description }}</label>
+
+      <ng-template *ngIf="selectedAlert" ngFor let-item [ngForOf]="selectedAlert.inputs">
+        <mat-form-field>
+          <mat-label>{{ item.title }}</mat-label>
+          
+          <input 
+          matInput 
+          name="{{ item.name }}" 
+          formControlName="{{ item.name }}"
+          type="{{ item.type }}">
+
+        </mat-form-field>
+      </ng-template>
+
+    </div>
   </form>
 
+</div>
+
+<div mat-dialog-actions class="mt-5 place-content-center">
+  <button mat-button (click)="closeDialog()">Cancel</button>
+  <button mat-stroked-button (click)="onSubmit()" [disabled]="alertForm.invalid">Confirm</button>
 </div>
